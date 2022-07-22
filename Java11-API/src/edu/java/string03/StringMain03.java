@@ -39,7 +39,9 @@ public class StringMain03 {
 
 		// split() : 문자열을 특정 기준으로 나눠서 배열로 리턴
 		String str7 = "2022.07.22";
-		String[] result = str7.split("\\."); // 특수기호 앞에는 \\
+		String[] result = str7.split("\\.");
+		// 첫번째 \는 \을 escpae, 두번째\는 .을 escape
+		// split은 정규표현식을 따르기때문에 정규식예약어인 특수기호 ( . * +) 등은 \\을 붙임
 		for (String x : result) {
 			System.out.println(x);
 		}
@@ -82,14 +84,26 @@ public class StringMain03 {
 		System.out.println("----------");
 
 		// toUpperCase() toLowerCase() 문자열 대소문자 변경
-		String str12 = "Hello, world!";
+		String str12 = "Hello, Java";
 		System.out.println(str12.toUpperCase());
 		System.out.println(str12.toLowerCase());
 		System.out.println("----------");
 
 		// substring(begin, end) : begin 부터 end까지 문자열을 리턴
 		// begin 인덱스는 포함, end 인덱스는 포함되지 않음 / begin <= index < end
-		System.out.println(str12.substring(1, 5));
+		System.out.println(str12.substring(7, 11));
+		int begin = str12.indexOf("J");
+		int end = str12.length();
+		System.out.println(str12.substring(begin, end));
+		System.out.println("----------");
+
+		// concat() : 문자열을 이어주는 메소드
+		System.out.println(str12.concat(" world!"));
+		System.out.println("----------");
+
+		// replace(A, B) : A문자열을 B로 변경
+		System.out.println(str12.replace("Java", "C++"));
+		System.out.println("----------");
 
 	}
 }

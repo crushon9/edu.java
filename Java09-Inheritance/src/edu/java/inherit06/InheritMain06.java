@@ -36,7 +36,8 @@ public class InheritMain06 {
 		cars[1] = car2; // HybridCar 객체
 		cars[2] = car3; // HybridCar 객체
 		
-		// 주소는 각기 다르네? 이 주소는 stack의 참조변수주소가아니라 힙영역 주소인듯??
+		// 주소는 각기 다르네? 이 주소는 stack의 참조변수주소가아니라 힙영역 객체주소인듯??
+		// 객체의 해시코드(hashCode())란 객체를 식별할 하나의 정수 값
 		System.out.println(car1.getClass().getName() + '@' + Integer.toHexString(car1.hashCode()));
 		System.out.println(car2.getClass().getName() + '@' + Integer.toHexString(car2.hashCode()));
 		System.out.println(car3.getClass().getName() + '@' + Integer.toHexString(car3.hashCode()));
