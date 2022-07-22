@@ -5,10 +5,10 @@ import edu.java.inherit09.Test2;
 public class Test3 extends Test2 {
 	@Override
 	public void display() {
-//		System.out.println("private = " + privateInt);
-//		System.out.println("package = " + packageInt);
-		System.out.println("protected = " + protectedInt);
-		System.out.println("public = " + publicInt);
+//		System.out.println("3private = " + privateInt);
+//		System.out.println("3package = " + packageInt);
+		System.out.println("3protected = " + protectedInt);
+		System.out.println("3public = " + publicInt);
 		
 	}
 	

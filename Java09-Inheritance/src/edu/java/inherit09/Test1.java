@@ -7,10 +7,10 @@ public class Test1 {
 	public int publicInt;
 
 	public void display() {
-		System.out.println("private = " + privateInt);
-		System.out.println("package = " + packageInt);
-		System.out.println("protected = " + protectedInt);
-		System.out.println("public = " + publicInt);
+		System.out.println("1private = " + privateInt);
+		System.out.println("1package = " + packageInt);
+		System.out.println("1protected = " + protectedInt);
+		System.out.println("1public = " + publicInt);
 	}
 	
 	public void testMethod() {
