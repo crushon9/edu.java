@@ -5,8 +5,9 @@ import java.util.List;
 
 // Collection<E> : 자료(데이터)를 저장하기 위한 Generic 클래스
 //	ㄴ List<E>,							/ Set<E>
-//		ㄴ ArrayList<E>, LinkedList<E>
+//		ㄴ ArrayList<E>, LinkedList<E>		ㄴ HashSet<E>, TreeSet<E>
 // 	ㄴ Map<K, V>
+//		ㄴ HashMap<K, V>, TreeMap<K, V>
 
 // List<E>
 //  ㄴ ArrayList<E>, LinkedList<E>
