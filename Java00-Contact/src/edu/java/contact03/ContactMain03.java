@@ -102,7 +102,7 @@ public class ContactMain03 {
 			System.out.println("검색할 No를 입력하세요>");
 		}
 		int index = sc.nextInt();
-		int size = ((ContactDAOImple) dao).size(); // 다형성으로 casting후에 ContactDAOImple의 메소드size에 접근하여 값을 받아옴
+		int size = ((ContactDAOImple) dao).getListSize(); // 다형성으로 casting후에 ContactDAOImple의 메소드size에 접근하여 값을 받아옴
 		if (index >= 0 && index < size) {
 			ContactVO vo = dao.select(index); // 한명의 정보만 가져옴
 			System.out.print("[No." + index + "] ");
@@ -121,7 +121,7 @@ public class ContactMain03 {
 			System.out.println("수정할 No를 입력하세요>");
 		}
 		int index = sc.nextInt();
-		int size = ((ContactDAOImple) dao).size();
+		int size = ((ContactDAOImple) dao).getListSize();
 		if (index >= 0 && index < size) {
 			System.out.print("이름 입력>");
 			String name = sc.next();
@@ -147,10 +147,10 @@ public class ContactMain03 {
 		while (!sc.hasNextInt()) {
 			sc.next();
 			System.err.println("숫자만 입력해주세요!");
-			System.out.println("수정할 No를 입력하세요>");
+			System.out.println("삭제할 No를 입력하세요>");
 		}
 		int index = sc.nextInt();
-		int size = ((ContactDAOImple) dao).size();
+		int size = ((ContactDAOImple) dao).getListSize();
 		if (index >= 0 && index < size) {
 			int result = dao.delete(index);
 			if (result == 1) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ContactDAOImple implements ContactDAO {
 
-	// -------싱글톤 디자인 패턴 적용 시작------------------------------
+// -------싱글톤 디자인 패턴 적용 시작------------------------------
 //	클래스 자신 타입의 private static 변수를 선언
 	private static ContactDAOImple instance = null;
 
@@ -20,11 +20,11 @@ public class ContactDAOImple implements ContactDAO {
 		return instance;
 	}
 
-//---------------------------------------------------------
+//----------------------------------------------------------
 
 	private ArrayList<ContactVO> list = new ArrayList<>(); // 연락처 저장 컬렉션 ArrayList
 
-	public int size() { // 사이즈 리턴
+	public int getListSize() { // 사이즈 리턴
 		return list.size();
 	}
 
