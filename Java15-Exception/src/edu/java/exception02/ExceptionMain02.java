@@ -33,7 +33,7 @@ public class ExceptionMain02 {
 			int n4 = sc.nextInt();
 			int result = n3 / n4;
 			System.out.println("result = " + result);
-		} catch (Exception e) { // 각종 Exception 들의 부모클래스 
+		} catch (Exception e) { // 각종 Exception 들의 부모클래스
 			System.out.println("예외 발생 : " + e.getMessage());
 		}
 		System.out.println("프로그램 종료");
