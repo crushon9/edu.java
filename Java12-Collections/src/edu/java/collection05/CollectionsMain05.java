@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 //Collection<E> : 자료(데이터)를 저장하기 위한 Generic 클래스
-//	ㄴ List<E>,							/ Set<E>
-//		ㄴ ArrayList<E>, LinkedList<E>		ㄴ HashSet<E>, TreeSet<E>
-//	ㄴ Map<K, V>
-//		ㄴ HashMap<K, V>, TreeMap<K, V>
+//	|_ List<E>,							/ Set<E>
+//		|_ ArrayList<E>, LinkedList<E>		|_ HashSet<E>, TreeSet<E>
+//	|_ Map<K, V>
+//		|_ HashMap<K, V>, TreeMap<K, V>
 
 // Set<E>
-//	ㄴ HashSet<E>, TreeSet<E>
+//	|_ HashSet<E>, TreeSet<E>
 // 1. 데이터의 저장 순서가 중요하지 않음 -> 인덱스가 없음
 // 2. 중복된 데이터의 저장을 허용하지 않음
 // 예) {1,2,2,3,3,3} = {1,2,3};

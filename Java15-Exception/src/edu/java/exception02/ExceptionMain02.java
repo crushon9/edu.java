@@ -11,7 +11,7 @@ public class ExceptionMain02 {
 		int n1 = sc.nextInt();
 		int n2 = sc.nextInt();
 
-		if (n2 != 0) { // if 는 아예 조건으로 입구부터 막는거고
+		if (n2 != 0) { // if 는 아예 조건으로 입구부터 막는거고, 그러니 무슨 에러가날지 예상해야가능
 			int result = n1 / n2;
 			System.out.println("result = " + result);
 		} else {
@@ -25,7 +25,7 @@ public class ExceptionMain02 {
 // } catch (예외클래스 변수이릅) {
 //		예외상황일때 실행할 문장들
 // }
-		try { // try 구문은 실행하다가 예외가 발생하면 catch로 넘어감
+		try { // try 구문을 실행하다가 예외가 발생하면 catch로 넘어감
 			System.out.println("try 내부");
 			System.out.println("n3 입력>");
 			int n3 = sc.nextInt();

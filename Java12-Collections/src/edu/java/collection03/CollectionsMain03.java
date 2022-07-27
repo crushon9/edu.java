@@ -4,13 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 // Collection<E> : 자료(데이터)를 저장하기 위한 Generic 클래스
-//	ㄴ List<E>,							/ Set<E>
-//		ㄴ ArrayList<E>, LinkedList<E>		ㄴ HashSet<E>, TreeSet<E>
-// 	ㄴ Map<K, V>
-//		ㄴ HashMap<K, V>, TreeMap<K, V>
+//	|_ List<E>,							/ Set<E>
+//		|_ ArrayList<E>, LinkedList<E>		|_ HashSet<E>, TreeSet<E>
+// 	|_ Map<K, V>
+//		|_ HashMap<K, V>, TreeMap<K, V>
 
 // List<E>
-//  ㄴ ArrayList<E>, LinkedList<E>
+//  |_ ArrayList<E>, LinkedList<E>
 // 1. 자료들이 저장되는 순서가 중요 -> 인덱스 사용
 // 2. 중복된 값들의 저장을 허용
 

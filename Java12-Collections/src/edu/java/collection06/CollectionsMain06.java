@@ -6,7 +6,7 @@ import java.util.TreeMap;
 // List<E>, Set<E> : 한 가지 타입의 데이터를 저장할 수 있는 Collection
 
 // Map<K, V> : key-value 쌍으로 데이터를 저장하는 구조
-//	ㄴ HashMap<K, V>, TreeMap<K, V>
+//	|_ HashMap<K, V>, TreeMap<K, V>
 //			1. key는 중복되지 않는 값만 저장 가능
 //			2. value는 중복된 값도 저장 가능
 //			3. 검색, 수정 삭제할 때 key값을 사용함
