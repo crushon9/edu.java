@@ -21,9 +21,9 @@ public class ExceptionMain02 {
 
 // try 구문 : 예외발생 상황에 대해 처리해주는 기능
 // try {
-//		정상적인 실행 문장들;
+//	정상적인 실행 문장들;
 // } catch (예외클래스 변수이릅) {
-//		예외상황일때 실행할 문장들
+//	예외상황일때 실행할 문장들
 // }
 		try { // try 구문을 실행하다가 예외가 발생하면 catch로 넘어감
 			System.out.println("try 내부");
