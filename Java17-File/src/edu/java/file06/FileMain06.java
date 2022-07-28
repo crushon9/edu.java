@@ -3,6 +3,8 @@ package edu.java.file06;
 import java.io.*;
 import java.util.ArrayList;
 
+import edu.java.file04.MemberVo;
+
 // 프로그램 ===> ObjectOutputStream ===> BufferedOutputStream ===> FileOutputStream ===> 파일(HDD)
 // Buffered 는 두 사이에 속도 조절을 해주는 역할
 
