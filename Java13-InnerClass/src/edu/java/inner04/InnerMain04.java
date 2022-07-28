@@ -28,6 +28,11 @@ class OuterClass {
 			System.out.println("name = " + name);
 
 		} // end display()
+
+		public static void testMethod() {
+			System.out.println("hi");
+		}
+
 	} // end NestedClass
 } // end OuterClass
 
@@ -38,13 +43,16 @@ public class InnerMain04 {
 		OuterClass.count = 100;
 		System.out.println(OuterClass.count);
 
-		// 중첩 클래스(static 클래스)의 인스턴스 생성
+		// 중첩 클래스(static 클래스)의 인스턴스 생성 (외부클래스의 인스턴스를 생성하지 않아도 접근가능)
 		// (외부클래스 이름).(중첩클래스 이름) 변수이름 = new (외부클래스 이름).(내부클래스 이름)();
 		OuterClass.NestedClass nest = new OuterClass.NestedClass("Peter");
 		nest.display();
-		
+
 		// 중첩 클래스(static 클래스)의 static 변수 사용하기
 		OuterClass.NestedClass.test = 1;
-		
+
+		// 중첩 클래스(static 클래스)의 static 메소드 사용하기
+		OuterClass.NestedClass.testMethod();
+
 	} // end main()
 } // end InnerMain04

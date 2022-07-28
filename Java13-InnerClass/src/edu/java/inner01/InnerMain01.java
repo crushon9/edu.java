@@ -33,7 +33,6 @@ public class InnerMain01 {
 		System.out.println("------");
 		
 		// InnerClass의 인스턴스 또 생성
-		// (외부클래스).(내부클래스) 참조변수 = (외부클래스참조변수).new (내부클래스생성자)();
 		OuterClass.InnerClass inner2 = out1.new InnerClass(777);
 		inner2.printValues();
 		System.out.println("------");

@@ -17,7 +17,7 @@ class Person {
 	// 메소드
 	public PersonInterface setAge(int age) {  // 리턴 타입 : PersonInterface
 		// 지역클래스
-		class PersonWithAge implements PersonInterface {
+		class PersonWithAge implements PersonInterface { // 다형성 이용
 			private int age; // 지역 클래스의 멤버 변수
 			
 			public PersonWithAge(int age) {
@@ -54,9 +54,9 @@ public class InnerMain06 {
 		// 2. 지역 클래스가 인터페이스를 구현하도록 정의
 		// 3. 다형성 사용하여 메소드의 리턴타입으로 인터페이스를 사용할 수 있음
 		
-		Person p = new Person("목쌤");
-		PersonInterface instance = p.setAge(24);
-		instance.showInfo();
+		Person p = new Person("목쌤"); // 지역클래스를 담은 메소드에 접근하기위해 외부클래스의 인스턴스 생성
+		PersonInterface instance = p.setAge(24); // 리턴값으로 지역클래스안에서 이루어진작업의 값을 담은 객체를 리턴
+		instance.showInfo(); // 다형성으로 접근가
 		instance.hello();
 		
 	} // end main()

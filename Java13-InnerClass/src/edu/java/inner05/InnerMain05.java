@@ -33,8 +33,9 @@ class OuterClass {
 			
 		} // end LocalClass
 		
-		// 지역 클래스의 인스턴스 생성 - 메소드 안에서만 가능
+		// 지역 클래스의 인스턴스를 메소드안에서 생성, 생성자로 값을 전달
 		LocalClass local = new LocalClass(1234);
+		// 지역클래스 내부의 메소드 호출
 		local.display();
 		
 	} // end test()
@@ -44,7 +45,9 @@ class OuterClass {
 public class InnerMain05 {
 
 	public static void main(String[] args) {
+		// 지역클래스를 담고있는 외부클래스의 인스턴스 생성
 		OuterClass outer = new OuterClass(100);
+		// 외브클래스인스턴스를 통하여 메소드에 접근 해당메소드를 호출하기만하면 지역클래스의 메소드가 수행됨
 		outer.test();
 	} // end main()
 

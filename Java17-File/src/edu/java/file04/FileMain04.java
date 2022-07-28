@@ -20,14 +20,20 @@ public class FileMain04 {
 			oout.writeObject(m2);
 			MemberVo m3 = new MemberVo(3, "root3", "root123");
 			oout.writeObject(m3);
-			
+
 			System.out.println("파일저장성공");
 
 		} catch (Exception e) {
 			System.out.println("예외발생 : " + e.toString());
 // java.io.NotSerializableException: edu.java.file04.MemberVo
 		} finally {
-
+			try {
+				// 리소스를 해제할 때는 최종적으로 생성된 리소스(oout)만 해제하면
+				// 그 리소스가 사용하고 잇는 다른 리소스들(out)도 순차적으로 해제됨
+				oout.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
