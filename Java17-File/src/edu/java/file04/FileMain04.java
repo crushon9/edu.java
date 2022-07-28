@@ -11,7 +11,7 @@ public class FileMain04 {
 		ObjectOutputStream oout = null;
 
 		try {
-			out = new FileOutputStream("temp/member.txt");
+			out = new FileOutputStream("temp/member.txt"); // 다형성인가?
 			oout = new ObjectOutputStream(out); // 내보내다(도착지)
 
 			MemberVo m1 = new MemberVo(1, "root1", "root123");
