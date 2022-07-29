@@ -3,7 +3,6 @@ package edu.java.contact04;
 import java.io.*;
 import java.util.ArrayList;
 
-
 public class ContactDAOImple implements ContactDAO {
 
 // -------싱글톤 디자인 패턴 적용 시작------------------------------
@@ -28,35 +27,34 @@ public class ContactDAOImple implements ContactDAO {
 	// 데이터를 저장할 폴더와 파일이름 정의
 	private static final String DATA_DIR = "data";
 	private static final String DATA_FILE = "contact.data";
-	private static String filePath = DATA_DIR + File.separator + DATA_FILE;
-
 	// data 폴더의 contact.data 파일을 관리할 File 객체 선언
 	private File dataDir;
 	private File dataFile;
+	// 연락처 저장 컬렉션 ArrayList
+	private ArrayList<ContactVO> list = new ArrayList<>();
 
-	private ArrayList<ContactVO> list = new ArrayList<>(); // 연락처 저장 컬렉션 ArrayList
-
-	// data 폴더가 있는지 검사하고 없으면 새로 생성하는 코드
+	// data 폴더가 있는지 검사하고 없으면 새로 생성하는 메소드
 	private void initDataDir() {
-		System.out.println("initDataDir() 호출");
+		System.out.println(">> initDataDir() 호출 <<");
 		dataDir = new File(DATA_DIR);
 		System.out.println("폴더경로 : " + dataDir.getPath());
 		System.out.println("절대경로 : " + dataDir.getAbsolutePath());
 
 		if (!dataDir.exists()) { // 폴더가 없으면
 			if (dataDir.mkdirs()) {
-				System.out.println("< 폴더 생성 성공 >");
+				System.out.println(">> 폴더 생성 성공 <<");
 			} else {
-				System.out.println("< 폴더 생성 실패 >");
+				System.out.println(">> 폴더 생성 실패 <<");
 			}
 		} else { // 폴더가 있으면
-			System.out.println("< 폴더가 이미 존재 >");
+			System.out.println(">> 폴더가 이미 존재 <<");
 		}
 	} // end initDataDir()
 
-	// contact.data 파일이 있는지 검사하고 없으면 새로 생성하는 코트
+	// contact.data 파일이 있는지 검사하고 없으면 새로 생성하는 메소드
 	private void initDataFile() {
-		System.out.println("initDataFile() 호출");
+		System.out.println(">> initDataFile() 호출 <<");
+		String filePath = DATA_DIR + File.separator + DATA_FILE;
 		dataFile = new File(filePath);
 		System.out.println("파일경로 : " + dataFile.getPath());
 		System.out.println("절대경로 : " + dataFile.getAbsolutePath());
@@ -64,28 +62,32 @@ public class ContactDAOImple implements ContactDAO {
 		if (!dataFile.exists()) { // 데이터 파일이 없으면 파일을 만든다
 			try {
 				if (dataFile.createNewFile()) {
-					System.out.println("< 새로운 데이터 파일 생성 >");
+					System.out.println(">> 새로운 파일 생성 <<");
 				} else {
-					System.out.println("< 파일 생성 실패 >");
+					System.out.println(">> 파일 생성 실패 <<");
 				}
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}
 		} else { // 데이터 파일이 있으면 데이터를 가져와서 ArrayList 객체에 집어 넣는다
-			readDataFromFile();
+			System.out.println(">> 기존 데이터 있음 <<");
+			// 문제가 일어난시점에서 해결하는것이 명확함. if 조건으로는 수행할상황을 주는것이 더나은듯 (0이 아닐때만 읽어온다)
+			if (dataFile.length() != 0) { //빈파일이 아닐때만 읽어옴
+				readDataFromFile();
+			}
 		}
 	} // end initDataFile()
 
-	// 멤버 변수 list 객체를 data\contact.data 파일에 저장(쓰기)
+	// 멤버변수 list 객체를 data\contact.data 파일에 저장(쓰기)
 	private void writeDataToFile() {
-		System.out.println("writeDataToFile() 호출");
+		System.out.println(">> writeDataToFile() 호출 <<");
 
 		OutputStream out = null;
 		BufferedOutputStream bout = null;
 		ObjectOutputStream oout = null;
 
 		try {
-			out = new FileOutputStream(filePath);
+			out = new FileOutputStream(dataFile); // 매개변수로 File 객체가능, 경로 문자열 가능
 			bout = new BufferedOutputStream(out);
 			oout = new ObjectOutputStream(bout);
 			oout.writeObject(list);
@@ -95,22 +97,21 @@ public class ContactDAOImple implements ContactDAO {
 			try {
 				oout.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println(e.toString());
 			}
 		}
 	} // end writeDataToFile()
 
 	// data\contact.data 파일에서 ArrayList 객체를 읽어와서 멤버변수 list에 저장
 	private void readDataFromFile() {
-		System.out.println("readDataFromFile() 호출");
-		System.out.println("< 기존 데이터 있음 >");
+		System.out.println(">> readDataFromFile() 호출 <<");
 
 		InputStream in = null;
 		BufferedInputStream bin = null;
 		ObjectInputStream oin = null;
 
 		try {
-			in = new FileInputStream(filePath);
+			in = new FileInputStream(dataFile);
 			bin = new BufferedInputStream(in);
 			oin = new ObjectInputStream(bin);
 			list = (ArrayList<ContactVO>) oin.readObject();
@@ -120,10 +121,10 @@ public class ContactDAOImple implements ContactDAO {
 			try {
 				oin.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println(e.toString());
 			}
 		}
-	} // end readDataFromFile
+	} // end readDataFromFile()
 
 	public int getListSize() { // 사이즈 리턴
 		return list.size();
@@ -132,7 +133,8 @@ public class ContactDAOImple implements ContactDAO {
 	@Override // 연락처 등록
 	public int insert(ContactVO vo) {
 		list.add(vo);
-		writeDataToFile();
+		writeDataToFile(); // 파일에 저장할때마다 처음부터 다시 덮어쓰기로 저장됨
+		// 데이터의 변화가 있을때마다 파일에 덮어쓰기를 하는 이유는 사용자가 강제종료할수도있음
 		return 1; // 0:실패, 1:성공
 	}
 
