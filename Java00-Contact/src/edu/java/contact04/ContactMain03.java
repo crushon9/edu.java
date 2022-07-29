@@ -8,7 +8,7 @@ public class ContactMain03 {
 	private static ContactDAO dao;
 
 	public static void main(String[] args) {
-		System.out.println("< 연락처 프로그램 Ver 0.3 >");
+		System.out.println("< 연락처 프로그램 Ver 0.4 >");
 		dao = ContactDAOImple.getInstance(); // 다형성
 
 		boolean run = true;
