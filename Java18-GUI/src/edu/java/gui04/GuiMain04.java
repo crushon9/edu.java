@@ -146,7 +146,6 @@ public class GuiMain04 {
 				}
 			}
 		});
-
 		frame.getContentPane().add(btnMultiply);
 
 		JButton btnDevide = new JButton("/");
