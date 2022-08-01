@@ -163,5 +163,6 @@ public class GuiMain04 {
 		scrollPane.setViewportView(textArea);
 		textArea.setColumns(10);
 		textArea.setFont(outputFont);
+
 	}
 }
