@@ -97,7 +97,7 @@ public class GuiMain04 {
 				try {
 					num1 = Double.parseDouble(txtNum1.getText());
 					num2 = Double.parseDouble(txtNum2.getText());
-					textArea.append(num1 + " + " + num2 + " = " + (num1 + num2) + "\n");
+					textArea.append(num1 + " + " + num2 + " = " + (num1 + num2) + "\n"); // append 기존 문자열 데이터에 연결함
 				} catch (Exception e2) {
 					textArea.setText("실수 형태로 입력하세요!\n");
 				}
@@ -141,12 +141,8 @@ public class GuiMain04 {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				System.out.println(e.getKeyCode());
-				try {
-					num1 = Double.parseDouble(txtNum1.getText());
-					num2 = Double.parseDouble(txtNum2.getText());
-					textArea.append(num1 + " * " + num2 + " = " + (num1 * num2) + "\n");
-				} catch (Exception e2) {
-					textArea.setText("실수 형태로 입력하세요!\n");
+				if (e.getKeyCode() == 10) {
+					System.out.println("엔터키 누름");
 				}
 			}
 		});
