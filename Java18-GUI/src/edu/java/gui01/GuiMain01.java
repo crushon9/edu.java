@@ -1,5 +1,9 @@
 package edu.java.gui01;
 
+// GUI(Graphic User Interface)
+// 실습환경 Swing - window builder
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
