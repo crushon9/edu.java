@@ -18,17 +18,18 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ContactMain05 {
 
 	private JFrame frame;
-	private JTextField textName;
-	private JTextField textPhone;
-	private JTextField textEmail;
-	private JTextField txtIndex;
-	public static JTextArea textAreaLog;
-	private static ContactDAO dao;
+	private JTextField textName, textPhone, textEmail, txtIndex;
+	private JTextArea txtAreaInfo;
+	public JTextArea textAreaLog;
+	private ContactDAO dao;
 	private JTable table;
+	private DefaultTableModel tableModel;
 
 	/**
 	 * Launch the application.
@@ -71,7 +72,7 @@ public class ContactMain05 {
 		// 프로그램 제목
 		JLabel lblHead = new JLabel("Contact Program ver 0.5");
 		lblHead.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		lblHead.setBounds(40, 20, 400, 40);
+		lblHead.setBounds(150, 20, 400, 40);
 		frame.getContentPane().add(lblHead);
 		// 로그 테이블
 		JScrollPane scrollLog = new JScrollPane();
@@ -86,20 +87,20 @@ public class ContactMain05 {
 		JScrollPane scrollInfo = new JScrollPane();
 		scrollInfo.setBounds(3 * space, 440, 340, 160);
 		frame.getContentPane().add(scrollInfo);
-		JTextArea txtAreaInfo = new JTextArea();
+		txtAreaInfo = new JTextArea();
 		txtAreaInfo.setFont(new Font("돋움", Font.PLAIN, 13));
 		txtAreaInfo.setBackground(new Color(204, 204, 255));
 		scrollInfo.setViewportView(txtAreaInfo);
 		// J테이블
 		JScrollPane scrollTable = new JScrollPane();
-		scrollTable.setBounds(390, 280, 300, 320);
+		scrollTable.setBounds(390, 80, 300, 520);
 		frame.getContentPane().add(scrollTable);
 		String[] field = { "No", "Name", "Phone", "Email" };
-		DefaultTableModel tableModel = new DefaultTableModel(field, 0);
+		tableModel = new DefaultTableModel(field, 0);
 		table = new JTable(tableModel);
 		scrollTable.setViewportView(table);
 		JTableRefresh(tableModel);
-		table.getColumn("No").setPreferredWidth(20);
+		table.getColumn("No").setPreferredWidth(10);
 		table.getColumn("Name").setPreferredWidth(40);
 		// 입력라벨
 		JLabel lblName = new JLabel("Name");
@@ -121,9 +122,9 @@ public class ContactMain05 {
 		frame.getContentPane().add(lblEmail);
 		// 입력 텍스트 박스
 		textName = new JTextField("이름을 입력하세요");
-		textName.addFocusListener(new FocusAdapter() {
+		textName.addMouseListener(new MouseAdapter() {
 			@Override
-			public void focusGained(FocusEvent e) {
+			public void mouseClicked(MouseEvent e) {
 				textName.setText("");
 			}
 		});
@@ -156,14 +157,7 @@ public class ContactMain05 {
 		JButton btnInsert = new JButton("Insert");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ContactVO vo = new ContactVO(textName.getText(), textPhone.getText(), textEmail.getText());
-				int result = dao.insert(vo, textAreaLog);
-				if (result == 1) {
-					textAreaLog.setText("저장성공!");
-					JTableRefresh(tableModel);
-				} else {
-					textAreaLog.setText("저장실패!");
-				}
+				insertContact();
 			}
 		});
 		btnInsert.setFont(new Font("굴림", Font.PLAIN, 12));
@@ -188,20 +182,7 @@ public class ContactMain05 {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int index = Integer.parseInt(txtIndex.getText());
-					int size = ((ContactDAOImple) dao).getListSize();
-					if (index >= 0 && index < size) {
-						ContactVO vo = dao.select(index); // 한명의 정보만 가져옴
-						txtAreaInfo.setText("[No." + index + "] " + vo);
-						txtAreaInfo.append("\n검색완료!");
-					} else {
-						textAreaLog.setText("저장되지 않은 No 입니다!!");
-					}
-				} catch (Exception e2) {
-					textAreaLog.setText("Index는 숫자만 입력하세요!");
-					System.out.println(e2.getMessage());
-				}
+				selectByIndex();
 			}
 		});
 		btnSearch.setBackground(new Color(211, 211, 211));
@@ -212,25 +193,7 @@ public class ContactMain05 {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int index = Integer.parseInt(txtIndex.getText());
-					int size = ((ContactDAOImple) dao).getListSize();
-					if (index >= 0 && index < size) {
-						ContactVO vo = new ContactVO(textName.getText(), textPhone.getText(), textEmail.getText());
-						int result = dao.update(index, vo, textAreaLog);
-						if (result == 1) {
-							textAreaLog.setText("[No." + index + "] 수정성공!");
-							JTableRefresh(tableModel);
-						} else {
-							textAreaLog.setText("[No." + index + "] 수정실패!");
-						}
-					} else {
-						textAreaLog.setText("저장되지 않은 No 입니다!!");
-					}
-				} catch (Exception e2) {
-					textAreaLog.setText("Index는 숫자만 입력하세요!");
-					System.out.println(e2.getMessage());
-				}
+				updateContact();
 			}
 		});
 		btnUpdate.setBackground(new Color(211, 211, 211));
@@ -242,23 +205,7 @@ public class ContactMain05 {
 		btnDelete.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int index = Integer.parseInt(txtIndex.getText());
-					int size = ((ContactDAOImple) dao).getListSize();
-					if (index >= 0 && index < size) {
-						int result = dao.delete(index, textAreaLog);
-						if (result == 1) {
-							textAreaLog.setText("[No." + index + "] 삭제성공!");
-							JTableRefresh(tableModel);
-						} else {
-							textAreaLog.setText("[No." + index + "] 삭제실패!");
-						}
-					} else {
-						textAreaLog.setText("저장되지 않은 No 입니다!!");
-					}
-				} catch (Exception e2) {
-					System.out.println(e2.getMessage());
-				}
+				deleteContact();
 			}
 		});
 		btnDelete.setBackground(new Color(211, 211, 211));
@@ -269,12 +216,7 @@ public class ContactMain05 {
 		JButton btnAllSearch = new JButton("All Search");
 		btnAllSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtAreaInfo.setText("");
-				ArrayList<ContactVO> list = dao.select();
-				for (int i = 0; i < list.size(); i++) {
-					txtAreaInfo.append("[No." + i + "] " + list.get(i) + "\n");
-				}
-				txtAreaInfo.append("검색완료!");
+				selectAll();
 			}
 		});
 		btnAllSearch.setBackground(new Color(211, 211, 211));
@@ -296,5 +238,85 @@ public class ContactMain05 {
 			record[3] = vo.getEmail();
 			tableModel.addRow(record);
 		}
-	}
+	} // end JJTableRefresh
+
+	private void insertContact() {
+		ContactVO vo = new ContactVO(textName.getText(), textPhone.getText(), textEmail.getText());
+		int result = dao.insert(vo, textAreaLog);
+		if (result == 1) {
+			textAreaLog.setText("저장성공!");
+			JTableRefresh(tableModel);
+		} else {
+			textAreaLog.setText("저장실패!");
+		}
+	} // end insertContact
+
+	private void selectAll() {
+		txtAreaInfo.setText("");
+		ArrayList<ContactVO> list = dao.select();
+		for (int i = 0; i < list.size(); i++) {
+			txtAreaInfo.append("[No." + i + "] " + list.get(i) + "\n");
+		}
+		txtAreaInfo.append("검색완료!");
+		
+	} // end selectAll
+
+	private void selectByIndex() {
+		try {
+			int index = Integer.parseInt(txtIndex.getText());
+			int size = ((ContactDAOImple) dao).getListSize();
+			if (index >= 0 && index < size) {
+				ContactVO vo = dao.select(index); // 한명의 정보만 가져옴
+				txtAreaInfo.setText("[No." + index + "] " + vo);
+				txtAreaInfo.append("\n검색완료!");
+			} else {
+				textAreaLog.setText("저장되지 않은 No 입니다!!");
+			}
+		} catch (Exception e2) {
+			textAreaLog.setText("Index는 숫자만 입력하세요!");
+			System.out.println(e2.getMessage());
+		}
+	} // end selectByIndex
+
+	private void updateContact() {
+		try {
+			int index = Integer.parseInt(txtIndex.getText());
+			int size = ((ContactDAOImple) dao).getListSize();
+			if (index >= 0 && index < size) {
+				ContactVO vo = new ContactVO(textName.getText(), textPhone.getText(), textEmail.getText());
+				int result = dao.update(index, vo, textAreaLog);
+				if (result == 1) {
+					textAreaLog.setText("[No." + index + "] 수정성공!");
+					JTableRefresh(tableModel);
+				} else {
+					textAreaLog.setText("[No." + index + "] 수정실패!");
+				}
+			} else {
+				textAreaLog.setText("저장되지 않은 No 입니다!!");
+			}
+		} catch (Exception e2) {
+			textAreaLog.setText("Index는 숫자만 입력하세요!");
+			System.out.println(e2.getMessage());
+		}
+	} // end updateContact
+
+	private void deleteContact() {
+		try {
+			int index = Integer.parseInt(txtIndex.getText());
+			int size = ((ContactDAOImple) dao).getListSize();
+			if (index >= 0 && index < size) {
+				int result = dao.delete(index, textAreaLog);
+				if (result == 1) {
+					textAreaLog.setText("[No." + index + "] 삭제성공!");
+					JTableRefresh(tableModel);
+				} else {
+					textAreaLog.setText("[No." + index + "] 삭제실패!");
+				}
+			} else {
+				textAreaLog.setText("저장되지 않은 No 입니다!!");
+			}
+		} catch (Exception e2) {
+			System.out.println(e2.getMessage());
+		}
+	} // end deleteContact
 }
