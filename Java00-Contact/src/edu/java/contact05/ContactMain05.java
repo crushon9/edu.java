@@ -208,7 +208,7 @@ public class ContactMain05 {
 		btnSearch.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnSearch.setBounds(4 * space + btnwidth, 206, btnwidth, btnheight);
 		frame.getContentPane().add(btnSearch);
-		//Update 버튼
+		// Update 버튼
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
