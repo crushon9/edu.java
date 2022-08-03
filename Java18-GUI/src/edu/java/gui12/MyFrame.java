@@ -17,7 +17,8 @@ public class MyFrame extends JFrame {
 		// JFrame.DISPOSE_ON_CLOSE : 현재 창만 종료
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel(); // frame.getContentPane()과 동일
+		contentPane = new JPanel();
+// frame.getContentPane()과 동일 왜냐면 클래스가 JFrame아니깐 그 밑에 바로 contentPane이 있음
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
