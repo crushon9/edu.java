@@ -75,15 +75,17 @@ public class GuiMain14 {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startTimer();
+				btnNewButton.setEnabled(false);
 			}
 		});
 		btnNewButton.setBounds(162, 116, 97, 23);
 		frame.getContentPane().add(btnNewButton);
 
-		btnNewButton2 = new JButton("종료");
+		btnNewButton2 = new JButton("멈춤");
 		btnNewButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isStop = true;
+				btnNewButton.setEnabled(true);
 			}
 		});
 		btnNewButton2.setBounds(271, 116, 97, 23);

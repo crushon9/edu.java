@@ -13,11 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class ContactMain05 {
 
@@ -28,6 +28,7 @@ public class ContactMain05 {
 	private JTextField txtIndex;
 	public static JTextArea textAreaLog;
 	private static ContactDAO dao;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -57,7 +58,7 @@ public class ContactMain05 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 625, 700);
+		frame.setBounds(100, 100, 720, 670);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -67,30 +68,40 @@ public class ContactMain05 {
 		int space = 10;
 		int btnheight = 25;
 		int btnwidth = 78;
-
+		// 프로그램 제목
 		JLabel lblHead = new JLabel("Contact Program ver 0.5");
 		lblHead.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		lblHead.setBounds(40, 20, 400, 40);
 		frame.getContentPane().add(lblHead);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(3 * space, 280, 340, 140);
-		frame.getContentPane().add(scrollPane_1);
-
+		// 로그 테이블
+		JScrollPane scrollLog = new JScrollPane();
+		scrollLog.setBounds(3 * space, 280, 340, 140);
+		frame.getContentPane().add(scrollLog);
 		textAreaLog = new JTextArea();
 		textAreaLog.setFont(new Font("돋움", Font.PLAIN, 13));
 		textAreaLog.setBackground(new Color(255, 204, 255));
-		scrollPane_1.setViewportView(textAreaLog);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(3 * space, 440, 340, 160);
-		frame.getContentPane().add(scrollPane);
-
+		scrollLog.setViewportView(textAreaLog);
+		dao = ContactDAOImple.getInstance(textAreaLog);
+		// 검색목록 테이블
+		JScrollPane scrollInfo = new JScrollPane();
+		scrollInfo.setBounds(3 * space, 440, 340, 160);
+		frame.getContentPane().add(scrollInfo);
 		JTextArea txtAreaInfo = new JTextArea();
 		txtAreaInfo.setFont(new Font("돋움", Font.PLAIN, 13));
 		txtAreaInfo.setBackground(new Color(204, 204, 255));
-		scrollPane.setViewportView(txtAreaInfo);
-
+		scrollInfo.setViewportView(txtAreaInfo);
+		// J테이블
+		JScrollPane scrollTable = new JScrollPane();
+		scrollTable.setBounds(390, 280, 300, 320);
+		frame.getContentPane().add(scrollTable);
+		String[] field = { "No", "Name", "Phone", "Email" };
+		DefaultTableModel tableModel = new DefaultTableModel(field, 0);
+		table = new JTable(tableModel);
+		scrollTable.setViewportView(table);
+		JTableRefresh(tableModel);
+		table.getColumn("No").setPreferredWidth(20);
+		table.getColumn("Name").setPreferredWidth(40);
+		// 입력라벨
 		JLabel lblName = new JLabel("Name");
 		lblName.setForeground(new Color(0, 0, 204));
 		lblName.setFont(new Font("맑은 고딕", Font.BOLD, 16));
@@ -108,7 +119,7 @@ public class ContactMain05 {
 		lblEmail.setFont(new Font("맑은 고딕", Font.BOLD, 16));
 		lblEmail.setBounds(3 * space, 80 + 2 * lblheight + 2 * space, lblwidth, lblheight);
 		frame.getContentPane().add(lblEmail);
-
+		// 입력 텍스트 박스
 		textName = new JTextField("이름을 입력하세요");
 		textName.addFocusListener(new FocusAdapter() {
 			@Override
@@ -141,9 +152,7 @@ public class ContactMain05 {
 		textEmail.setColumns(10);
 		textEmail.setBounds(4 * space + lblwidth, 80 + 2 * lblheight + 2 * space, tfdwidth, lblheight);
 		frame.getContentPane().add(textEmail);
-
-		dao = ContactDAOImple.getInstance(textAreaLog);
-
+		// Insert버튼
 		JButton btnInsert = new JButton("Insert");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,6 +160,7 @@ public class ContactMain05 {
 				int result = dao.insert(vo, textAreaLog);
 				if (result == 1) {
 					textAreaLog.setText("저장성공!");
+					JTableRefresh(tableModel);
 				} else {
 					textAreaLog.setText("저장실패!");
 				}
@@ -160,7 +170,7 @@ public class ContactMain05 {
 		btnInsert.setBackground(new Color(211, 211, 211));
 		btnInsert.setBounds(310, 80, 65, 3 * lblheight + 2 * space);
 		frame.getContentPane().add(btnInsert);
-
+		// Index입력 텍스트필드
 		txtIndex = new JTextField("Index입력");
 		txtIndex.addFocusListener(new FocusAdapter() {
 			@Override
@@ -174,7 +184,7 @@ public class ContactMain05 {
 		txtIndex.setBounds(3 * space, 206, btnwidth, btnheight);
 		frame.getContentPane().add(txtIndex);
 		txtIndex.setColumns(10);
-
+		// Search버튼
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -198,7 +208,7 @@ public class ContactMain05 {
 		btnSearch.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnSearch.setBounds(4 * space + btnwidth, 206, btnwidth, btnheight);
 		frame.getContentPane().add(btnSearch);
-
+		//Update 버튼
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -210,6 +220,7 @@ public class ContactMain05 {
 						int result = dao.update(index, vo, textAreaLog);
 						if (result == 1) {
 							textAreaLog.setText("[No." + index + "] 수정성공!");
+							JTableRefresh(tableModel);
 						} else {
 							textAreaLog.setText("[No." + index + "] 수정실패!");
 						}
@@ -226,7 +237,7 @@ public class ContactMain05 {
 		btnUpdate.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnUpdate.setBounds(5 * space + 2 * btnwidth, 206, btnwidth, btnheight);
 		frame.getContentPane().add(btnUpdate);
-
+		// Delete 버튼
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 
@@ -238,6 +249,7 @@ public class ContactMain05 {
 						int result = dao.delete(index, textAreaLog);
 						if (result == 1) {
 							textAreaLog.setText("[No." + index + "] 삭제성공!");
+							JTableRefresh(tableModel);
 						} else {
 							textAreaLog.setText("[No." + index + "] 삭제실패!");
 						}
@@ -253,7 +265,7 @@ public class ContactMain05 {
 		btnDelete.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnDelete.setBounds(6 * space + 3 * btnwidth, 206, btnwidth, btnheight);
 		frame.getContentPane().add(btnDelete);
-
+		// All Search 버튼
 		JButton btnAllSearch = new JButton("All Search");
 		btnAllSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -270,5 +282,19 @@ public class ContactMain05 {
 		btnAllSearch.setBounds(216, 240, 2 * btnwidth, btnheight);
 		frame.getContentPane().add(btnAllSearch);
 
+	} // end initialize
+
+	private void JTableRefresh(DefaultTableModel tableModel) {
+		Object record[] = new Object[4];
+		ArrayList<ContactVO> list = dao.select();
+		tableModel.setRowCount(0);
+		for (int i = 0; i < list.size(); i++) {
+			ContactVO vo = list.get(i);
+			record[0] = i;
+			record[1] = vo.getName();
+			record[2] = vo.getPhone();
+			record[3] = vo.getEmail();
+			tableModel.addRow(record);
+		}
 	}
 }
