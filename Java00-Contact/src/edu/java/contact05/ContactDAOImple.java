@@ -164,6 +164,7 @@ public class ContactDAOImple implements ContactDAO {
 		list.get(index).setName(vo.getName());
 		list.get(index).setPhone(vo.getPhone());
 		list.get(index).setEmail(vo.getEmail());
+//		list.set(index, vo); 이것도 가능
 		// 전달받은vo객체의 멤버변수를 get하여, 전달받은인덱스객체의 set값으로 넣음
 		writeDataToFile(textAreaLog);
 		return 1; // 0:실패, 1:성공
