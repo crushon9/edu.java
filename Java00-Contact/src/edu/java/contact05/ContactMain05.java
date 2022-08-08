@@ -341,7 +341,7 @@ public class ContactMain05 {
 		tableModel.setRowCount(0); // 행을 0줄로 초기화
 		Object record[] = new Object[JtableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
 		for (int i = 0; i < list.size(); i++) {
-			record[0] = i; // Object그릇에 int도 담기네?
+			record[0] = i; // Object그릇에 int도 담기네? 아마 int가 Object자식인 Integer에 담기니깐?
 			record[1] = list.get(i).getName(); // list.get(i) == list인덱스i의 ContactVO 객체 하나
 			record[2] = list.get(i).getPhone();
 			record[3] = list.get(i).getEmail();
