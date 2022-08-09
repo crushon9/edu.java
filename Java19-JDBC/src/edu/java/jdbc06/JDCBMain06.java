@@ -23,9 +23,10 @@ public class JDCBMain06 {
 	// SQL 문장 작성
 	public static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET " + COL_NAME + " = ?, " + COL_PHONE
 			+ " = ?, " + COL_EMAIL + " = ?" + " WHERE CONTACT_ID = ?";
+	public static final String SQL_DELETE = "DELETE " + TABLE_NAME + " WHERE CONTACT_ID = ?";
 
 	public static void main(String[] args) {
-		System.out.println("JDBC 6 - 입력받아 update");
+		System.out.println("JDBC 6 - 입력받아 update, delete");
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -44,13 +45,13 @@ public class JDCBMain06 {
 
 			// 입력받기
 			Scanner sc = new Scanner(System.in);
-			System.out.print("인덱스 입력>");
+			System.out.println("수정ID 입력>");
 			int contactId = sc.nextInt();
-			System.out.print("이름 입력>");
+			System.out.println("이름 입력>");
 			String name = sc.next();
-			System.out.print("연락처 입력>");
+			System.out.println("연락처 입력>");
 			String phone = sc.next();
-			System.out.print("이메일 입력>");
+			System.out.println("이메일 입력>");
 			String email = sc.next();
 
 			// 5. SQL 문장 완성 (SQL_INSERT의 ?를 채워주는 코드)
