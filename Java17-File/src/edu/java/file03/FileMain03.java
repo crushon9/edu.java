@@ -31,7 +31,6 @@ public class FileMain03 {
 		try (InputStream in = new FileInputStream("temp/big_text.txt");
 				OutputStream out = new FileOutputStream("temp/big_text2.txt");) {
 			int byteCopied = 0;
-			int result = 0;
 			long startTime = System.currentTimeMillis();
 			while (true) {
 				// 1KB = 1024Byte
@@ -45,7 +44,7 @@ public class FileMain03 {
 				// 피일에서 읽은 데이터를 매개변수 배열 b에 저장
 				// 실제로 읽은 바이트 수를 리턴, 파일 끝에서는 -1을 리턴
 
-				if (result == -1) {// 완료되면 read메소드가 -1을 리턴
+				if (len == -1) {// 완료되면 read메소드가 -1을 리턴
 					break;
 				}
 				out.write(buffer, 0, len);
@@ -54,7 +53,7 @@ public class FileMain03 {
 				// write(byte[] b, int off, int len) :
 				// 배열 b의 인덱스 off번째부터 len 길이 만큼까지만 파일에 씀
 
-				byteCopied += result;
+				byteCopied += len;
 			}
 			long endTime = System.currentTimeMillis();
 			System.out.println("복사 경과 시간 : " + (endTime - startTime));

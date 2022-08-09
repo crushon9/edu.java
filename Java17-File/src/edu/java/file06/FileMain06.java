@@ -24,17 +24,19 @@ public class FileMain06 {
 			oout = new ObjectOutputStream(bout);
 
 			long startTime = System.currentTimeMillis();
+			// list 에 데이터 추가
 			ArrayList<MemberVo> list = new ArrayList<>();
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < 10; i++) {
 				String id = "member" + i;
 				String pw = "pw" + i;
 				MemberVo m = new MemberVo(i, id, pw);
 				list.add(m);
 			}
+			// 스트림을 통해 최종적으로 파일로 출력
 			oout.writeObject(list);
-			System.out.print("데이터 저장 완료");
+			System.out.println("데이터 저장 완료");
 			long endTime = System.currentTimeMillis();
-			System.out.println(" 경과시간" + (endTime - startTime));
+			System.out.println("경과시간" + (endTime - startTime));
 
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -55,13 +57,12 @@ public class FileMain06 {
 			in = new FileInputStream("temp/list.txt");
 			bin = new BufferedInputStream(in);
 			oin = new ObjectInputStream(bin);
-
+			// 읽어올 데이터를 담을 list 그릇 준비. 형변환
 			ArrayList<MemberVo> list = (ArrayList<MemberVo>) oin.readObject();
-
+			// list에 저장된 데이터를 출력하며 확인
 			for (MemberVo x : list) {
 				System.out.println(x);
 			}
-
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		} finally {

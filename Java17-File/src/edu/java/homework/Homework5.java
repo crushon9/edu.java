@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.Scanner;
 
 // In-read / Out-write 프로그램입장
-// Student stuOut =writeObject()=> ObjectOutputStream oout ==> OutputStream out ==> student.txt
-// student.txt ==> InputStream in ==> ObjectInputStream oin =readObject()=> Student stuIn
+// Student stuOut ==writeObject()==> ObjectOutputStream oout ===> OutputStream out ===> student.txt
+// student.txt ===> InputStream in ===> ObjectInputStream oin ==readObject()==> Student stuIn
 
 public class Homework5 {
 	public static void main(String[] args) {
