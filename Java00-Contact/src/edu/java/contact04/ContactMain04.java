@@ -67,9 +67,9 @@ public class ContactMain04 {
 
 	private static void insertContact() {
 		System.out.println("---------- 정보 등록 ----------");
-		System.out.print("아이디 입력>");
+		System.out.print("이름 입력>");
 		String name = sc.next();
-		System.out.print("비밀번호 입력>");
+		System.out.print("연락처 입력>");
 		String phone = sc.next();
 		System.out.print("이메일 입력>");
 		String email = sc.next();
