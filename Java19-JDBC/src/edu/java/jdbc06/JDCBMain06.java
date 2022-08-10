@@ -26,7 +26,7 @@ public class JDCBMain06 {
 	public static final String SQL_DELETE = "DELETE " + TABLE_NAME + " WHERE CONTACT_ID = ?";
 
 	public static void main(String[] args) {
-		System.out.println("JDBC 6 - 입력받아 update, delete");
+		System.out.println("JDBC 6 - 데이터 입력받아 update, delete");
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;

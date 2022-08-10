@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import oracle.jdbc.driver.OracleDriver;
 
+
 public class JDBCMain05 {
 	// 1. DB와 연동하기 위해 필요한 상수들을 정의
 	public static final String URL = "jdbc:oracle:thin:@localhost:1521:xe"; // 접속할 오라클 DB 경로
@@ -22,10 +23,11 @@ public class JDBCMain05 {
 
 	// SQL 문장 작성
 	// prepareStatement ? 를 식별자로 매개변수를 인식함
+	// 그럼 문자열 ? 기호를 데이터로 쓸수는 없나..?
 	public static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + " VALUES (CONTACT_SEQ.nextval, ?, ?, ?)";
 
 	public static void main(String[] args) {
-		System.out.println("JDBC 5 - 입력받아 insert");
+		System.out.println("JDBC 5 - 데이터 입력받아 insert");
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -53,7 +55,7 @@ public class JDBCMain05 {
 			String email = sc.next();
 
 			// 5. SQL 문장 완성 (SQL_INSERT의 ?를 채워주는 코드)
-			// parameterIndex는 SQL_INSERT문장의 넣을값 기준으로 매칭
+			// parameterIndex는 SQL_INSERT문장의 ? 기준으로 매칭
 			// ?가 첫번째면 parameterIndex 1
 			pstmt.setString(1, name);
 			pstmt.setString(2, phone);
