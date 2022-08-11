@@ -10,7 +10,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,12 +20,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import java.awt.SystemColor;
 
 public class ContactMain06 {
 
 	private JFrame frame;
-	private JTextField textName, textPhone, textEmail, txtIndex;
+	private JTextField textName, textPhone, textEmail, txtContactId;
 	private JButton btnInsert, btnSearch, btnAllSearch, btnUpdate, btnDelete;
 	private JTextArea txtAreaInfo;
 	JTextArea textAreaLog; // (default) 같은 패키지의 다른 클래스에서 사용
@@ -172,26 +170,26 @@ public class ContactMain06 {
 		btnInsert.setBounds(310, 80, 65, 3 * lblheight + 2 * space);
 		frame.getContentPane().add(btnInsert);
 
-		// Index입력 텍스트필드
-		txtIndex = new JTextField("Index입력");
-		txtIndex.addFocusListener(new FocusAdapter() {
+		// ID입력 텍스트필드
+		txtContactId = new JTextField("ID입력");
+		txtContactId.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				txtIndex.setText("");
+				txtContactId.setText("");
 			}
 		});
-		txtIndex.setForeground(new Color(0, 0, 205));
-		txtIndex.setFont(new Font("굴림", Font.PLAIN, 12));
-		txtIndex.setHorizontalAlignment(SwingConstants.CENTER);
-		txtIndex.setBounds(3 * space, 206, btnwidth, btnheight);
-		frame.getContentPane().add(txtIndex);
-		txtIndex.setColumns(10);
+		txtContactId.setForeground(new Color(0, 0, 205));
+		txtContactId.setFont(new Font("굴림", Font.PLAIN, 12));
+		txtContactId.setHorizontalAlignment(SwingConstants.CENTER);
+		txtContactId.setBounds(3 * space, 206, btnwidth, btnheight);
+		frame.getContentPane().add(txtContactId);
+		txtContactId.setColumns(10);
 
 		// Search버튼
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectByIndex();
+				selectByIdContact();
 			}
 		});
 		btnSearch.setBackground(new Color(211, 211, 211));
@@ -228,7 +226,7 @@ public class ContactMain06 {
 		btnAllSearch = new JButton("All Search");
 		btnAllSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectAll();
+				selectAllContact();
 			}
 		});
 		btnAllSearch.setBackground(new Color(211, 211, 211));
@@ -242,71 +240,71 @@ public class ContactMain06 {
 		String name = textName.getText();
 		String phone = textPhone.getText();
 		String email = textEmail.getText();
-		ContactVO vo = new ContactVO(name, phone, email);
 		// 입력값이 하나라도 입력되지 않으면 경고창을 띄움
 		if (name.equals("") || phone.equals("") || email.equals("")) {
 			JOptionPane.showMessageDialog(frame, "연락처 정보를 입력하세요");
 			return; // 경고조건이 발생하면 메소드 종료 아래 코드 종료
 		}
+		// contactId는 insert에서 필요없으므로 제외한 생성자를 선언
+		ContactVO vo = new ContactVO(name, phone, email);
 		int result = dao.insert(vo);
 		if (result == 1) {
-			textAreaLog.setText("저장성공!");
-			JTableRefresh(tableModel); // 버튼클릭할때마다 JTable 리프레쉬
+			textAreaLog.setText("새 연락처 등록 성공!");
+			JTableRefresh(tableModel); // 데이터가 변경될 때마다 JTable 리프레쉬
 		} else {
-			textAreaLog.setText("저장실패!");
+			textAreaLog.setText("새 연락처 등록 실패!");
 		}
 	} // end insertContact
 
-	private void selectAll() {
-		txtAreaInfo.setText("");
+	private void selectAllContact() {
 		ArrayList<ContactVO> list = dao.select(); // DB에서 전체 정보를 가져옴
+		txtAreaInfo.setText("");
 		for (int i = 0; i < list.size(); i++) { // 사이즈만큼 반복하여 한줄씩 출력
 			txtAreaInfo.append(list.get(i) + "\n");
 		}
-		txtAreaInfo.append("전체검색완료!");
-	} // end selectAll
+		txtAreaInfo.append("전체 검색 완료!");
+	} // end selectAllContact
 
-	private void selectByIndex() {
+	private void selectByIdContact() {
 		try {
-			int contactId = Integer.parseInt(txtIndex.getText());
+			int contactId = Integer.parseInt(txtContactId.getText());
 			ContactVO vo = dao.select(contactId); // 한명의 정보만 가져옴
 			if (vo.getContactId() != 0) { // DB에서 가져온 contactId값이 0이 아니라면
 				txtAreaInfo.setText(vo.toString());
 				txtAreaInfo.append("\n검색완료!");
 			} else { // 인덱스없을시 vo의 contactId 초기값 0 리턴
 				txtAreaInfo.setText("");
-				textAreaLog.setText("저장되지 않은 ID 입니다!!");
+				textAreaLog.setText("검색실패_ [ID." + contactId + "] 이(가) 없습니다");
 			}
 		} catch (NumberFormatException e2) {
-			JOptionPane.showMessageDialog(frame, "Index는 숫자만 입력하세요!");
+			JOptionPane.showMessageDialog(frame, "ID는 숫자만 입력하세요!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	} // end selectByIndex
+	} // end selectByIdContact
 
 	private void updateContact() {
 		try {
-			int contactId = Integer.parseInt(txtIndex.getText());
+			int contactId = Integer.parseInt(txtContactId.getText());
 			String name = textName.getText();
 			String phone = textPhone.getText();
 			String email = textEmail.getText();
-			ContactVO vo = new ContactVO(contactId, name, phone, email);
 			// 입력값이 하나라도 입력되지 않으면 경고창을 띄움
 			if (name.equals("") || phone.equals("") || email.equals("")) {
 				JOptionPane.showMessageDialog(frame, "연락처 정보를 입력하세요");
 				return;
 			}
+			ContactVO vo = new ContactVO(contactId, name, phone, email);
 			int result = dao.update(vo);
 			if (result == 1) {
 				textAreaLog.setText("[ID." + contactId + "] 수정성공!");
-				JTableRefresh(tableModel);
+				JTableRefresh(tableModel); // 데이터가 변경될 때마다 JTable 리프레쉬
 			} else {
 				txtAreaInfo.setText("");
-				textAreaLog.setText("[ID." + contactId + "] 수정실패!");
+				textAreaLog.setText("수정실패_ [ID." + contactId + "] 이(가) 없습니다");
 			}
-
 		} catch (NumberFormatException e2) {
-			JOptionPane.showMessageDialog(frame, "Index는 숫자만 입력하세요!");
+			JOptionPane.showMessageDialog(frame, "ID는 숫자만 입력하세요!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -314,17 +312,17 @@ public class ContactMain06 {
 
 	private void deleteContact() {
 		try {
-			int contactId = Integer.parseInt(txtIndex.getText());
+			int contactId = Integer.parseInt(txtContactId.getText());
 			int result = dao.delete(contactId);
 			if (result == 1) {
 				textAreaLog.setText("[ID." + contactId + "] 삭제성공!");
-				JTableRefresh(tableModel);
+				JTableRefresh(tableModel); // 데이터가 변경될 때마다 JTable 리프레쉬
 			} else {
 				txtAreaInfo.setText("");
-				textAreaLog.setText("[ID." + contactId + "] 삭제실패!");
+				textAreaLog.setText("삭제실패_ [ID." + contactId + "] 이(가) 없습니다");
 			}
 		} catch (NumberFormatException e2) {
-			JOptionPane.showMessageDialog(frame, "Index는 숫자만 입력하세요!");
+			JOptionPane.showMessageDialog(frame, "ID는 숫자만 입력하세요!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

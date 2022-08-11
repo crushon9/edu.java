@@ -37,6 +37,7 @@ class MyThead extends Thread {
 		}
 	} // end run
 
+	// start() 로 호출되는건 run 메소드 하나뿐임 run2는 멀티스레드로 호출될수없음
 	public void run2() {
 		for (int i = 0; i < 100; i++) {
 			System.out.println(i + " = " + msg);
