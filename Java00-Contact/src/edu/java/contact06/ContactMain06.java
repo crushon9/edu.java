@@ -21,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import java.awt.SystemColor;
 
 public class ContactMain06 {
 
@@ -86,7 +87,7 @@ public class ContactMain06 {
 		frame.getContentPane().add(scrollLog);
 		textAreaLog = new JTextArea();
 		textAreaLog.setFont(new Font("돋움", Font.PLAIN, 13));
-		textAreaLog.setBackground(new Color(153, 204, 255));
+		textAreaLog.setBackground(new Color(153, 190, 250));
 		scrollLog.setViewportView(textAreaLog);
 		dao = ContactDAOImple.getInstance(textAreaLog); // 위에서 생성하면 null예외땜에 textAreaLog 생성직후 dao인스턴스 생성
 
@@ -269,10 +270,10 @@ public class ContactMain06 {
 		try {
 			int contactId = Integer.parseInt(txtIndex.getText());
 			ContactVO vo = dao.select(contactId); // 한명의 정보만 가져옴
-			if (vo.getContactId() != 0) { // 없는인덱스로 예외발생시 vo초기세팅값 0을 리턴함
+			if (vo.getContactId() != 0) { // DB에서 가져온 contactId값이 0이 아니라면
 				txtAreaInfo.setText(vo.toString());
 				txtAreaInfo.append("\n검색완료!");
-			} else {
+			} else { // 인덱스없을시 vo의 contactId 초기값 0 리턴
 				txtAreaInfo.setText("");
 				textAreaLog.setText("저장되지 않은 ID 입니다!!");
 			}

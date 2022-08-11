@@ -62,14 +62,14 @@ public class ContactDAOImple implements ContactDAO, OracleQuery {
 		ArrayList<ContactVO> list = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(SQL_SELECT); // 쿼리문장준비
-			rs = pstmt.executeQuery(); // 완성된문장DB전달하여 rs에 데이터받기
-			while (rs.next()) {
+			rs = pstmt.executeQuery(); // DB에 쿼리를 보내고 결과를 rs에 저장
+			while (rs.next()) { //rs.next()가 false가 될때까지 반복
 				int contactId = rs.getInt(1);
 				String name = rs.getString(2);
 				String phone = rs.getString(3);
 				String email = rs.getString(4);
 				ContactVO vo = new ContactVO(contactId, name, phone, email);
-				list.add(vo);
+				list.add(vo); // 새롭게 생성되는 vo객체를 list에 추가 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,10 +79,11 @@ public class ContactDAOImple implements ContactDAO, OracleQuery {
 
 	@Override // 연락처 상세 검색
 	public ContactVO select(int contactId) {
-		ContactVO vo = new ContactVO();
+		ContactVO vo = new ContactVO(); 
+		// 멤버변수들을 default값으로 세팅, DB에서 가져오지못하면 default값을 외부로 반환
 		try {
 			pstmt = conn.prepareStatement(SQL_SELECT_BY_CONTACT_ID);
-			pstmt.setInt(1, contactId);
+			pstmt.setInt(1, contactId); // 쿼리문장의 contactId를 세팅
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				vo.setContactId(rs.getInt(1));
@@ -93,7 +94,7 @@ public class ContactDAOImple implements ContactDAO, OracleQuery {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return vo; // 해당 index의 ContactVO만 반환
+		return vo; // 해당 contactId의 ContactVO만 반환
 	}
 
 	@Override // 연락처 수정
