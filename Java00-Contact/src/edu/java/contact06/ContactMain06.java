@@ -167,7 +167,7 @@ public class ContactMain06 {
 		});
 		btnInsert.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnInsert.setBackground(new Color(211, 211, 211));
-		btnInsert.setBounds(310, 80, 65, 3 * lblheight + 2 * space);
+		btnInsert.setBounds(306, 80, 65, 3 * lblheight + 2 * space);
 		frame.getContentPane().add(btnInsert);
 
 		// ID입력 텍스트필드
