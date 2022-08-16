@@ -5,8 +5,8 @@ import java.util.GregorianCalendar;
 
 class CalendarSet {
 	static final int CAL_COLUMN = 7; // 요일 7개
-	static final int CAL_ROW = 6; // 월의 최대행갯수
-	int calDates[][] = new int[CAL_ROW][CAL_COLUMN];
+	static final int CAL_MAX_ROW = 6; // 월의 최대행갯수
+	int calDates[][] = new int[CAL_MAX_ROW][CAL_COLUMN];
 	int calYear;
 	int calMonth;
 	int calDate; // 현재월의날짜
@@ -44,13 +44,13 @@ class CalendarSet {
 		else
 			calEndDate = calEndDateArray[calMonth];
 
-		for (int row = 0; row < CAL_ROW; row++) {
+		for (int row = 0; row < CAL_MAX_ROW; row++) {
 			for (int col = 0; col < CAL_COLUMN; col++) {
 				calDates[row][col] = 0; // 0으로 초기화
 			}
 		}
 
-		for (int row = 0, date = 1, start = 0; row < CAL_ROW; row++) {
+		for (int row = 0, date = 1, start = 0; row < CAL_MAX_ROW; row++) {
 			if (row == 0) // 첫번째줄일때는
 				start = StartDayOfMonth; // 시작위치를 월시작위치로 설정
 			else // 아니라면
