@@ -8,88 +8,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.*;
 
-class CalendarDataManager {
-	static final int CAL_COLUMN = 7; // 요일 7개
-	static final int CAL_ROW = 6; // 월의 최대행갯수
-	int calDates[][] = new int[CAL_ROW][CAL_COLUMN];
-	int calYear;
-	int calMonth;
-	int calDate; // 현재월의날짜
-	final int calEndDateArray[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; // 월별기본마지막날짜
-	int calEndDate; // 윤달을 계산한 실제 마지막 날짜
-	Calendar today = Calendar.getInstance();
 
-	// 생성자호출시 오늘날짜 세팅
-	public CalendarDataManager() {
-		setToday();
-	}
+public class MainFrame extends CalendarSet {
 
-	// 오늘의 년도, 월, 날짜를 추출하여 캘린더생성메소드로 넘겨주며 호출
-	public void setToday() {
-		calYear = today.get(Calendar.YEAR);
-		calMonth = today.get(Calendar.MONTH);
-		calDate = today.get(Calendar.DATE);
-		makeCalData(today);
-	} // end setToday()
+	JFrame mainFrame; // 메인프레임
 
-	// 윤달 체크 계산식 (4로 나누어지고, 100으로 나누어지지 않거나 / 400으로 나누어지면)
-	private int leapCheck(int year) {
-		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-			return 1;
-		else
-			return 0;
-	} // end leapCheck()
-
-	// 동적 달력 생성
-	private void makeCalData(Calendar cal) {
-		// 월의 시작지점 계산
-		int StartDayOfMonth = (cal.get(Calendar.DAY_OF_WEEK) - (cal.get(Calendar.DATE) % 7) + 7) % 7;
-		if (calMonth == 1) // 인덱스1 = 2월 윤달체크
-			calEndDate = calEndDateArray[calMonth] + leapCheck(calYear);
-		else
-			calEndDate = calEndDateArray[calMonth];
-
-		for (int row = 0; row < CAL_ROW; row++) {
-			for (int col = 0; col < CAL_COLUMN; col++) {
-				calDates[row][col] = 0; // 0으로 초기화
-			}
-		}
-
-		for (int row = 0, date = 1, start = 0; row < CAL_ROW; row++) {
-			if (row == 0) // 첫번째줄일때는
-				start = StartDayOfMonth; // 시작위치를 월시작위치로 설정
-			else // 아니라면
-				start = 0; // 0번째 시작위치로
-			for (int col = start; col < CAL_COLUMN; col++) {
-				if (date <= calEndDate)
-					calDates[row][col] = date++;
-			}
-		}
-	} // makeCalData()
-
-	public void moveMonth(int mon) {
-		calMonth += mon;
-		if (calMonth > 11)
-			while (calMonth > 11) {
-				calYear++;
-				calMonth -= 12;
-			}
-		else if (calMonth < 0)
-			while (calMonth < 0) {
-				calYear--;
-				calMonth += 12;
-			}
-		Calendar cal = new GregorianCalendar(calYear, calMonth, calDate);
-		makeCalData(cal);
-	} // end moveMonth()
-} // end CalendarDataManager class
-
-public class MemoCalendar extends CalendarDataManager {
-
-	JFrame mainFrame;
-	ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
-
-	JPanel calOpPanel;
+	JPanel calOpPanel; //TODO
 	JButton todayBut;
 	JLabel todayLab;
 	JButton lYearBut;
@@ -97,59 +21,39 @@ public class MemoCalendar extends CalendarDataManager {
 	JLabel curMMYYYYLab;
 	JButton nMonBut;
 	JButton nYearBut;
-	ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons();
+	ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons(); //TODO
 
+	//TODO
 	JPanel calPanel;
 	JButton weekDaysName[];
 	JButton dateButs[][] = new JButton[6][7];
 	listenForDateButs lForDateButs = new listenForDateButs();
 
-	JPanel infoPanel;
+	JPanel infoPanel; // 현재시각
 	JLabel infoClock;
 
-	JPanel memoPanel;
-	JLabel selectedDate;
-	JTextArea memoArea;
-	JScrollPane memoAreaSP;
-	JPanel memoSubPanel;
-	JButton saveBut;
-	JButton delBut;
-	JButton clearBut;
-
-	JPanel frameBottomPanel;
-	JLabel bottomInfo = new JLabel("Welcome to Memo Calendar!");
-	// ���, �޼���
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
-	final String title = "�޸� �޷� ver 1.0";
-	final String SaveButMsg1 = "�� MemoData������ �����Ͽ����ϴ�.";
-	final String SaveButMsg2 = "�޸� ���� �ۼ��� �ּ���.";
-	final String SaveButMsg3 = "<html><font color=red>ERROR : ���� ���� ����</html>";
-	final String DelButMsg1 = "�޸� �����Ͽ����ϴ�.";
-	final String DelButMsg2 = "�ۼ����� �ʾҰų� �̹� ������ memo�Դϴ�.";
-	final String DelButMsg3 = "<html><font color=red>ERROR : ���� ���� ����</html>";
-	final String ClrButMsg1 = "�Էµ� �޸� ������ϴ�.";
+	final String title = "ooo님 환영합니다";
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new MemoCalendar();
+				new MainFrame();
 			}
 		});
 	}
 
-	public MemoCalendar() {
+	public MainFrame() {
 
 		mainFrame = new JFrame(title);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(700, 400);
+		mainFrame.setSize(1200, 1000);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setResizable(false);
-		mainFrame.setIconImage(icon.getImage());
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(mainFrame);
 		} catch (Exception e) {
-			bottomInfo.setText("ERROR : LookAndFeel setting failed");
 		}
 
 		calOpPanel = new JPanel();
@@ -247,75 +151,6 @@ public class MemoCalendar extends CalendarDataManager {
 		infoClock = new JLabel("", SwingConstants.RIGHT);
 		infoClock.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		infoPanel.add(infoClock, BorderLayout.NORTH);
-		selectedDate = new JLabel("<Html><font size=3>" + (today.get(Calendar.MONTH) + 1) + "/"
-				+ today.get(Calendar.DATE) + "/" + today.get(Calendar.YEAR) + "&nbsp;(Today)</html>",
-				SwingConstants.LEFT);
-		selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-
-		memoPanel = new JPanel();
-		memoPanel.setBorder(BorderFactory.createTitledBorder("Memo"));
-		memoArea = new JTextArea();
-		memoArea.setLineWrap(true);
-		memoArea.setWrapStyleWord(true);
-		memoAreaSP = new JScrollPane(memoArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		readMemo();
-
-		memoSubPanel = new JPanel();
-		saveBut = new JButton("Save");
-		saveBut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					File f = new File("MemoData");
-					if (!f.isDirectory())
-						f.mkdir();
-
-					String memo = memoArea.getText();
-					if (memo.length() > 0) {
-						BufferedWriter out = new BufferedWriter(
-								new FileWriter("MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
-										+ (calDate < 10 ? "0" : "") + calDate + ".txt"));
-						String str = memoArea.getText();
-						out.write(str);
-						out.close();
-						bottomInfo.setText(calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
-								+ (calDate < 10 ? "0" : "") + calDate + ".txt" + SaveButMsg1);
-					} else
-						bottomInfo.setText(SaveButMsg2);
-				} catch (IOException e) {
-					bottomInfo.setText(SaveButMsg3);
-				}
-				showCal();
-			}
-		});
-		delBut = new JButton("Delete");
-		delBut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				memoArea.setText("");
-				File f = new File("MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
-						+ (calDate < 10 ? "0" : "") + calDate + ".txt");
-				if (f.exists()) {
-					f.delete();
-					showCal();
-					bottomInfo.setText(DelButMsg1);
-				} else
-					bottomInfo.setText(DelButMsg2);
-			}
-		});
-		clearBut = new JButton("Clear");
-		clearBut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				memoArea.setText(null);
-				bottomInfo.setText(ClrButMsg1);
-			}
-		});
-		memoSubPanel.add(saveBut);
-		memoSubPanel.add(delBut);
-		memoSubPanel.add(clearBut);
-		memoPanel.setLayout(new BorderLayout());
-		memoPanel.add(selectedDate, BorderLayout.NORTH);
-		memoPanel.add(memoAreaSP, BorderLayout.CENTER);
-		memoPanel.add(memoSubPanel, BorderLayout.SOUTH);
 
 		JPanel frameSubPanelWest = new JPanel();
 		Dimension calOpPanelSize = calOpPanel.getPreferredSize();
@@ -331,19 +166,14 @@ public class MemoCalendar extends CalendarDataManager {
 		infoPanel.setPreferredSize(infoPanelSize);
 		frameSubPanelEast.setLayout(new BorderLayout());
 		frameSubPanelEast.add(infoPanel, BorderLayout.NORTH);
-		frameSubPanelEast.add(memoPanel, BorderLayout.CENTER);
 
 		Dimension frameSubPanelWestSize = frameSubPanelWest.getPreferredSize();
 		frameSubPanelWestSize.width = 410;
 		frameSubPanelWest.setPreferredSize(frameSubPanelWestSize);
 
-		frameBottomPanel = new JPanel();
-		frameBottomPanel.add(bottomInfo);
-
 		mainFrame.setLayout(new BorderLayout());
 		mainFrame.add(frameSubPanelWest, BorderLayout.WEST);
 		mainFrame.add(frameSubPanelEast, BorderLayout.CENTER);
-		mainFrame.add(frameBottomPanel, BorderLayout.SOUTH);
 		mainFrame.setVisible(true);
 
 		focusToday();
@@ -358,31 +188,6 @@ public class MemoCalendar extends CalendarDataManager {
 		else
 			dateButs[today.get(Calendar.WEEK_OF_MONTH) - 1][today.get(Calendar.DAY_OF_WEEK) - 1].requestFocusInWindow();
 	}
-
-	private void readMemo() {
-		try {
-			File f = new File("MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
-					+ (calDate < 10 ? "0" : "") + calDate + ".txt");
-			if (f.exists()) {
-				BufferedReader in = new BufferedReader(
-						new FileReader("MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
-								+ (calDate < 10 ? "0" : "") + calDate + ".txt"));
-				String memoAreaText = new String();
-				while (true) {
-					String tempStr = in.readLine();
-					if (tempStr == null)
-						break;
-					memoAreaText = memoAreaText + tempStr + System.getProperty("line.separator");
-				}
-				memoArea.setText(memoAreaText);
-				in.close();
-			} else
-				memoArea.setText("");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private void showCal() {
 		for (int i = 0; i < CAL_ROW; i++) {
 			for (int j = 0; j < CAL_COLUMN; j++) {
@@ -465,10 +270,6 @@ public class MemoCalendar extends CalendarDataManager {
 			else if (dDay < 0)
 				dDayString = "D+" + (dDay) * (-1);
 
-			selectedDate.setText("<Html><font size=3>" + (calMonth + 1) + "/" + calDate + "/" + calYear + "&nbsp;("
-					+ dDayString + ")</html>");
-
-			readMemo();
 		}
 	}
 
@@ -493,21 +294,6 @@ public class MemoCalendar extends CalendarDataManager {
 					infoClock.setText(amPm + " " + hour + ":" + min + ":" + sec);
 
 					sleep(1000);
-					String infoStr = bottomInfo.getText();
-
-					if (infoStr != " " && (msgCntFlag == false || curStr != infoStr)) {
-						num = 5;
-						msgCntFlag = true;
-
-						curStr = infoStr;
-					} else if (infoStr != " " && msgCntFlag == true) {
-						if (num > 0)
-							num--;
-						else {
-							msgCntFlag = false;
-							bottomInfo.setText(" ");
-						}
-					}
 				} catch (InterruptedException e) {
 					System.out.println("Thread:Error");
 				}

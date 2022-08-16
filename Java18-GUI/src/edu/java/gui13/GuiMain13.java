@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JComboBox;
 
 public class GuiMain13 {
 
@@ -30,6 +31,7 @@ public class GuiMain13 {
 	private JPanel logoutPanel; // 로그아웃 했을 때 보이는 판넬
 
 	private Component currentComponent; // 현재 가지고 있는 컴퍼넌트 확인 변수
+	private JLabel lblNewLabel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -138,6 +140,9 @@ public class GuiMain13 {
 		frame.getContentPane().add(contentPanel, BorderLayout.CENTER);
 		// 현재 컴퍼넌트에 기본 판넬 저장
 		currentComponent = contentPanel;
+		
+		lblNewLabel = new JLabel("New label");
+		contentPanel.add(lblNewLabel);
 	}
 
 } // end GuiMain13
