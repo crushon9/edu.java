@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 
 public class Main extends CalendarSet {
 
@@ -31,7 +33,7 @@ public class Main extends CalendarSet {
 	JLabel curMMYYYYLbl;
 
 	JPanel calPanel; // 달력판넬
-	JButton weekHeadBtn[];
+	JButton weekHeadBtn[] = new JButton[7];
 	JButton dateBtns[][] = new JButton[6][7];
 	ListenerDateBtns listenDateBtn = new ListenerDateBtns(); // 이벤트 컨트롤 객체
 
@@ -42,6 +44,8 @@ public class Main extends CalendarSet {
 
 	final String WEEK_HEAD[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	final String title = "ooo님 환영합니다";
+	private JButton insertBtn;
+	private JTextField searchText;
 
 	/**
 	 * Launch the application.
@@ -82,7 +86,7 @@ public class Main extends CalendarSet {
 		// 상단 today 버튼
 		todayBtn = new JButton("Today");
 		todayBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		todayBtn.setBackground(new Color(204, 204, 255));
+		todayBtn.setBackground(new Color(255, 204, 204));
 		todayBtn.setForeground(new Color(0, 0, 0));
 		todayBtn.setBounds(12, 10, 75, 23);
 		todayBtn.addActionListener(listenMoveBtn); // 버튼클릭시 이벤트
@@ -90,30 +94,35 @@ public class Main extends CalendarSet {
 		// 오늘날짜 출력 라벨
 		todayLbl = new JLabel(
 				today.get(Calendar.YEAR) + "/" + (today.get(Calendar.MONTH) + 1) + "/" + today.get(Calendar.DATE));
-		todayLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		todayLbl.setForeground(new Color(255, 0, 0));
+		todayLbl.setFont(new Font("맑은 고딕", Font.BOLD, 12));
 		todayLbl.setBounds(100, 14, 85, 15);
 		mainFrame.getContentPane().add(todayLbl);
 
 		// 월, 년도 변경 버튼
 		prevYearBtn = new JButton("<<");
+		prevYearBtn.setBackground(new Color(150, 150, 150));
 		prevYearBtn.setBounds(20, 54, 50, 24);
 		prevYearBtn.setToolTipText("Previous Year"); // 버튼 설명 툴팁
 		prevYearBtn.addActionListener(listenMoveBtn);
 		mainFrame.getContentPane().add(prevYearBtn);
 
 		prevMonBtn = new JButton("<");
+		prevMonBtn.setBackground(new Color(211, 211, 211));
 		prevMonBtn.setBounds(92, 54, 50, 24);
 		prevMonBtn.setToolTipText("Previous Month");
 		prevMonBtn.addActionListener(listenMoveBtn);
 		mainFrame.getContentPane().add(prevMonBtn);
 
 		nextMonBtn = new JButton(">");
+		nextMonBtn.setBackground(new Color(211, 211, 211));
 		nextMonBtn.setBounds(368, 54, 50, 24);
 		nextMonBtn.setToolTipText("Next Month");
 		nextMonBtn.addActionListener(listenMoveBtn);
 		mainFrame.getContentPane().add(nextMonBtn);
 
 		nextYearBtn = new JButton(">>");
+		nextYearBtn.setBackground(new Color(150, 150, 150));
 		nextYearBtn.setBounds(442, 54, 50, 24);
 		nextYearBtn.setToolTipText("Next Year");
 		nextYearBtn.addActionListener(listenMoveBtn);
@@ -127,7 +136,6 @@ public class Main extends CalendarSet {
 
 		// 달력 디자인
 		calPanel = new JPanel();
-		weekHeadBtn = new JButton[7];
 		for (int i = 0; i < CAL_COLUMN; i++) {
 			weekHeadBtn[i] = new JButton(WEEK_HEAD[i]);
 			weekHeadBtn[i].setBorderPainted(false); // 테두리 없음
@@ -135,9 +143,9 @@ public class Main extends CalendarSet {
 			weekHeadBtn[i].setFont(new Font("맑은 고딕", Font.BOLD, 12));
 			weekHeadBtn[i].setForeground(Color.WHITE); // 배경색(글자색)
 			if (i == 0) // 일요일은 빨간색
-				weekHeadBtn[i].setBackground(new Color(200, 50, 50));
+				weekHeadBtn[i].setBackground(new Color(255, 102, 104));
 			else if (i == 6) // 토요일은 파란색
-				weekHeadBtn[i].setBackground(new Color(50, 100, 200));
+				weekHeadBtn[i].setBackground(new Color(102, 150, 255));
 			else // 평일은 회색
 				weekHeadBtn[i].setBackground(new Color(150, 150, 150));
 			weekHeadBtn[i].setOpaque(true); // 불투명도
@@ -159,11 +167,11 @@ public class Main extends CalendarSet {
 		calPanel.setBounds(12, 86, 490, 465);
 		mainFrame.getContentPane().add(calPanel);
 		calPanel.setLayout(new GridLayout(0, 7, 4, 4)); // 0행 7열 간격20으로 GridLayout 생성
-		calPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // 안쪽 패딩
+		calPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0)); // 안쪽 패딩
 		showCal(); // dateBtns의 textSet 메소드
 
 		JScrollPane scrollJTable = new JScrollPane();
-		scrollJTable.setBounds(514, 86, 318, 465);
+		scrollJTable.setBounds(514, 123, 318, 413);
 		mainFrame.getContentPane().add(scrollJTable);
 		JtableModel = new DefaultTableModel(JtableHead, 0); // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
 		Jtable = new JTable(JtableModel);
@@ -174,19 +182,37 @@ public class Main extends CalendarSet {
 
 		JtableDateLbl = new JLabel(
 				today.get(Calendar.YEAR) + "/" + (today.get(Calendar.MONTH) + 1) + "/" + today.get(Calendar.DATE));
-		JtableDateLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-		JtableDateLbl.setBounds(517, 66, 85, 15);
+		JtableDateLbl.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		JtableDateLbl.setBounds(520, 98, 85, 15);
 		mainFrame.getContentPane().add(JtableDateLbl);
 
-		focusToday();
+		insertBtn = new JButton("Insert");
+		insertBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO
+			}
+		});
+		insertBtn.setBackground(new Color(153, 204, 255));
+		insertBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		insertBtn.setBounds(670, 90, 75, 23);
+		mainFrame.getContentPane().add(insertBtn);
 
-	}
+		searchText = new JTextField();
+		searchText.setBounds(752, 66, 77, 21);
+		mainFrame.getContentPane().add(searchText);
+		searchText.setColumns(10);
 
-	private void focusToday() {
-		if (today.get(Calendar.DAY_OF_WEEK) == 1) // 일요일일때
-			dateBtns[today.get(Calendar.WEEK_OF_MONTH)][today.get(Calendar.DAY_OF_WEEK) - 1].requestFocusInWindow();
-		else
-			dateBtns[today.get(Calendar.WEEK_OF_MONTH) - 1][today.get(Calendar.DAY_OF_WEEK) - 1].requestFocusInWindow();
+		JButton searchBtn = new JButton("Search");
+		searchBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO
+			}
+		});
+		searchBtn.setBackground(new Color(153, 204, 255));
+		searchBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		searchBtn.setBounds(752, 90, 75, 23);
+		mainFrame.getContentPane().add(searchBtn);
+
 	}
 
 	private void showCal() {
@@ -215,12 +241,23 @@ public class Main extends CalendarSet {
 		}
 	}
 
+	private void JTableRefresh(DefaultTableModel tableModel) {
+//		ArrayList<ScheduleVO> list = dao.select;
+//		tableModel.setRowCount(0); // 행을 0줄로 초기화
+//		Object record[] = new Object[JtableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
+//		for (int i = 0; i < list.size(); i++) {
+//			record[0] = list.get(i).getIsDone();
+//			record[1] = list.get(i).getTime();
+//			record[2] = list.get(i).getText();
+//			tableModel.addRow(record);
+//		}
+	} // end JTableRefresh
+
 	private class ListenerMoveDate implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == todayBtn) { // today버큰을 누르면
 				setToday(); // 오늘로 날짜 멤버변수 세팅
 				listenDateBtn.actionPerformed(e); // 날짜버튼이 클릭되면
-				focusToday(); // 오늘을 포커스
 			} else if (e.getSource() == prevYearBtn)
 				moveMonth(-12); // 달을 바꾸며 날짜세팅
 			else if (e.getSource() == prevMonBtn)
@@ -229,7 +266,6 @@ public class Main extends CalendarSet {
 				moveMonth(1);
 			else if (e.getSource() == nextYearBtn)
 				moveMonth(12);
-
 			// 버튼으로 세팅된 날짜를 출력
 			curMMYYYYLbl.setText(((calMonth + 1) < 10 ? " " : "") + (calMonth + 1) + " / " + calYear);
 			curMMYYYYLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -239,19 +275,7 @@ public class Main extends CalendarSet {
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-//			int k = 0, l = 0;
-//			for (int i = 0; i < CAL_MAX_ROW; i++) {
-//				for (int j = 0; j < CAL_COLUMN; j++) {
-//					if (e.getSource() == dateBtns[i][j]) {
-//						k = i;
-//						l = j;
-//					}
-//				}
-//			}
-//
-//			if (!(k == 0 && l == 0))
-//				calDate = calDates[k][l];
-//
+
 //			Calendar cal = new GregorianCalendar(calYear, calMonth, calDate);
 
 		}
