@@ -183,7 +183,7 @@ public class Main extends CalendarSet {
 		JtableDateLbl = new JLabel(
 				today.get(Calendar.YEAR) + "/" + (today.get(Calendar.MONTH) + 1) + "/" + today.get(Calendar.DATE));
 		JtableDateLbl.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		JtableDateLbl.setBounds(520, 98, 85, 15);
+		JtableDateLbl.setBounds(520, 100, 85, 15);
 		mainFrame.getContentPane().add(JtableDateLbl);
 
 		insertBtn = new JButton("Insert");
@@ -192,9 +192,9 @@ public class Main extends CalendarSet {
 				// TODO
 			}
 		});
-		insertBtn.setBackground(new Color(153, 204, 255));
+		insertBtn.setBackground(new Color(170, 200, 255));
 		insertBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		insertBtn.setBounds(670, 90, 75, 23);
+		insertBtn.setBounds(670, 92, 75, 23);
 		mainFrame.getContentPane().add(insertBtn);
 
 		searchText = new JTextField();
@@ -208,9 +208,9 @@ public class Main extends CalendarSet {
 				// TODO
 			}
 		});
-		searchBtn.setBackground(new Color(153, 204, 255));
+		searchBtn.setBackground(new Color(170, 200, 255));
 		searchBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		searchBtn.setBounds(752, 90, 75, 23);
+		searchBtn.setBounds(752, 92, 75, 23);
 		mainFrame.getContentPane().add(searchBtn);
 
 	}
