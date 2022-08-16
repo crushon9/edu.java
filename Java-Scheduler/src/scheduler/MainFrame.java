@@ -36,7 +36,7 @@ public class MainFrame extends CalendarSet {
 	JLabel curMMYYYYLab;
 	JButton nMonBut;
 	JButton nYearBut;
-	ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons();
+	ListenForCalOpButtons lForCalOpButtons = new ListenForCalOpButtons(); //TODO
 
 	JPanel calPanel; // 달력판넬
 	JButton weekDaysName[];
