@@ -4,17 +4,15 @@ class MemberVO {
 
 	String id;
 	String pw;
-	
+
 	public MemberVO() {
 	}
 
 	public MemberVO(String id, String pw) {
-		super();
 		this.id = id;
 		this.pw = pw;
 	}
-	
-	
+
 	public String getId() {
 		return id;
 	}
@@ -36,5 +34,4 @@ class MemberVO {
 		return "MemberVO [id=" + id + ", pw=" + pw + "]";
 	}
 
-	
 }
