@@ -14,6 +14,9 @@ class CalendarSet {
 	static int calEndDate; // 윤달을 계산한 실제 마지막 날짜
 	static Calendar today = Calendar.getInstance();
 
+	public CalendarSet() {
+	}
+
 	// 오늘의 년도, 월, 날짜를 추출하여 캘린더생성메소드로 넘겨주며 호출
 	public static void setToday() {
 		calYear = today.get(Calendar.YEAR);

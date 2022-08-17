@@ -37,7 +37,7 @@ public class CalendarPanel extends JFrame {
 
 	JTable Jtable;
 	DefaultTableModel JtableModel;
-	String[] JtableHead = { "Done", "Time", "Text" };
+	String[] JtableHead = { "Done", "Time", "Text", "Update" };
 	JLabel JtableDateLbl;
 
 	final String WEEK_HEAD[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
@@ -55,6 +55,7 @@ public class CalendarPanel extends JFrame {
 		CalendarSet.setToday();
 
 		lblCurId = new JLabel(" > " + curId + " 님 환영합니다 <");
+		lblCurId.setForeground(new Color(0, 0, 153));
 		lblCurId.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		lblCurId.setBounds(690, 14, 140, 15);
 		calendarPane.add(lblCurId);
@@ -71,8 +72,8 @@ public class CalendarPanel extends JFrame {
 		todayLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "/" + (CalendarSet.today.get(Calendar.MONTH) + 1)
 				+ "/" + CalendarSet.today.get(Calendar.DATE));
 		todayLbl.setForeground(new Color(255, 0, 0));
-		todayLbl.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		todayLbl.setBounds(100, 14, 85, 15);
+		todayLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		todayLbl.setBounds(96, 14, 85, 15);
 		calendarPane.add(todayLbl);
 
 		// 월, 년도 변경 버튼
@@ -152,8 +153,10 @@ public class CalendarPanel extends JFrame {
 		JtableModel = new DefaultTableModel(JtableHead, 0); // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
 		Jtable = new JTable(JtableModel);
 		Jtable.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		Jtable.getColumn("Done").setPreferredWidth(2);
-		Jtable.getColumn("Time").setPreferredWidth(2);
+		Jtable.getColumn("Done").setPreferredWidth(7);
+		Jtable.getColumn("Time").setPreferredWidth(7);
+		Jtable.getColumn("Text").setPreferredWidth(70);
+		Jtable.getColumn("Update").setPreferredWidth(10);
 		scrollJTable.setViewportView(Jtable);
 		calendarPane.add(scrollJTable);
 
@@ -227,6 +230,7 @@ public class CalendarPanel extends JFrame {
 //			record[0] = list.get(i).getIsDone();
 //			record[1] = list.get(i).getTime();
 //			record[2] = list.get(i).getText();
+//			record[3] = ;
 //			tableModel.addRow(record);
 //		}
 	} // end JTableRefresh
@@ -254,8 +258,10 @@ public class CalendarPanel extends JFrame {
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			// TODO
 
 //			Calendar cal = new GregorianCalendar(calYear, calMonth, calDate);
+//			curMMYYYYLbl = new JLabel(((cal.calMonth + 1) < 10 ? " " : "") + (cal.calMonth + 1) + " / " + cal.calYear);
 
 		}
 	}
