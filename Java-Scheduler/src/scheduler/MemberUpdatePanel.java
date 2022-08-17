@@ -125,6 +125,7 @@ public class MemberUpdatePanel extends JFrame {
 		int result = memberDao.update(vo);
 		if (result == 1) {
 			JOptionPane.showMessageDialog(memberUpdatePane, "수정 성공");
+			dispose();
 		} else {
 			JOptionPane.showMessageDialog(memberUpdatePane, "수정 실패");
 		}
@@ -134,6 +135,7 @@ public class MemberUpdatePanel extends JFrame {
 		int result = memberDao.delete(id);
 		if (result == 1) {
 			JOptionPane.showMessageDialog(memberUpdatePane, "삭제 성공");
+			dispose();
 		} else {
 			JOptionPane.showMessageDialog(memberUpdatePane, "삭제 실패");
 		}

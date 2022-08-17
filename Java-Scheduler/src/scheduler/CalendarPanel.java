@@ -17,14 +17,12 @@ import java.util.Calendar;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
 public class CalendarPanel extends JFrame {
 
-	JPanel calendarPane;
+	JPanel calendarPane;// 메인판넬
 
-	JPanel calEtcPanel;
 	JButton todayBtn;
 	JLabel todayLbl;
 	JButton prevYearBtn, prevMonBtn, nextMonBtn, nextYearBtn;
@@ -45,8 +43,9 @@ public class CalendarPanel extends JFrame {
 	final String WEEK_HEAD[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	private JButton insertBtn;
 	private JTextField searchText;
+	private JLabel lblCurId;
 
-	public CalendarPanel() {
+	public CalendarPanel(String curId) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 860, 600);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
@@ -54,6 +53,11 @@ public class CalendarPanel extends JFrame {
 		calendarPane.setLayout(null);
 		setContentPane(calendarPane);
 		CalendarSet.setToday();
+
+		lblCurId = new JLabel(" > " + curId + " 님 환영합니다 <");
+		lblCurId.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		lblCurId.setBounds(690, 14, 140, 15);
+		calendarPane.add(lblCurId);
 
 		// 상단 today 버튼
 		todayBtn = new JButton("Today");

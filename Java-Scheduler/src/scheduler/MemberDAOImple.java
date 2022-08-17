@@ -26,7 +26,7 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 		try {
 			DriverManager.registerDriver(new OracleDriver());
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			textAreaLog.append(">> DB 연결 성공 <<");
+			textAreaLog.append("> DB 연결 성공 <");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

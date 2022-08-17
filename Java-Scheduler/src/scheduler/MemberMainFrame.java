@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class MemberPanel extends JFrame {
+public class MemberMainFrame extends JFrame {
 
 	JFrame frame;
 	JPanel memberPane;
@@ -34,7 +34,7 @@ public class MemberPanel extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MemberPanel window = new MemberPanel();
+					MemberMainFrame window = new MemberMainFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +46,7 @@ public class MemberPanel extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public MemberPanel() {
+	public MemberMainFrame() {
 		initialize();
 	}
 
@@ -150,7 +150,7 @@ public class MemberPanel extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				CalendarPanel calendarPane = new CalendarPanel();
+				CalendarPanel calendarPane = new CalendarPanel(inputId);
 				calendarPane.setVisible(true);
 				frame.setVisible(false);
 				

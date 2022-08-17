@@ -161,6 +161,7 @@ public class MemberJoinPanel extends JFrame {
 		int result = memberDao.insert(vo);
 		if (result == 1) {
 			JOptionPane.showMessageDialog(memberJoinPane, "가입 성공");
+			dispose();
 		} else {
 			JOptionPane.showMessageDialog(memberJoinPane, "가입 실패");
 		}
