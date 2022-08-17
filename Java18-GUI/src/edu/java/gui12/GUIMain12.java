@@ -72,6 +72,7 @@ public class GUIMain12 {
 //				String text = getTextField().getText();
 //				MyFrame myFrame = new MyFrame(text);
 //				textField.setText(text); 
+				frame.setVisible(false);
 
 				// 매개변수로 frame을 넘겨서 처리하는 코드
 				MyFrame myFrame = new MyFrame(frame);

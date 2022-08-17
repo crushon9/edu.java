@@ -5,10 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.Font;
 import javax.swing.JButton;
+
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JTextArea;
@@ -16,9 +18,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class MemberFrame extends JFrame {
+public class MemberPanel extends JFrame {
 
-	JFrame memberFrame;
+	JFrame frame;
+	JPanel memberPane;
 	private JTextField textId, textPw;
 	private JButton btnLogin, btnJoin, btnUpdate;
 	JTextArea textAreaLog;
@@ -31,8 +34,8 @@ public class MemberFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MemberFrame window = new MemberFrame();
-					window.memberFrame.setVisible(true);
+					MemberPanel window = new MemberPanel();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,7 +46,7 @@ public class MemberFrame extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public MemberFrame() {
+	public MemberPanel() {
 		initialize();
 	}
 
@@ -51,35 +54,38 @@ public class MemberFrame extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		memberFrame = new JFrame();
-		memberFrame.getContentPane().setBackground(SystemColor.control);
-		memberFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		memberFrame.setBounds(100, 100, 860, 600);
-		memberFrame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
-		memberFrame.setResizable(false); // 창크기 고정
-		memberFrame.getContentPane().setLayout(null);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 860, 600);
+		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
+		frame.setResizable(false); // 창크기 고정
+
+		memberPane = new JPanel();
+		memberPane.setBackground(SystemColor.control);
+		memberPane.setLayout(null);
+		frame.getContentPane().add(memberPane);
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setForeground(new Color(105, 105, 105));
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblId.setBounds(290, 180, 30, 20);
-		memberFrame.getContentPane().add(lblId);
+		memberPane.add(lblId);
 
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setForeground(new Color(105, 105, 105));
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblPw.setBounds(290, 210, 30, 20);
-		memberFrame.getContentPane().add(lblPw);
+		memberPane.add(lblPw);
 
 		textId = new JTextField();
 		textId.setColumns(10);
 		textId.setBounds(330, 180, 130, 20);
-		memberFrame.getContentPane().add(textId);
+		memberPane.add(textId);
 
 		textPw = new JTextField();
 		textPw.setColumns(10);
 		textPw.setBounds(330, 210, 130, 20);
-		memberFrame.getContentPane().add(textPw);
+		memberPane.add(textPw);
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -91,44 +97,44 @@ public class MemberFrame extends JFrame {
 		btnLogin.setBackground(new Color(204, 204, 255));
 		btnLogin.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		btnLogin.setBounds(480, 180, 80, 50);
-		memberFrame.getContentPane().add(btnLogin);
+		memberPane.add(btnLogin);
 
 		btnJoin = new JButton("Join");
 		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				joinFrame();
+				getJoinPane();
 			}
 		});
 		btnJoin.setForeground(new Color(204, 204, 255));
 		btnJoin.setBackground(new Color(128, 128, 128));
 		btnJoin.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		btnJoin.setBounds(330, 260, 80, 30);
-		memberFrame.getContentPane().add(btnJoin);
+		memberPane.add(btnJoin);
 
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateFrame();
+				getUpdatePane();
 			}
 		});
 		btnUpdate.setForeground(new Color(204, 204, 255));
 		btnUpdate.setBackground(new Color(128, 128, 128));
 		btnUpdate.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		btnUpdate.setBounds(430, 260, 80, 30);
-		memberFrame.getContentPane().add(btnUpdate);
+		memberPane.add(btnUpdate);
 
 		textAreaLog = new JTextArea();
 		textAreaLog.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		textAreaLog.setBackground(SystemColor.control);
 		textAreaLog.setBounds(12, 10, 368, 24);
-		memberFrame.getContentPane().add(textAreaLog);
+		memberPane.add(textAreaLog);
 		memberDao = MemberDAOImple.getInstance(textAreaLog);
 
 	}
 
 	private void login() {
 		if (textId.getText().equals("") || textPw.getText().equals("")) {
-			JOptionPane.showMessageDialog(memberFrame, "로그인 정보를 입력하세요");
+			JOptionPane.showMessageDialog(frame, "로그인 정보를 입력하세요");
 			return;
 		}
 		String inputId = textId.getText();
@@ -144,25 +150,27 @@ public class MemberFrame extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				JOptionPane.showMessageDialog(memberFrame, "로그인 성공");
-				// TODO
+				CalendarPanel calendarPane = new CalendarPanel();
+				calendarPane.setVisible(true);
+				frame.setVisible(false);
+				
 			} else {
-				JOptionPane.showMessageDialog(memberFrame, "비밀번호를 확인하세요");
+				JOptionPane.showMessageDialog(frame, "비밀번호를 확인하세요");
 			}
 		} else {
-			JOptionPane.showMessageDialog(memberFrame, "존재하지 않는 아이디입니다");
+			JOptionPane.showMessageDialog(frame, "존재하지 않는 아이디입니다");
 		}
 
 	} // end login
 
-	private void joinFrame() {
-		MemberJoinFrame joinFrame = new MemberJoinFrame(memberDao);
-		joinFrame.setVisible(true);
-	} // end joinFrame
+	private void getJoinPane() {
+		MemberJoinPanel joinPane = new MemberJoinPanel(memberDao);
+		joinPane.setVisible(true);
+	} // end getJoinFrame
 
-	private void updateFrame() {
+	private void getUpdatePane() {
 		if (textId.getText().equals("") || textPw.getText().equals("")) {
-			JOptionPane.showMessageDialog(memberFrame, "로그인 정보를 입력하세요");
+			JOptionPane.showMessageDialog(frame, "로그인 정보를 입력하세요");
 			return;
 		}
 		String inputId = textId.getText();
@@ -178,13 +186,13 @@ public class MemberFrame extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				MemberUpdateFrame updateFrame = new MemberUpdateFrame(inputId, memberDao);
-				updateFrame.setVisible(true);
+				MemberUpdatePanel updatePane = new MemberUpdatePanel(inputId, memberDao);
+				updatePane.setVisible(true);
 			} else {
-				JOptionPane.showMessageDialog(memberFrame, "비밀번호를 확인하세요");
+				JOptionPane.showMessageDialog(frame, "비밀번호를 확인하세요");
 			}
 		} else {
-			JOptionPane.showMessageDialog(memberFrame, "존재하지 않는 아이디입니다");
+			JOptionPane.showMessageDialog(frame, "존재하지 않는 아이디입니다");
 		}
-	} // end updateFrame
+	} // end getUpdateFrame
 }

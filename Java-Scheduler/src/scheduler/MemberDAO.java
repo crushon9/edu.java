@@ -16,6 +16,6 @@ interface MemberDAO {
 	public abstract int update(MemberVO vo);
 
 	// 회원 삭제
-	public abstract int delete(MemberVO vo);
+	public abstract int delete(String id);
 
 }

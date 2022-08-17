@@ -97,8 +97,8 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 		int result = 0;
 		try {
 			pstmt = conn.prepareStatement(SQL_UPDATE);
-			pstmt.setString(1, vo.getId()); // ? 에 값을 세팅
-			pstmt.setString(2, vo.getPw());
+			pstmt.setString(1, vo.getPw()); // ? 에 값을 세팅
+			pstmt.setString(2, vo.getId());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,11 +107,11 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 	}
 
 	@Override
-	public int delete(MemberVO vo) {
+	public int delete(String id) {
 		int result = 0;
 		try {
 			pstmt = conn.prepareStatement(SQL_DELETE);
-			pstmt.setString(1, vo.getId());
+			pstmt.setString(1, id);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

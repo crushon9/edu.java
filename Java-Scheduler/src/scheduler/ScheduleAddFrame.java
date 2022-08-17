@@ -1,5 +1,0 @@
-package scheduler;
-
-class ScheduleAddFrame {
-
-}
