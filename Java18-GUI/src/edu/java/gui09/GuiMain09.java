@@ -83,6 +83,7 @@ public class GuiMain09 {
 				textArea.setText(result);
 			}
 		});
+		System.out.println(btnOutput.getText());
 		btnOutput.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnOutput.setBackground(new Color(204, 255, 255));
 		btnOutput.setBounds(94, 160, 97, 30);

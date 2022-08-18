@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class CalendarPanel extends JFrame {
@@ -36,17 +38,19 @@ public class CalendarPanel extends JFrame {
 	final String WEEK_HEAD[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	JPanel cellPanel[][] = new JPanel[6][7]; // 하루 단위 cell
 	JButton cellDateBtns[][] = new JButton[6][7]; // cell의 날짜표기 버튼
-	JButton cellSd1Btns[][] = new JButton[6][7]; // cell의 일정1 버튼
-	JButton cellSd2Btns[][] = new JButton[6][7];; // cell의 일정2 버튼
+	JLabel cellSd1Lbls[][] = new JLabel[6][7]; // cell의 일정1 버튼
+	JLabel cellSd2Lbls[][] = new JLabel[6][7];; // cell의 일정2 버튼
 	ListenerDateBtns listenDateBtn = new ListenerDateBtns(); // 날짜 버튼 이벤트 객체
 
 	JLabel scheduleDateLbl; // 출력된 스케줄의 날짜 표기 라벨
 	JTable scheduleTable; // 스케줄 J테이블
 	DefaultTableModel JtableModel;
-	String[] scheduleTableHead = { "Done", "Time", "Text", "Update" };
+	String[] scheduleTableHead = { "Done", "Time", "Text", "Update", "SEQ" };
 
 	private JButton insertBtn, searchBtn; // 스케줄 입력 및 검색 버튼
 	private JTextField searchText; // 스케줄 검색 문자열
+
+	ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
 	public CalendarPanel(String curId) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +75,8 @@ public class CalendarPanel extends JFrame {
 		todayBtn.addActionListener(listenMoveBtn); // 버튼클릭시 이벤트
 		mainPanel.add(todayBtn);
 		// 오늘날짜 출력 라벨
-		todayLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "/" + (CalendarSet.today.get(Calendar.MONTH) + 1)
-				+ "/" + CalendarSet.today.get(Calendar.DATE));
+		todayLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "-" + (CalendarSet.today.get(Calendar.MONTH) + 1)
+				+ "-" + CalendarSet.today.get(Calendar.DATE));
 		todayLbl.setForeground(new Color(255, 0, 0));
 		todayLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		todayLbl.setBounds(96, 14, 85, 15);
@@ -143,22 +147,18 @@ public class CalendarPanel extends JFrame {
 				cellDateBtns[i][j].setBackground(Color.WHITE);
 				cellDateBtns[i][j].addActionListener(listenDateBtn);
 
-				cellSd1Btns[i][j] = new JButton();
-				cellSd1Btns[i][j].setBorderPainted(false);
-				cellSd1Btns[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-				cellSd1Btns[i][j].setBackground(new Color(150, 150, 150));
-				cellSd1Btns[i][j].addActionListener(listenDateBtn);
+				cellSd1Lbls[i][j] = new JLabel("??");
+				cellSd1Lbls[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+				cellSd1Lbls[i][j].setBackground(Color.red);
 
-				cellSd2Btns[i][j] = new JButton();
-				cellSd2Btns[i][j].setBorderPainted(false);
-				cellSd2Btns[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-				cellSd2Btns[i][j].setBackground(new Color(150, 150, 150));
-				cellSd2Btns[i][j].addActionListener(listenDateBtn);
+				cellSd2Lbls[i][j] = new JLabel("??");
+				cellSd2Lbls[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+				cellSd2Lbls[i][j].setBackground(Color.red);
 
 				cellPanel[i][j].setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 				cellPanel[i][j].add(cellDateBtns[i][j]);
-				cellPanel[i][j].add(cellSd1Btns[i][j]);
-				cellPanel[i][j].add(cellSd2Btns[i][j]);
+				cellPanel[i][j].add(cellSd1Lbls[i][j]);
+				cellPanel[i][j].add(cellSd2Lbls[i][j]);
 
 				calendarPanel.add(cellPanel[i][j]); // 달력 판넬에 날짜 추가
 			}
@@ -175,15 +175,16 @@ public class CalendarPanel extends JFrame {
 		JtableModel = new DefaultTableModel(scheduleTableHead, 0); // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
 		scheduleTable = new JTable(JtableModel);
 		scheduleTable.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		scheduleTable.getColumn("Done").setPreferredWidth(7);
-		scheduleTable.getColumn("Time").setPreferredWidth(7);
+		scheduleTable.getColumn("Done").setPreferredWidth(1);
+		scheduleTable.getColumn("Time").setPreferredWidth(1);
 		scheduleTable.getColumn("Text").setPreferredWidth(70);
-		scheduleTable.getColumn("Update").setPreferredWidth(10);
+		scheduleTable.getColumn("Update").setPreferredWidth(20);
+		scheduleTable.getColumn("SEQ").setPreferredWidth(1);
 		scrollJTable.setViewportView(scheduleTable);
 		mainPanel.add(scrollJTable);
 		// 출력된 스케줄의 날짜 표기 라벨
-		scheduleDateLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "/"
-				+ (CalendarSet.today.get(Calendar.MONTH) + 1) + "/" + CalendarSet.today.get(Calendar.DATE));
+		scheduleDateLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "-"
+				+ (CalendarSet.today.get(Calendar.MONTH) + 1) + "-" + CalendarSet.today.get(Calendar.DATE));
 		scheduleDateLbl.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		scheduleDateLbl.setBounds(520, 100, 85, 15);
 		mainPanel.add(scheduleDateLbl);
@@ -191,7 +192,7 @@ public class CalendarPanel extends JFrame {
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getAddPanel();
+				getAddPanel(scheduleDateLbl.getText(), curId, sDAO);
 			}
 		});
 		insertBtn.setBackground(new Color(170, 200, 255));
@@ -221,29 +222,28 @@ public class CalendarPanel extends JFrame {
 		for (int i = 0; i < CalendarSet.CAL_MAX_ROW; i++) {
 			for (int j = 0; j < CalendarSet.CAL_COLUMN; j++) {
 				cellDateBtns[i][j].removeAll(); // 초기화
-				String fontColor = "black"; // 평일 폰트색상
-				if (j == 0) // 일요일 폰트색상
-					fontColor = "red";
-				else if (j == 6) // 토요일 폰트색상
-					fontColor = "blue";
-				cellDateBtns[i][j].setText("<html><font color=" + fontColor + ">" + CalendarSet.calDates[i][j]
-						+ "</font></html>\n" + "test\n" + "test\n" + "test\n");
-
-				JLabel todayMark = new JLabel("<html><font color=red>*</html>");
+				cellDateBtns[i][j].setText(Integer.toString(CalendarSet.calDates[i][j]));
+				if (j == 0) {// 일요일 폰트색상
+					cellDateBtns[i][j].setForeground(Color.red);
+				} else if (j == 6) {// 토요일 폰트색상
+					cellDateBtns[i][j].setForeground(Color.blue);
+				} else {
+					cellDateBtns[i][j].setForeground(Color.black);
+				}
 				if (CalendarSet.calMonth == CalendarSet.today.get(Calendar.MONTH)
 						&& CalendarSet.calYear == CalendarSet.today.get(Calendar.YEAR)
 						&& CalendarSet.calDates[i][j] == CalendarSet.today.get(Calendar.DATE)) { // 오늘날짜와같다면
-					cellDateBtns[i][j].add(todayMark); // dateBtns[i][j]에 todayMark를 추가
+					cellPanel[i][j].setBorder(new LineBorder(Color.red));
 				}
 
 				if (CalendarSet.calDates[i][j] == 0) {// 날짜가 0이라면
 					cellDateBtns[i][j].setVisible(false); // 해당날짜버튼을 보이지않게
-					cellSd1Btns[i][j].setVisible(false);
-					cellSd2Btns[i][j].setVisible(false);
+					cellSd1Lbls[i][j].setVisible(false);
+					cellSd2Lbls[i][j].setVisible(false);
 				} else {
 					cellDateBtns[i][j].setVisible(true);
-					cellSd1Btns[i][j].setVisible(true);
-					cellSd2Btns[i][j].setVisible(true);
+					cellSd1Lbls[i][j].setVisible(true);
+					cellSd2Lbls[i][j].setVisible(true);
 				}
 			}
 		}
@@ -272,30 +272,56 @@ public class CalendarPanel extends JFrame {
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// TODO
-
-//			Calendar cal = new GregorianCalendar(calYear, calMonth, calDate);
-//			curMMYYYYLbl = new JLabel(((cal.calMonth + 1) < 10 ? " " : "") + (cal.calMonth + 1) + " / " + cal.calYear);
-
+			setScheduleDateLbl(e);
 		}
 	}
 
-	private void getAddPanel() {
-		ScheduleAddPanel addPanel = new ScheduleAddPanel();
+	private void getAddPanel(String selectDate, String curId, ScheduleDAOImple sDAO) {
+		ScheduleVO sVO = new ScheduleVO();
+		sVO.setId(curId);
+
+		ScheduleAddPanel addPanel = new ScheduleAddPanel(selectDate, sDAO, sVO);
 		addPanel.setVisible(true);
 	} // end getAddPanel
 
-	private void scheduleTableRefresh(DefaultTableModel tableModel) {
-//		ArrayList<ScheduleVO> list = dao.select;
-//		tableModel.setRowCount(0); // 행을 0줄로 초기화
-//		Object record[] = new Object[JtableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
-//		for (int i = 0; i < list.size(); i++) {
-//			record[0] = list.get(i).getIsDone();
-//			record[1] = list.get(i).getTime();
-//			record[2] = list.get(i).getText();
-//			record[3] = ;
-//			tableModel.addRow(record);
-//		}
+	private void setScheduleDateLbl(ActionEvent e) {
+		String year = curMMYYYYLbl.getText().substring(5);
+		String month = "";
+		if (curMMYYYYLbl.getText().charAt(0) == ' ') {
+			month = curMMYYYYLbl.getText().substring(1, 2);
+		} else {
+			month = curMMYYYYLbl.getText().substring(0, 2);
+		}
+		int row = 0, col = 0;
+		for (int i = 0; i < CalendarSet.CAL_MAX_ROW; i++) {
+			for (int j = 0; j < CalendarSet.CAL_COLUMN; j++) {
+				if (e.getSource() == cellDateBtns[i][j]) {
+					row = i;
+					col = j;
+				}
+			}
+		}
+		String date = cellDateBtns[row][col].getText();
+		scheduleDateLbl.setText(year + "-" + month + "-" + date);
+		scheduleTableRefresh(JtableModel, year, month, date);
+	}
+
+	private void scheduleTableRefresh(DefaultTableModel JtableModel, String year, String month, String date) {
+		ScheduleVO sVO = new ScheduleVO();
+		sVO.setYear(Integer.parseInt(year));
+		sVO.setMonth(Integer.parseInt(month));
+		sVO.setDate(Integer.parseInt(date));
+		ArrayList<ScheduleVO> list = sDAO.select(sVO);
+		JtableModel.setRowCount(0); // 행을 0줄로 초기화
+		Object record[] = new Object[scheduleTableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
+		for (int i = 0; i < list.size(); i++) {
+			record[0] = list.get(i).getIsDone();
+			record[1] = list.get(i).getTime();
+			record[2] = list.get(i).getText();
+			record[3] = "??";
+			record[4] = list.get(i).getSeqNo();
+			JtableModel.addRow(record);
+		}
 	} // end scheduleTableRefresh
 
 }

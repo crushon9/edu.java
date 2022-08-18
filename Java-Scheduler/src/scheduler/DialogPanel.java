@@ -21,7 +21,7 @@ class DialogPanel extends JFrame {
 		setBounds(100, 100, 280, 140);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
 		dialogPanel = new JPanel();
-		dialogPanel.setBackground(new Color(172, 172, 172));
+		dialogPanel.setBackground(new Color(200, 200, 200));
 		dialogPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		dialogPanel.setLayout(null);
 		setContentPane(dialogPanel);

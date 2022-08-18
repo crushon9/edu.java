@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 class CalendarSet {
 	static final int CAL_COLUMN = 7; // 요일 7개
 	static final int CAL_MAX_ROW = 6; // 월의 최대행갯수
-	static int calDates[][] = new int[CAL_MAX_ROW][CAL_COLUMN];
+	static int[][] calDates = new int[CAL_MAX_ROW][CAL_COLUMN];
 	static int calYear;
 	static int calMonth;
 	static int calDate; // 현재월의날짜

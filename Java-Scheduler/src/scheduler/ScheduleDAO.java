@@ -1,20 +1,21 @@
 package scheduler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 interface ScheduleDAO {
 
 	// 스케줄 등록
-	public abstract int insert(ScheduleDAO vo);
+	public abstract int insert(ScheduleVO vo);
 
-	// 스케줄 전체검색
-	public abstract ArrayList<ScheduleVO> select();
+	// 스케줄 날짜검색
+	public abstract ArrayList<ScheduleVO> select(ScheduleVO vo);
 
 	// 스케줄 상세검색
-	public abstract ScheduleDAO select(String text);
+	public abstract ScheduleVO select(String text);
 
 	// 스케줄 수정
-	public abstract int update(ScheduleDAO vo);
+	public abstract int update(ScheduleVO vo);
 
 	// 스케줄 삭제
 	public abstract int delete(int seqNo);
