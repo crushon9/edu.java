@@ -21,50 +21,50 @@ public class MemberJoinPanel extends JFrame {
 
 	private JButton btnJoin, btnIdck, btnPwck;
 	private JTextField textId, textPw, textPw2;
-	private JPanel memberJoinPane;
+	private JPanel memberJoinPanel;
 	private int resultId, resultPw;
 
 	public MemberJoinPanel(MemberDAOImple memberDao) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
-		memberJoinPane = new JPanel();
-		memberJoinPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		memberJoinPane.setLayout(null);
-		setContentPane(memberJoinPane);
+		memberJoinPanel = new JPanel();
+		memberJoinPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		memberJoinPanel.setLayout(null);
+		setContentPane(memberJoinPanel);
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblId.setBounds(60, 90, 100, 20);
-		memberJoinPane.add(lblId);
+		memberJoinPanel.add(lblId);
 
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblPw.setBounds(60, 130, 100, 20);
-		memberJoinPane.add(lblPw);
+		memberJoinPanel.add(lblPw);
 
 		JLabel lblPw2 = new JLabel("Confirm PW");
 		lblPw2.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPw2.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblPw2.setBounds(60, 170, 100, 20);
-		memberJoinPane.add(lblPw2);
+		memberJoinPanel.add(lblPw2);
 
 		textId = new JTextField();
 		textId.setBounds(180, 90, 110, 20);
-		memberJoinPane.add(textId);
+		memberJoinPanel.add(textId);
 		textId.setColumns(10);
 
 		textPw = new JTextField();
 		textPw.setColumns(10);
 		textPw.setBounds(180, 130, 110, 20);
-		memberJoinPane.add(textPw);
+		memberJoinPanel.add(textPw);
 
 		textPw2 = new JTextField();
 		textPw2.setColumns(10);
 		textPw2.setBounds(180, 170, 110, 20);
-		memberJoinPane.add(textPw2);
+		memberJoinPanel.add(textPw2);
 
 		btnJoin = new JButton("Join");
 		btnJoin.setEnabled(false);
@@ -76,7 +76,7 @@ public class MemberJoinPanel extends JFrame {
 		btnJoin.setBounds(190, 230, 80, 30);
 		btnJoin.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		btnJoin.setBackground(new Color(172, 172, 172));
-		memberJoinPane.add(btnJoin);
+		memberJoinPanel.add(btnJoin);
 
 		btnIdck = new JButton("Check");
 		btnIdck.addActionListener(new ActionListener() {
@@ -90,7 +90,7 @@ public class MemberJoinPanel extends JFrame {
 		btnIdck.setBounds(300, 90, 70, 20);
 		btnIdck.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		btnIdck.setBackground(new Color(204, 204, 255));
-		memberJoinPane.add(btnIdck);
+		memberJoinPanel.add(btnIdck);
 
 		btnPwck = new JButton("Check");
 		btnPwck.addActionListener(new ActionListener() {
@@ -104,7 +104,7 @@ public class MemberJoinPanel extends JFrame {
 		btnPwck.setBounds(300, 170, 70, 20);
 		btnPwck.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		btnPwck.setBackground(new Color(204, 204, 255));
-		memberJoinPane.add(btnPwck);
+		memberJoinPanel.add(btnPwck);
 	} // MemberJoinFrame 생성자
 
 	private int idCheck(MemberDAOImple memberDao) {

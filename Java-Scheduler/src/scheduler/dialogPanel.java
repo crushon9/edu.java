@@ -14,24 +14,24 @@ import javax.swing.border.EmptyBorder;
 
 class dialogPanel extends JFrame {
 
-	private JPanel dialogPane;
+	private JPanel dialogPanel;
 
 	public dialogPanel(String txt) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 280, 140);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
-		dialogPane = new JPanel();
-		dialogPane.setBackground(new Color(172, 172, 172));
-		dialogPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		dialogPane.setLayout(null);
-		setContentPane(dialogPane);
+		dialogPanel = new JPanel();
+		dialogPanel.setBackground(new Color(172, 172, 172));
+		dialogPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		dialogPanel.setLayout(null);
+		setContentPane(dialogPanel);
 
 		JLabel lblId = new JLabel(txt);
 		lblId.setBounds(32, 25, 200, 20);
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblId.setForeground(new Color(0, 0, 0));
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		dialogPane.add(lblId);
+		dialogPanel.add(lblId);
 
 		JButton btn = new JButton("OK");
 		btn.setBounds(97, 65, 70, 20);
@@ -43,7 +43,7 @@ class dialogPanel extends JFrame {
 				dispose();
 			}
 		});
-		dialogPane.add(btn);
+		dialogPanel.add(btn);
 
 	}
 }

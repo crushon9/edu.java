@@ -9,7 +9,7 @@ class ScheduleVO {
 	Date date;
 	int time;
 	String text;
-	int colorIndex;
+	int colorIdx;
 	int isDone;
 
 	public ScheduleVO() {
@@ -21,7 +21,7 @@ class ScheduleVO {
 		this.date = date;
 		this.time = time;
 		this.text = text;
-		this.colorIndex = colorIndex;
+		this.colorIdx = colorIndex;
 		this.isDone = isDone;
 	}
 
@@ -66,11 +66,11 @@ class ScheduleVO {
 	}
 
 	public int getColorIndex() {
-		return colorIndex;
+		return colorIdx;
 	}
 
 	public void setColorIndex(int colorIndex) {
-		this.colorIndex = colorIndex;
+		this.colorIdx = colorIndex;
 	}
 
 	public int getIsDone() {
@@ -84,7 +84,7 @@ class ScheduleVO {
 	@Override
 	public String toString() {
 		return "ScheduleVO [seqNo=" + seqNo + ", user=" + ID + ", date=" + date + ", time=" + time + ", text=" + text
-				+ ", colorIndex=" + colorIndex + ", isDone=" + isDone + "]";
+				+ ", colorIndex=" + colorIdx + ", isDone=" + isDone + "]";
 	}
 
 }

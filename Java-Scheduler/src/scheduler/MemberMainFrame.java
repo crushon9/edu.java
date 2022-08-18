@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 public class MemberMainFrame extends JFrame {
 
 	JFrame frame;
-	JPanel memberPane;
+	JPanel memberPanel;
 	private JTextField textId, textPw;
 	private JButton btnLogin, btnJoin, btnUpdate;
 	JTextArea textAreaLog;
@@ -60,30 +60,30 @@ public class MemberMainFrame extends JFrame {
 		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
 		frame.setResizable(false); // 창크기 고정
 
-		memberPane = new JPanel();
-		memberPane.setBackground(SystemColor.control);
-		memberPane.setLayout(null);
-		frame.getContentPane().add(memberPane);
+		memberPanel = new JPanel();
+		memberPanel.setBackground(SystemColor.control);
+		memberPanel.setLayout(null);
+		frame.getContentPane().add(memberPanel);
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblId.setBounds(290, 180, 30, 20);
-		memberPane.add(lblId);
+		memberPanel.add(lblId);
 
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblPw.setBounds(290, 210, 30, 20);
-		memberPane.add(lblPw);
+		memberPanel.add(lblPw);
 
 		textId = new JTextField();
 		textId.setColumns(10);
 		textId.setBounds(330, 180, 130, 20);
-		memberPane.add(textId);
+		memberPanel.add(textId);
 
 		textPw = new JTextField();
 		textPw.setColumns(10);
 		textPw.setBounds(330, 210, 130, 20);
-		memberPane.add(textPw);
+		memberPanel.add(textPw);
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -94,7 +94,7 @@ public class MemberMainFrame extends JFrame {
 		btnLogin.setBackground(new Color(204, 204, 255));
 		btnLogin.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		btnLogin.setBounds(480, 180, 80, 50);
-		memberPane.add(btnLogin);
+		memberPanel.add(btnLogin);
 
 		btnJoin = new JButton("Join");
 		btnJoin.addActionListener(new ActionListener() {
@@ -105,7 +105,7 @@ public class MemberMainFrame extends JFrame {
 		btnJoin.setBackground(new Color(172, 172, 172));
 		btnJoin.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		btnJoin.setBounds(330, 260, 80, 30);
-		memberPane.add(btnJoin);
+		memberPanel.add(btnJoin);
 
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
@@ -116,14 +116,14 @@ public class MemberMainFrame extends JFrame {
 		btnUpdate.setBackground(new Color(172, 172, 172));
 		btnUpdate.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		btnUpdate.setBounds(430, 260, 80, 30);
-		memberPane.add(btnUpdate);
+		memberPanel.add(btnUpdate);
 
 		textAreaLog = new JTextArea();
 		textAreaLog.setForeground(new Color(0, 0, 204));
 		textAreaLog.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		textAreaLog.setBackground(SystemColor.control);
 		textAreaLog.setBounds(12, 10, 368, 24);
-		memberPane.add(textAreaLog);
+		memberPanel.add(textAreaLog);
 		memberDao = MemberDAOImple.getInstance(textAreaLog);
 
 	}
