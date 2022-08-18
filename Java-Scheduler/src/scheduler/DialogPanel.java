@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-class dialogPanel extends JFrame {
+class DialogPanel extends JFrame {
 
 	private JPanel dialogPanel;
 
-	public dialogPanel(String txt) {
+	public DialogPanel(String txt) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 280, 140);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기

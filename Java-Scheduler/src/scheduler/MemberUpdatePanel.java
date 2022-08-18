@@ -108,12 +108,12 @@ public class MemberUpdatePanel extends JFrame {
 	private int pwCheck() {
 		int resultPw = 0;
 		if (textPw.getText().equals(textPw2.getText()) && !textPw2.getText().equals("")) {
-			dialogPanel dialogPane = new dialogPanel("비밀번호 일치");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("비밀번호 일치");
+			dialogPanel.setVisible(true);
 			resultPw = 1;
 		} else {
-			dialogPanel dialogPane = new dialogPanel("비밀번호가 일치하지 않습니다!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("비밀번호가 일치하지 않습니다!");
+			dialogPanel.setVisible(true);
 		}
 		return resultPw;
 	} // end pwCheck
@@ -122,24 +122,24 @@ public class MemberUpdatePanel extends JFrame {
 		MemberVO vo = new MemberVO(id, textPw2.getText());
 		int result = memberDao.update(vo);
 		if (result == 1) {
-			dialogPanel dialogPane = new dialogPanel("비밀번호 수정 성공!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("비밀번호 수정 성공!");
+			dialogPanel.setVisible(true);
 			dispose();
 		} else {
-			dialogPanel dialogPane = new dialogPanel("수정 실패!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("수정 실패!");
+			dialogPanel.setVisible(true);
 		}
 	} // end memberUpdate
 
 	private void memberDelete(String id, MemberDAOImple memberDao) {
 		int result = memberDao.delete(id);
 		if (result == 1) {
-			dialogPanel dialogPane = new dialogPanel("삭제 성공!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("삭제 성공!");
+			dialogPanel.setVisible(true);
 			dispose();
 		} else {
-			dialogPanel dialogPane = new dialogPanel("삭제 실패!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("삭제 실패!");
+			dialogPanel.setVisible(true);
 		}
 	} // end memberDelete
 

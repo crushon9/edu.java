@@ -111,8 +111,8 @@ public class MemberJoinPanel extends JFrame {
 		int resultId = 0;
 		String inputId = textId.getText();
 		if (inputId.equals("")) {
-			dialogPanel dialogPane = new dialogPanel("아이디를 입력해주세요!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("아이디를 입력해주세요!");
+			dialogPanel.setVisible(true);
 			return resultId;
 		}
 		ArrayList<MemberVO> list;
@@ -126,12 +126,12 @@ public class MemberJoinPanel extends JFrame {
 				}
 			}
 			if (IdExistFlag == 1) {
-				dialogPanel dialogPane = new dialogPanel("이미 가입된 아이디입니다!");
-				dialogPane.setVisible(true);
+				DialogPanel dialogPanel = new DialogPanel("이미 가입된 아이디입니다!");
+				dialogPanel.setVisible(true);
 				textId.setText("");
 			} else {
-				dialogPanel dialogPane = new dialogPanel("가입 가능한 아이디입니다");
-				dialogPane.setVisible(true);
+				DialogPanel dialogPanel = new DialogPanel("가입 가능한 아이디입니다");
+				dialogPanel.setVisible(true);
 				resultId = 1;
 			}
 		} catch (Exception e) {
@@ -143,12 +143,12 @@ public class MemberJoinPanel extends JFrame {
 	private int pwCheck() {
 		int resultPw = 0;
 		if (textPw.getText().equals(textPw2.getText()) && !textPw2.getText().equals("")) {
-			dialogPanel dialogPane = new dialogPanel("비밀번호 일치");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("비밀번호 일치");
+			dialogPanel.setVisible(true);
 			resultPw = 1;
 		} else {
-			dialogPanel dialogPane = new dialogPanel("비밀번호가 일치하지 않습니다!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("비밀번호가 일치하지 않습니다!");
+			dialogPanel.setVisible(true);
 		}
 		return resultPw;
 	} // end pwCheck
@@ -159,12 +159,12 @@ public class MemberJoinPanel extends JFrame {
 		MemberVO vo = new MemberVO(inputId, inputPw);
 		int result = memberDao.insert(vo);
 		if (result == 1) {
-			dialogPanel dialogPane = new dialogPanel("가입 성공!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("가입 성공!");
+			dialogPanel.setVisible(true);
 			dispose();
 		} else {
-			dialogPanel dialogPane = new dialogPanel("가입 실패");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("가입 실패");
+			dialogPanel.setVisible(true);
 		}
 	} // end memberJoin
 }

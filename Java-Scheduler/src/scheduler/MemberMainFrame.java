@@ -99,7 +99,7 @@ public class MemberMainFrame extends JFrame {
 		btnJoin = new JButton("Join");
 		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getJoinPane();
+				getjoinPanel();
 			}
 		});
 		btnJoin.setBackground(new Color(172, 172, 172));
@@ -110,7 +110,7 @@ public class MemberMainFrame extends JFrame {
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getUpdatePane();
+				getUpdatePanel();
 			}
 		});
 		btnUpdate.setBackground(new Color(172, 172, 172));
@@ -130,8 +130,8 @@ public class MemberMainFrame extends JFrame {
 
 	private void login() {
 		if (textId.getText().equals("") || textPw.getText().equals("")) {
-			dialogPanel dialogPane = new dialogPanel("로그인 정보를 입력하세요!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("로그인 정보를 입력하세요!");
+			dialogPanel.setVisible(true);
 			return;
 		}
 		String inputId = textId.getText();
@@ -147,30 +147,30 @@ public class MemberMainFrame extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				CalendarPanel calendarPane = new CalendarPanel(inputId);
-				calendarPane.setVisible(true);
+				CalendarPanel calendarPanel = new CalendarPanel(inputId);
+				calendarPanel.setVisible(true);
 				frame.setVisible(false);
 
 			} else {
-				dialogPanel dialogPane = new dialogPanel("비밀번호를 확인하세요!");
-				dialogPane.setVisible(true);
+				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요!");
+				dialogPanel.setVisible(true);
 			}
 		} else {
-			dialogPanel dialogPane = new dialogPanel("존재하지 않는 아이디입니다!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
+			dialogPanel.setVisible(true);
 		}
 
 	} // end login
 
-	private void getJoinPane() {
-		MemberJoinPanel joinPane = new MemberJoinPanel(memberDao);
-		joinPane.setVisible(true);
+	private void getjoinPanel() {
+		MemberJoinPanel joinPanel = new MemberJoinPanel(memberDao);
+		joinPanel.setVisible(true);
 	} // end getJoinFrame
 
-	private void getUpdatePane() {
+	private void getUpdatePanel() {
 		if (textId.getText().equals("") || textPw.getText().equals("")) {
-			dialogPanel dialogPane = new dialogPanel("로그인 정보를 입력하세요!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("로그인 정보를 입력하세요!");
+			dialogPanel.setVisible(true);
 			return;
 		}
 		String inputId = textId.getText();
@@ -186,15 +186,15 @@ public class MemberMainFrame extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				MemberUpdatePanel updatePane = new MemberUpdatePanel(inputId, memberDao);
-				updatePane.setVisible(true);
+				MemberUpdatePanel updatePanel = new MemberUpdatePanel(inputId, memberDao);
+				updatePanel.setVisible(true);
 			} else {
-				dialogPanel dialogPane = new dialogPanel("비밀번호를 확인하세요1");
-				dialogPane.setVisible(true);
+				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요1");
+				dialogPanel.setVisible(true);
 			}
 		} else {
-			dialogPanel dialogPane = new dialogPanel("존재하지 않는 아이디입니다!");
-			dialogPane.setVisible(true);
+			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
+			dialogPanel.setVisible(true);
 		}
 	} // end getUpdateFrame
 }

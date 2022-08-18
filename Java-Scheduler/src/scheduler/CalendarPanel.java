@@ -191,7 +191,7 @@ public class CalendarPanel extends JFrame {
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
+				getAddPanel();
 			}
 		});
 		insertBtn.setBackground(new Color(170, 200, 255));
@@ -249,19 +249,6 @@ public class CalendarPanel extends JFrame {
 		}
 	}
 
-	private void JTableRefresh(DefaultTableModel tableModel) {
-//		ArrayList<ScheduleVO> list = dao.select;
-//		tableModel.setRowCount(0); // 행을 0줄로 초기화
-//		Object record[] = new Object[JtableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
-//		for (int i = 0; i < list.size(); i++) {
-//			record[0] = list.get(i).getIsDone();
-//			record[1] = list.get(i).getTime();
-//			record[2] = list.get(i).getText();
-//			record[3] = ;
-//			tableModel.addRow(record);
-//		}
-	} // end JTableRefresh
-
 	private class ListenerMoveDate implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == todayBtn) { // today버큰을 누르면
@@ -292,4 +279,23 @@ public class CalendarPanel extends JFrame {
 
 		}
 	}
+
+	private void getAddPanel() {
+		ScheduleAddPanel addPanel = new ScheduleAddPanel();
+		addPanel.setVisible(true);
+	} // end getAddPanel
+
+	private void scheduleTableRefresh(DefaultTableModel tableModel) {
+//		ArrayList<ScheduleVO> list = dao.select;
+//		tableModel.setRowCount(0); // 행을 0줄로 초기화
+//		Object record[] = new Object[JtableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
+//		for (int i = 0; i < list.size(); i++) {
+//			record[0] = list.get(i).getIsDone();
+//			record[1] = list.get(i).getTime();
+//			record[2] = list.get(i).getText();
+//			record[3] = ;
+//			tableModel.addRow(record);
+//		}
+	} // end scheduleTableRefresh
+
 }
