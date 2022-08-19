@@ -47,7 +47,6 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 	public int insert(ScheduleVO vo) {
 		int result = 0;
 		try {
-			System.out.println(vo);
 			pstmt = conn.prepareStatement(SQL_INSERT); // 쿼리문장준비
 			pstmt.setString(1, vo.getId());
 			pstmt.setInt(2, vo.getYear());
@@ -82,7 +81,7 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 				int time = rs.getInt(6);
 				String text = rs.getString(7);
 				int colorIdx = rs.getInt(8);
-				int isDone = rs.getInt(9);
+				String isDone = rs.getString(9);
 				ScheduleVO vo = new ScheduleVO(seqNo, id, year, month, date, time, text, colorIdx, isDone);
 				list.add(vo);
 			}
@@ -109,7 +108,7 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 				int time = rs.getInt(6);
 				String text = rs.getString(7);
 				int colorIdx = rs.getInt(8);
-				int isDone = rs.getInt(9);
+				String isDone = rs.getString(9);
 				ScheduleVO vo = new ScheduleVO(seqNo, id, year, month, date, time, text, colorIdx, isDone);
 				list.add(vo);
 			}
@@ -121,14 +120,31 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 
 	@Override
 	public int update(ScheduleVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(SQL_UPDATE);
+			pstmt.setInt(1, vo.getTime());
+			pstmt.setString(2, vo.getText());
+			pstmt.setInt(3, vo.getColorIdx());
+			pstmt.setInt(4, vo.getSeqNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result; // 1:성공, 0:실패
 	}
 
 	@Override
 	public int delete(int seqNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(SQL_DELETE);
+			pstmt.setInt(1, seqNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result; // 1:성공, 0:실패
 	}
 
 }

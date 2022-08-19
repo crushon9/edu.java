@@ -32,7 +32,7 @@ class ScheduleAddPanel extends JFrame {
 	private int whatTglbtnColor;
 	private ButtonGroup tglGroup = new ButtonGroup();
 
-	public ScheduleAddPanel(String selectDate, ScheduleDAOImple sDAO, ScheduleVO sVOa) {
+	public ScheduleAddPanel(ScheduleDAOImple sDAO, ScheduleVO sVOa) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 400);
 		setLocationRelativeTo(null);
@@ -58,7 +58,7 @@ class ScheduleAddPanel extends JFrame {
 		lblColor.setBounds(60, 200, 60, 20);
 		scheduleAddPanel.add(lblColor);
 		// 클릭한날짜출력
-		lblDatePrint = new JLabel(selectDate);
+		lblDatePrint = new JLabel(sVOa.getYear() + "-" + sVOa.getMonth() + "-" + sVOa.getDate());
 		lblDatePrint.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblDatePrint.setForeground(new Color(255, 0, 51));
 		lblDatePrint.setBounds(130, 50, 130, 20);
@@ -179,29 +179,15 @@ class ScheduleAddPanel extends JFrame {
 		btnOKAdd.setEnabled(false);
 		btnOKAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int year = Integer.parseInt(selectDate.substring(0, 4));
-				int month = 0;
-				int date = 0;
-				if (selectDate.charAt(6) == '-') {
-					month = Integer.parseInt(selectDate.substring(5, 6));
-					date = Integer.parseInt(selectDate.substring(7));
-				} else {
-					month = Integer.parseInt(selectDate.substring(5, 7));
-					date = Integer.parseInt(selectDate.substring(8));
-				}
-				sVOa.setYear(year);
-				sVOa.setMonth(month);
-				sVOa.setDate(date);
 				sVOa.setTime(comboTime.getSelectedIndex());
 				sVOa.setText(textTxt.getText());
 				sVOa.setColorIdx(whatTglbtnColor);
-
 				int result = sDAO.insert(sVOa);
 				if (result == 1) {
 					DialogPanel dialogPanel = new DialogPanel("등록 성공!");
 					dialogPanel.setVisible(true);
 					dispose();
-					CalendarPanel.searchByDate(year, month, date);
+					CalendarPanel.searchByDate(sVOa.getYear(), sVOa.getMonth(), sVOa.getDate());
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("등록 실패");
 					dialogPanel.setVisible(true);

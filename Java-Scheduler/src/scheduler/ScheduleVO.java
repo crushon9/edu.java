@@ -10,13 +10,13 @@ class ScheduleVO {
 	int time;
 	String text;
 	int colorIdx;
-	int isDone; // 0이면 미완료, -1이면 완료
+	String isDone; // 0이면 미완료, -1이면 완료
 
 	public ScheduleVO() {
 	}
 
 	public ScheduleVO(int seqNo, String id, int year, int month, int date, int time, String text, int colorIdx,
-			int isDone) {
+			String isDone) {
 		super();
 		this.seqNo = seqNo;
 		this.id = id;
@@ -93,11 +93,11 @@ class ScheduleVO {
 		this.colorIdx = colorIdx;
 	}
 
-	public int getIsDone() {
+	public String getIsDone() {
 		return isDone;
 	}
 
-	public void setIsDone(int isDone) {
+	public void setIsDone(String isDone) {
 		this.isDone = isDone;
 	}
 
