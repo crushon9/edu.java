@@ -204,7 +204,7 @@ public class CalendarPanel extends JFrame {
 		mainPanel.add(insertBtn);
 		// 스케줄 검색 입력창
 		searchText = new JTextField();
-		searchText.setBounds(632, 93, 116, 21);
+		searchText.setBounds(632, 93, 116, 23);
 		searchText.setColumns(10);
 		mainPanel.add(searchText);
 		// 스케줄 검색 버튼
@@ -291,19 +291,14 @@ public class CalendarPanel extends JFrame {
 	} // end getAddPanel
 
 	private void selectByString(String curId, String Text) {
-		ScheduleVO sVO = new ScheduleVO();
-		sVO = sDAO.select(curId, Text);
-		if (sVO.getSeqNo() != 0) {
+		ArrayList<ScheduleVO> list = sDAO.select(curId, Text);
+		if (list.isEmpty() != true) {
 			scheduleDateLbl.setText(Text);
-			ArrayList<ScheduleVO> list = new ArrayList<>();
-			list.add(sVO);
 			JTableRefresh(JtableModel, list);
 		} else {
 			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 일정입니다");
 			dialogPanel.setVisible(true);
-			dispose();
 		}
-
 	}
 
 	private void selectByDate(ActionEvent e) {

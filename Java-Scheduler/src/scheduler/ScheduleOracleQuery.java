@@ -22,7 +22,7 @@ interface ScheduleOracleQuery {
 			+ SCHEDULE_YEAR + " = ? AND " + SCHEDULE_MONTH + " = ? AND " + SCHEDULE_DATE + " = ?" + " ORDER BY "
 			+ SCHEDULE_TIME;
 	static final String SQL_SELECT_BY_STRING = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID + " = ? AND "
-			+ SCHEDULE_TEXT + " LIKE '%" + "?" + "%'";
+			+ SCHEDULE_TEXT + " LIKE ?";
 	static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET " + SCHEDULE_YEAR + " = ? , " + SCHEDULE_MONTH
 			+ " = ? , " + SCHEDULE_DATE + " = ? , " + SCHEDULE_TIME + " = ? , " + SCHEDULE_TEXT + " = ? , "
 			+ SCHEDULE_COLOR + " = ? WHERE SCHEDULE_SEQ = ?";
