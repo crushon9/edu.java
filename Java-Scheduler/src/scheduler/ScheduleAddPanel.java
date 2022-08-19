@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -28,6 +30,7 @@ class ScheduleAddPanel extends JFrame {
 			"PM 10", "PM 11" };
 	private JToggleButton tglbtnColor0, tglbtnColor1, tglbtnColor2, tglbtnColor3, tglbtnColor4;
 	private int whatTglbtnColor;
+	private ButtonGroup tglGroup = new ButtonGroup();
 
 	public ScheduleAddPanel(String selectDate, ScheduleDAOImple sDAO, ScheduleVO sVO) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -67,10 +70,16 @@ class ScheduleAddPanel extends JFrame {
 		// 일정내용 입력
 		textTxt = new JTextField();
 		textTxt.setBounds(130, 150, 130, 20);
-		scheduleAddPanel.add(textTxt);
 		textTxt.setColumns(10);
+		textTxt.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (tglGroup.getSelection() != null)
+					btnOKAdd.setEnabled(true);
+			}
+		});
+		scheduleAddPanel.add(textTxt);
 		// 일정 색상선택 버튼
-		ButtonGroup tglGroup = new ButtonGroup();
+
 		tglbtnColor0 = new JToggleButton("");
 		tglbtnColor0.setBounds(130, 200, 20, 20);
 		tglbtnColor0.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -83,6 +92,8 @@ class ScheduleAddPanel extends JFrame {
 				tglbtnColor3.setText("");
 				tglbtnColor4.setText("");
 				whatTglbtnColor = 0;
+				if (!textTxt.getText().equals(""))
+					btnOKAdd.setEnabled(true);
 			}
 		});
 		scheduleAddPanel.add(tglbtnColor0);
@@ -98,6 +109,8 @@ class ScheduleAddPanel extends JFrame {
 				tglbtnColor3.setText("");
 				tglbtnColor4.setText("");
 				whatTglbtnColor = 1;
+				if (!textTxt.getText().equals(""))
+					btnOKAdd.setEnabled(true);
 			}
 		});
 		scheduleAddPanel.add(tglbtnColor1);
@@ -113,6 +126,8 @@ class ScheduleAddPanel extends JFrame {
 				tglbtnColor3.setText("");
 				tglbtnColor4.setText("");
 				whatTglbtnColor = 2;
+				if (!textTxt.getText().equals(""))
+					btnOKAdd.setEnabled(true);
 			}
 		});
 		scheduleAddPanel.add(tglbtnColor2);
@@ -128,6 +143,8 @@ class ScheduleAddPanel extends JFrame {
 				tglbtnColor2.setText("");
 				tglbtnColor4.setText("");
 				whatTglbtnColor = 3;
+				if (!textTxt.getText().equals(""))
+					btnOKAdd.setEnabled(true);
 			}
 		});
 		scheduleAddPanel.add(tglbtnColor3);
@@ -143,6 +160,8 @@ class ScheduleAddPanel extends JFrame {
 				tglbtnColor2.setText("");
 				tglbtnColor3.setText("");
 				whatTglbtnColor = 4;
+				if (!textTxt.getText().equals(""))
+					btnOKAdd.setEnabled(true);
 			}
 		});
 		scheduleAddPanel.add(tglbtnColor4);
@@ -157,6 +176,7 @@ class ScheduleAddPanel extends JFrame {
 		btnOKAdd.setBounds(150, 270, 80, 30);
 		btnOKAdd.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		btnOKAdd.setBackground(new Color(204, 204, 255));
+		btnOKAdd.setEnabled(false);
 		btnOKAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectDate.charAt(6) == '-') {
