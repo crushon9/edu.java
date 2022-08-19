@@ -43,16 +43,16 @@ public class CalendarPanel extends JFrame {
 	JButton cellSd2Btns[][] = new JButton[6][7];; // cell의 일정2 버튼
 	ListenerDateBtns listenDateBtn = new ListenerDateBtns(); // 날짜 버튼 이벤트 객체
 
-	JLabel scheduleDateLbl; // 출력된 스케줄의 날짜 표기 라벨
-	JTable scheduleTable; // 스케줄 J테이블
-	DefaultTableModel JtableModel;
-	String[] scheduleTableHead = { "Done", "Time", "Text", "Update", "SEQ" };
+	static JLabel scheduleDateLbl; // 출력된 스케줄의 날짜 표기 라벨
+	static JTable scheduleTable; // 스케줄 J테이블
+	static DefaultTableModel JtableModel;
+	static String[] scheduleTableHead = { "Done", "Time", "Text", "Update", "SEQ" };
 
 	private JButton insertBtn, searchBtn; // 스케줄 입력 및 검색 버튼
 	private JTextField searchText; // 스케줄 검색 문자열
-	String curId;
+	static String curId;
 
-	ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
+	static ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
 	public CalendarPanel(String curId) {
 		this.curId = curId;
@@ -184,6 +184,7 @@ public class CalendarPanel extends JFrame {
 		scheduleTable.getColumn("Update").setPreferredWidth(20);
 		scheduleTable.getColumn("SEQ").setPreferredWidth(1);
 		scrollJTable.setViewportView(scheduleTable);
+		
 		mainPanel.add(scrollJTable);
 		// 출력된 스케줄의 날짜 표기 라벨
 		scheduleDateLbl = new JLabel(CalendarSet.today.get(Calendar.YEAR) + "-"
@@ -191,6 +192,11 @@ public class CalendarPanel extends JFrame {
 		scheduleDateLbl.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		scheduleDateLbl.setBounds(520, 100, 85, 15);
 		mainPanel.add(scheduleDateLbl);
+		String year = curLblToYear();
+		String month = curLblToMonth();
+		String date = selectBtnToDate(e);
+		searchByDate(year, month, date);
+		
 		// 스케줄 등록 버튼
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
@@ -278,37 +284,38 @@ public class CalendarPanel extends JFrame {
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			selectByDate(e);
+			String year = curLblToYear();
+			String month = curLblToMonth();
+			String date = selectBtnToDate(e);
+			searchByDate(year, month, date);
 		}
 	}
 
 	private void getAddPanel(String selectDate, ScheduleDAOImple sDAO) {
-		ScheduleVO sVO = new ScheduleVO();
-		sVO.setId(curId);
+		ScheduleVO sVOa = new ScheduleVO();
+		sVOa.setId(curId);
 
-		ScheduleAddPanel addPanel = new ScheduleAddPanel(selectDate, sDAO, sVO);
+		ScheduleAddPanel addPanel = new ScheduleAddPanel(selectDate, sDAO, sVOa);
 		addPanel.setVisible(true);
+
 	} // end getAddPanel
 
-	private void selectByString(String curId, String Text) {
-		ArrayList<ScheduleVO> list = sDAO.select(curId, Text);
-		if (list.isEmpty() != true) {
-			scheduleDateLbl.setText(Text);
-			JTableRefresh(JtableModel, list);
-		} else {
-			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 일정입니다");
-			dialogPanel.setVisible(true);
-		}
+	public String curLblToYear() {
+		String year = curMMYYYYLbl.getText().substring(5);
+		return year;
 	}
 
-	private void selectByDate(ActionEvent e) {
-		String year = curMMYYYYLbl.getText().substring(5);
+	public String curLblToMonth() {
 		String month = "";
 		if (curMMYYYYLbl.getText().charAt(0) == ' ') {
 			month = curMMYYYYLbl.getText().substring(1, 2);
 		} else {
 			month = curMMYYYYLbl.getText().substring(0, 2);
 		}
+		return month;
+	}
+
+	public String selectBtnToDate(ActionEvent e) {
 		int row = 0, col = 0;
 		for (int i = 0; i < CalendarSet.CAL_MAX_ROW; i++) {
 			for (int j = 0; j < CalendarSet.CAL_COLUMN; j++) {
@@ -319,6 +326,10 @@ public class CalendarPanel extends JFrame {
 			}
 		}
 		String date = cellDateBtns[row][col].getText();
+		return date;
+	}
+
+	public static void searchByDate(String year, String month, String date) {
 		scheduleDateLbl.setText(year + "-" + month + "-" + date);
 		ScheduleVO sVOd = new ScheduleVO();
 		sVOd.setId(curId);
@@ -329,7 +340,18 @@ public class CalendarPanel extends JFrame {
 		JTableRefresh(JtableModel, list);
 	}
 
-	private void JTableRefresh(DefaultTableModel JtableModel, ArrayList<ScheduleVO> list) {
+	public void selectByString(String curId, String Text) {
+		ArrayList<ScheduleVO> list = sDAO.select(curId, Text);
+		if (list.isEmpty() != true) {
+			scheduleDateLbl.setText(Text);
+			JTableRefresh(JtableModel, list);
+		} else {
+			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 일정입니다");
+			dialogPanel.setVisible(true);
+		}
+	}
+
+	public static void JTableRefresh(DefaultTableModel JtableModel, ArrayList<ScheduleVO> list) {
 		JtableModel.setRowCount(0); // 행을 0줄로 초기화
 		Object record[] = new Object[scheduleTableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
 		for (int i = 0; i < list.size(); i++) {

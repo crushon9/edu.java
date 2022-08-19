@@ -32,7 +32,7 @@ class ScheduleAddPanel extends JFrame {
 	private int whatTglbtnColor;
 	private ButtonGroup tglGroup = new ButtonGroup();
 
-	public ScheduleAddPanel(String selectDate, ScheduleDAOImple sDAO, ScheduleVO sVO) {
+	public ScheduleAddPanel(String selectDate, ScheduleDAOImple sDAO, ScheduleVO sVOa) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 400);
 		setLocationRelativeTo(null);
@@ -179,24 +179,29 @@ class ScheduleAddPanel extends JFrame {
 		btnOKAdd.setEnabled(false);
 		btnOKAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String year = selectDate.substring(0, 4);
+				String month = "";
+				String date = "";
 				if (selectDate.charAt(6) == '-') {
-					sVO.setYear(Integer.parseInt(selectDate.substring(0, 4)));
-					sVO.setMonth(Integer.parseInt(selectDate.substring(5, 6)));
-					sVO.setDate(Integer.parseInt(selectDate.substring(7)));
+					month = selectDate.substring(5, 6);
+					date = selectDate.substring(7);
 				} else {
-					sVO.setYear(Integer.parseInt(selectDate.substring(0, 4)));
-					sVO.setMonth(Integer.parseInt(selectDate.substring(5, 7)));
-					sVO.setDate(Integer.parseInt(selectDate.substring(8)));
+					month = selectDate.substring(5, 7);
+					date = selectDate.substring(8);
 				}
-				sVO.setTime(comboTime.getSelectedIndex());
-				sVO.setText(textTxt.getText());
-				sVO.setColorIdx(whatTglbtnColor);
+				sVOa.setYear(Integer.parseInt(year));
+				sVOa.setMonth(Integer.parseInt(month));
+				sVOa.setDate(Integer.parseInt(date));
+				sVOa.setTime(comboTime.getSelectedIndex());
+				sVOa.setText(textTxt.getText());
+				sVOa.setColorIdx(whatTglbtnColor);
 
-				int result = sDAO.insert(sVO);
+				int result = sDAO.insert(sVOa);
 				if (result == 1) {
 					DialogPanel dialogPanel = new DialogPanel("등록 성공!");
 					dialogPanel.setVisible(true);
 					dispose();
+					CalendarPanel.searchByDate(year, month, date);
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("등록 실패");
 					dialogPanel.setVisible(true);
