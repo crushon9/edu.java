@@ -3,6 +3,7 @@ package scheduler;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class CalendarPanel extends JFrame {
 	final String WEEK_HEAD[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	JPanel cellPanel[][] = new JPanel[6][7]; // 하루 단위 cell
 	JButton cellDateBtns[][] = new JButton[6][7]; // cell의 날짜표기 버튼
-	JLabel cellSd1Lbls[][] = new JLabel[6][7]; // cell의 일정1 버튼
-	JLabel cellSd2Lbls[][] = new JLabel[6][7];; // cell의 일정2 버튼
+	JButton cellSd1Btns[][] = new JButton[6][7]; // cell의 일정1 버튼
+	JButton cellSd2Btns[][] = new JButton[6][7];; // cell의 일정2 버튼
 	ListenerDateBtns listenDateBtn = new ListenerDateBtns(); // 날짜 버튼 이벤트 객체
 
 	JLabel scheduleDateLbl; // 출력된 스케줄의 날짜 표기 라벨
@@ -49,10 +50,12 @@ public class CalendarPanel extends JFrame {
 
 	private JButton insertBtn, searchBtn; // 스케줄 입력 및 검색 버튼
 	private JTextField searchText; // 스케줄 검색 문자열
+	String curId;
 
 	ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
 	public CalendarPanel(String curId) {
+		this.curId = curId;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 860, 700);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
@@ -147,18 +150,18 @@ public class CalendarPanel extends JFrame {
 				cellDateBtns[i][j].setBackground(Color.WHITE);
 				cellDateBtns[i][j].addActionListener(listenDateBtn);
 
-				cellSd1Lbls[i][j] = new JLabel("??");
-				cellSd1Lbls[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-				cellSd1Lbls[i][j].setBackground(Color.red);
+				cellSd1Btns[i][j] = new JButton();
+				cellSd1Btns[i][j].setBorderPainted(false);
+				cellSd1Btns[i][j].setBackground(Color.WHITE);
 
-				cellSd2Lbls[i][j] = new JLabel("??");
-				cellSd2Lbls[i][j].setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-				cellSd2Lbls[i][j].setBackground(Color.red);
+				cellSd2Btns[i][j] = new JButton();
+				cellSd2Btns[i][j].setBorderPainted(false);
+				cellSd2Btns[i][j].setBackground(Color.WHITE);
 
 				cellPanel[i][j].setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 				cellPanel[i][j].add(cellDateBtns[i][j]);
-				cellPanel[i][j].add(cellSd1Lbls[i][j]);
-				cellPanel[i][j].add(cellSd2Lbls[i][j]);
+				cellPanel[i][j].add(cellSd1Btns[i][j]);
+				cellPanel[i][j].add(cellSd2Btns[i][j]);
 
 				calendarPanel.add(cellPanel[i][j]); // 달력 판넬에 날짜 추가
 			}
@@ -192,28 +195,28 @@ public class CalendarPanel extends JFrame {
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getAddPanel(scheduleDateLbl.getText(), curId, sDAO);
+				getAddPanel(scheduleDateLbl.getText(), sDAO);
 			}
 		});
 		insertBtn.setBackground(new Color(170, 200, 255));
 		insertBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		insertBtn.setBounds(670, 92, 75, 23);
+		insertBtn.setBounds(755, 62, 75, 23);
 		mainPanel.add(insertBtn);
 		// 스케줄 검색 입력창
 		searchText = new JTextField();
-		searchText.setBounds(752, 66, 77, 21);
+		searchText.setBounds(632, 93, 116, 21);
 		searchText.setColumns(10);
 		mainPanel.add(searchText);
 		// 스케줄 검색 버튼
 		searchBtn = new JButton("Search");
 		searchBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO
+				selectByString(curId, searchText.getText());
 			}
 		});
 		searchBtn.setBackground(new Color(170, 200, 255));
 		searchBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		searchBtn.setBounds(752, 92, 75, 23);
+		searchBtn.setBounds(755, 92, 75, 23);
 		mainPanel.add(searchBtn);
 
 	}
@@ -233,17 +236,19 @@ public class CalendarPanel extends JFrame {
 				if (CalendarSet.calMonth == CalendarSet.today.get(Calendar.MONTH)
 						&& CalendarSet.calYear == CalendarSet.today.get(Calendar.YEAR)
 						&& CalendarSet.calDates[i][j] == CalendarSet.today.get(Calendar.DATE)) { // 오늘날짜와같다면
-					cellPanel[i][j].setBorder(new LineBorder(Color.red));
+					cellPanel[i][j].setBorder(new LineBorder(Color.red, 2));
+				} else {
+					cellPanel[i][j].setBorder(new LineBorder(SystemColor.control));
 				}
 
 				if (CalendarSet.calDates[i][j] == 0) {// 날짜가 0이라면
 					cellDateBtns[i][j].setVisible(false); // 해당날짜버튼을 보이지않게
-					cellSd1Lbls[i][j].setVisible(false);
-					cellSd2Lbls[i][j].setVisible(false);
+					cellSd1Btns[i][j].setVisible(false);
+					cellSd2Btns[i][j].setVisible(false);
 				} else {
 					cellDateBtns[i][j].setVisible(true);
-					cellSd1Lbls[i][j].setVisible(true);
-					cellSd2Lbls[i][j].setVisible(true);
+					cellSd1Btns[i][j].setVisible(true);
+					cellSd2Btns[i][j].setVisible(true);
 				}
 			}
 		}
@@ -266,17 +271,18 @@ public class CalendarPanel extends JFrame {
 			curMMYYYYLbl.setText(((CalendarSet.calMonth + 1) < 10 ? " " : "") + (CalendarSet.calMonth + 1) + " / "
 					+ CalendarSet.calYear);
 			curMMYYYYLbl.setHorizontalAlignment(SwingConstants.CENTER);
+			scheduleDateLbl.setText(todayLbl.getText());
 			showCal(); // 날짜 텍스트 다시 세팅
 		}
 	}
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			setScheduleDateLbl(e);
+			selectByDate(e);
 		}
 	}
 
-	private void getAddPanel(String selectDate, String curId, ScheduleDAOImple sDAO) {
+	private void getAddPanel(String selectDate, ScheduleDAOImple sDAO) {
 		ScheduleVO sVO = new ScheduleVO();
 		sVO.setId(curId);
 
@@ -284,7 +290,23 @@ public class CalendarPanel extends JFrame {
 		addPanel.setVisible(true);
 	} // end getAddPanel
 
-	private void setScheduleDateLbl(ActionEvent e) {
+	private void selectByString(String curId, String Text) {
+		ScheduleVO sVO = new ScheduleVO();
+		sVO = sDAO.select(curId, Text);
+		if (sVO.getSeqNo() != 0) {
+			scheduleDateLbl.setText(Text);
+			ArrayList<ScheduleVO> list = new ArrayList<>();
+			list.add(sVO);
+			JTableRefresh(JtableModel, list);
+		} else {
+			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 일정입니다");
+			dialogPanel.setVisible(true);
+			dispose();
+		}
+
+	}
+
+	private void selectByDate(ActionEvent e) {
 		String year = curMMYYYYLbl.getText().substring(5);
 		String month = "";
 		if (curMMYYYYLbl.getText().charAt(0) == ' ') {
@@ -303,15 +325,16 @@ public class CalendarPanel extends JFrame {
 		}
 		String date = cellDateBtns[row][col].getText();
 		scheduleDateLbl.setText(year + "-" + month + "-" + date);
-		scheduleTableRefresh(JtableModel, year, month, date);
+		ScheduleVO sVOd = new ScheduleVO();
+		sVOd.setId(curId);
+		sVOd.setYear(Integer.parseInt(year));
+		sVOd.setMonth(Integer.parseInt(month));
+		sVOd.setDate(Integer.parseInt(date));
+		ArrayList<ScheduleVO> list = sDAO.select(sVOd);
+		JTableRefresh(JtableModel, list);
 	}
 
-	private void scheduleTableRefresh(DefaultTableModel JtableModel, String year, String month, String date) {
-		ScheduleVO sVO = new ScheduleVO();
-		sVO.setYear(Integer.parseInt(year));
-		sVO.setMonth(Integer.parseInt(month));
-		sVO.setDate(Integer.parseInt(date));
-		ArrayList<ScheduleVO> list = sDAO.select(sVO);
+	private void JTableRefresh(DefaultTableModel JtableModel, ArrayList<ScheduleVO> list) {
 		JtableModel.setRowCount(0); // 행을 0줄로 초기화
 		Object record[] = new Object[scheduleTableHead.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
 		for (int i = 0; i < list.size(); i++) {
@@ -322,6 +345,6 @@ public class CalendarPanel extends JFrame {
 			record[4] = list.get(i).getSeqNo();
 			JtableModel.addRow(record);
 		}
-	} // end scheduleTableRefresh
+	} // end JTableRefresh
 
 }

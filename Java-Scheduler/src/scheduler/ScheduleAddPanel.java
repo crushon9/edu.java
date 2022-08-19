@@ -182,11 +182,11 @@ class ScheduleAddPanel extends JFrame {
 				if (selectDate.charAt(6) == '-') {
 					sVO.setYear(Integer.parseInt(selectDate.substring(0, 4)));
 					sVO.setMonth(Integer.parseInt(selectDate.substring(5, 6)));
-					sVO.setDate(Integer.parseInt(selectDate.substring(8)));
+					sVO.setDate(Integer.parseInt(selectDate.substring(7)));
 				} else {
 					sVO.setYear(Integer.parseInt(selectDate.substring(0, 4)));
 					sVO.setMonth(Integer.parseInt(selectDate.substring(5, 7)));
-					sVO.setDate(Integer.parseInt(selectDate.substring(9)));
+					sVO.setDate(Integer.parseInt(selectDate.substring(8)));
 				}
 				sVO.setTime(comboTime.getSelectedIndex());
 				sVO.setText(textTxt.getText());

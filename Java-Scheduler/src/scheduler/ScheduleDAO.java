@@ -11,8 +11,8 @@ interface ScheduleDAO {
 	// 스케줄 날짜검색
 	public abstract ArrayList<ScheduleVO> select(ScheduleVO vo);
 
-	// 스케줄 상세검색
-	public abstract ScheduleVO select(String text);
+	// 스케줄 문자열검색
+	public abstract ScheduleVO select(String curId, String Text);
 
 	// 스케줄 수정
 	public abstract int update(ScheduleVO vo);

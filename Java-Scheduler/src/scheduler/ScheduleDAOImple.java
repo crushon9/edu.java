@@ -47,6 +47,7 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 	public int insert(ScheduleVO vo) {
 		int result = 0;
 		try {
+			System.out.println(vo);
 			pstmt = conn.prepareStatement(SQL_INSERT); // 쿼리문장준비
 			pstmt.setString(1, vo.getId());
 			pstmt.setInt(2, vo.getYear());
@@ -67,9 +68,10 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 		ArrayList<ScheduleVO> list = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(SQL_SELECT_BY_DATE);
-			pstmt.setInt(1, sVO.getYear());
-			pstmt.setInt(2, sVO.getMonth());
-			pstmt.setInt(3, sVO.getDate());
+			pstmt.setString(1, sVO.getId());
+			pstmt.setInt(2, sVO.getYear());
+			pstmt.setInt(3, sVO.getMonth());
+			pstmt.setInt(4, sVO.getDate());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int seqNo = rs.getInt(1);
@@ -91,9 +93,28 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 	}
 
 	@Override
-	public ScheduleVO select(String text) {
-		// TODO Auto-generated method stub
-		return null;
+	public ScheduleVO select(String curId, String Text) {
+		ScheduleVO vo = new ScheduleVO();
+		try {
+			pstmt = conn.prepareStatement(SQL_SELECT_BY_STRING);
+			pstmt.setString(1, curId);
+			pstmt.setString(1, Text);
+			rs = pstmt.executeQuery(); // rs에 결과데이터를 저장
+			if (rs.next()) {
+				vo.setSeqNo(rs.getInt(1));
+				vo.setId(rs.getString(2));
+				int year = rs.getInt(3);
+				int month = rs.getInt(4);
+				int date = rs.getInt(5);
+				int time = rs.getInt(6);
+				String text = rs.getString(7);
+				int colorIdx = rs.getInt(8);
+				int isDone = rs.getInt(9);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return vo; // 매개변수로 받은 contactId의 ContactVO만 반환
 	}
 
 	@Override
