@@ -41,14 +41,6 @@ class CalendarSet {
 		makeCalData(cal);
 	} // end moveMonth()
 
-	// 윤달 체크 계산식 (4로 나누어지고, 100으로 나누어지지 않거나 / 400으로 나누어지면)
-	private static int leapCheck(int year) {
-		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-			return 1;
-		else
-			return 0;
-	} // end leapCheck()
-
 	// 동적 달력 생성
 	private static void makeCalData(Calendar cal) {
 		// 월의 시작지점 계산
@@ -75,5 +67,13 @@ class CalendarSet {
 			}
 		}
 	} // makeCalData()
+
+	// 윤달 체크 계산식 (4로 나누어지고, 100으로 나누어지지 않거나 / 400으로 나누어지면)
+	private static int leapCheck(int year) {
+		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+			return 1;
+		else
+			return 0;
+	} // end leapCheck()
 
 } // end CalendarSet class

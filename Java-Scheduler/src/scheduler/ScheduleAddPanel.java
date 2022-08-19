@@ -179,19 +179,19 @@ class ScheduleAddPanel extends JFrame {
 		btnOKAdd.setEnabled(false);
 		btnOKAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String year = selectDate.substring(0, 4);
-				String month = "";
-				String date = "";
+				int year = Integer.parseInt(selectDate.substring(0, 4));
+				int month = 0;
+				int date = 0;
 				if (selectDate.charAt(6) == '-') {
-					month = selectDate.substring(5, 6);
-					date = selectDate.substring(7);
+					month = Integer.parseInt(selectDate.substring(5, 6));
+					date = Integer.parseInt(selectDate.substring(7));
 				} else {
-					month = selectDate.substring(5, 7);
-					date = selectDate.substring(8);
+					month = Integer.parseInt(selectDate.substring(5, 7));
+					date = Integer.parseInt(selectDate.substring(8));
 				}
-				sVOa.setYear(Integer.parseInt(year));
-				sVOa.setMonth(Integer.parseInt(month));
-				sVOa.setDate(Integer.parseInt(date));
+				sVOa.setYear(year);
+				sVOa.setMonth(month);
+				sVOa.setDate(date);
 				sVOa.setTime(comboTime.getSelectedIndex());
 				sVOa.setText(textTxt.getText());
 				sVOa.setColorIdx(whatTglbtnColor);
