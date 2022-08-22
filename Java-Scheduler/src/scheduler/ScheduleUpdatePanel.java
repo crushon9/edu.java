@@ -184,8 +184,7 @@ class ScheduleUpdatePanel extends JFrame {
 				sVOu.setColorIdx(whatTglbtnColor);
 				int result = sDAO.update(sVOu);
 				if (result == 1) {
-					CalendarPanel.searchByDate(sVOu.getYear(), sVOu.getMonth(), sVOu.getDate());
-					CalendarPanel.setScheduleBtnColor();
+					CalendarPanel.update(sVOu.getDate());
 					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("수정 실패");
@@ -203,8 +202,7 @@ class ScheduleUpdatePanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int result = sDAO.delete(sVOu.getSeqNo());
 				if (result == 1) {
-					CalendarPanel.searchByDate(sVOu.getYear(), sVOu.getMonth(), sVOu.getDate());
-					CalendarPanel.setScheduleBtnColor();
+					CalendarPanel.update(sVOu.getDate());
 					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("삭제 실패");

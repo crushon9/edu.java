@@ -1,7 +1,5 @@
 package scheduler;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,88 +9,64 @@ import java.awt.Font;
 import javax.swing.JButton;
 
 import java.awt.Color;
-import java.awt.SystemColor;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class MemberMainFrame extends JFrame {
+public class MemberPanel extends JPanel {
 
-	JFrame frame;
 	JPanel memberPanel;
 	private JTextField textId, textPw;
 	private JButton btnLogin, btnJoin, btnUpdate;
 	JTextArea textAreaLog;
 	MemberDAOImple memberDao;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MemberMainFrame window = new MemberMainFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public MemberMainFrame() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
+	public MemberPanel(JFrame frame) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 860, 600);
+		frame.setBounds(100, 100, 860, 660);
 		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
-		frame.setResizable(false); // 창크기 고정
-
 		memberPanel = new JPanel();
-		memberPanel.setBackground(new Color(245, 245, 245));
+		memberPanel.setBackground(new Color(230, 230, 230));
 		memberPanel.setLayout(null);
 		frame.getContentPane().add(memberPanel);
+		frame.revalidate();
+		frame.repaint();
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		lblId.setBounds(290, 180, 30, 20);
+		lblId.setBounds(290, 200, 30, 20);
 		memberPanel.add(lblId);
 
 		JLabel lblPw = new JLabel("PW");
 		lblPw.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		lblPw.setBounds(290, 210, 30, 20);
+		lblPw.setBounds(290, 230, 30, 20);
 		memberPanel.add(lblPw);
 
 		textId = new JTextField();
 		textId.setColumns(10);
-		textId.setBounds(330, 180, 130, 20);
+		textId.setBounds(330, 200, 130, 20);
 		memberPanel.add(textId);
 
 		textPw = new JTextField();
 		textPw.setColumns(10);
-		textPw.setBounds(330, 210, 130, 20);
+		textPw.setBounds(330, 230, 130, 20);
 		memberPanel.add(textPw);
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				login();
+				if (login() == 1) {
+					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
+					frame.getContentPane().remove(memberPanel);
+					frame.revalidate();
+					frame.repaint();
+				}
 			}
 		});
 		btnLogin.setBackground(new Color(204, 204, 255));
 		btnLogin.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		btnLogin.setBounds(480, 180, 80, 50);
+		btnLogin.setBounds(480, 200, 80, 50);
 		memberPanel.add(btnLogin);
 
 		btnJoin = new JButton("Join");
@@ -103,7 +77,7 @@ public class MemberMainFrame extends JFrame {
 		});
 		btnJoin.setBackground(new Color(172, 172, 172));
 		btnJoin.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		btnJoin.setBounds(330, 260, 80, 30);
+		btnJoin.setBounds(330, 300, 80, 30);
 		memberPanel.add(btnJoin);
 
 		btnUpdate = new JButton("Update");
@@ -114,24 +88,25 @@ public class MemberMainFrame extends JFrame {
 		});
 		btnUpdate.setBackground(new Color(172, 172, 172));
 		btnUpdate.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		btnUpdate.setBounds(430, 260, 80, 30);
+		btnUpdate.setBounds(430, 300, 80, 30);
 		memberPanel.add(btnUpdate);
 
 		textAreaLog = new JTextArea();
 		textAreaLog.setForeground(new Color(0, 0, 204));
 		textAreaLog.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		textAreaLog.setBackground(new Color(245, 245, 245));
+		textAreaLog.setBackground(new Color(230, 230, 230));
 		textAreaLog.setBounds(12, 10, 368, 24);
 		memberPanel.add(textAreaLog);
 		memberDao = MemberDAOImple.getInstance(textAreaLog);
 
 	}
 
-	private void login() {
+	private int login() {
+		int result = 0;
 		if (textId.getText().equals("") || textPw.getText().equals("")) {
 			DialogPanel dialogPanel = new DialogPanel("로그인 정보를 입력하세요!");
 			dialogPanel.setVisible(true);
-			return;
+			return result;
 		}
 		String inputId = textId.getText();
 		String inputPw = textPw.getText();
@@ -146,10 +121,7 @@ public class MemberMainFrame extends JFrame {
 		if (IdExistFlag == 1) {
 			String DBPw = memberDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				CalendarPanel calendarPanel = new CalendarPanel(inputId);
-				calendarPanel.setVisible(true);
-				frame.setVisible(false);
-
+				result = 1;
 			} else {
 				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요!");
 				dialogPanel.setVisible(true);
@@ -158,7 +130,7 @@ public class MemberMainFrame extends JFrame {
 			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
 			dialogPanel.setVisible(true);
 		}
-
+		return result;
 	} // end login
 
 	private void getjoinPanel() {

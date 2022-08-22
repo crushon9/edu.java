@@ -184,8 +184,7 @@ class ScheduleAddPanel extends JFrame {
 				sVOa.setColorIdx(whatTglbtnColor);
 				int result = sDAO.insert(sVOa);
 				if (result == 1) {
-					CalendarPanel.searchByDate(sVOa.getYear(), sVOa.getMonth(), sVOa.getDate());
-					CalendarPanel.setScheduleBtnColor();
+					CalendarPanel.update(sVOa.getDate());
 					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("등록 실패");
