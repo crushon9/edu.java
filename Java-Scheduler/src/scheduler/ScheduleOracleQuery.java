@@ -18,12 +18,14 @@ interface ScheduleOracleQuery {
 
 	static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME
 			+ " VALUES (SCHEDULE_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, null)";
-	static final String SQL_SELECT_BY_DATE = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID + " = ? AND "
-			+ SCHEDULE_YEAR + " = ? AND " + SCHEDULE_MONTH + " = ? AND " + SCHEDULE_DATE + " = ?" + " ORDER BY "
+	static final String SQL_SELECT_BY_MONTH = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID + " = ? AND "
+			+ SCHEDULE_YEAR + " = ? AND " + SCHEDULE_MONTH + " = ?" + " ORDER BY " + SCHEDULE_DATE + " , "
 			+ SCHEDULE_TIME;
 	static final String SQL_SELECT_BY_STRING = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID + " = ? AND "
 			+ SCHEDULE_TEXT + " LIKE ?";
 	static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET " + SCHEDULE_TIME + " = ? , " + SCHEDULE_TEXT
 			+ " = ? , " + SCHEDULE_COLOR + " = ? WHERE SCHEDULE_SEQ = ?";
 	static final String SQL_DELETE = "DELETE " + TABLE_NAME + " WHERE SCHEDULE_SEQ = ?";
+	static final String SQL_SELECT_COLOR = "SELECT " + SCHEDULE_COLOR + " FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID
+			+ " = ?";
 }

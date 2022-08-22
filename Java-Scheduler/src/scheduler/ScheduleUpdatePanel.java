@@ -151,7 +151,7 @@ class ScheduleUpdatePanel extends JFrame {
 		tglbtnColor4 = new JToggleButton("");
 		tglbtnColor4.setBounds(210, 200, 20, 20);
 		tglbtnColor4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		tglbtnColor4.setBackground(new Color(220, 220, 220));
+		tglbtnColor4.setBackground(new Color(255, 204, 255));
 		tglbtnColor4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tglbtnColor4.setText("V");
@@ -184,10 +184,9 @@ class ScheduleUpdatePanel extends JFrame {
 				sVOu.setColorIdx(whatTglbtnColor);
 				int result = sDAO.update(sVOu);
 				if (result == 1) {
-					DialogPanel dialogPanel = new DialogPanel("수정 성공!");
-					dialogPanel.setVisible(true);
-					dispose();
 					CalendarPanel.searchByDate(sVOu.getYear(), sVOu.getMonth(), sVOu.getDate());
+					CalendarPanel.setScheduleBtnColor();
+					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("수정 실패");
 					dialogPanel.setVisible(true);
@@ -204,10 +203,9 @@ class ScheduleUpdatePanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int result = sDAO.delete(sVOu.getSeqNo());
 				if (result == 1) {
-					DialogPanel dialogPanel = new DialogPanel("삭제 성공!");
-					dialogPanel.setVisible(true);
-					dispose();
 					CalendarPanel.searchByDate(sVOu.getYear(), sVOu.getMonth(), sVOu.getDate());
+					CalendarPanel.setScheduleBtnColor();
+					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("삭제 실패");
 					dialogPanel.setVisible(true);

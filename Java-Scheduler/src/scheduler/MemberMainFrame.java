@@ -60,7 +60,7 @@ public class MemberMainFrame extends JFrame {
 		frame.setResizable(false); // 창크기 고정
 
 		memberPanel = new JPanel();
-		memberPanel.setBackground(SystemColor.control);
+		memberPanel.setBackground(new Color(245, 245, 245));
 		memberPanel.setLayout(null);
 		frame.getContentPane().add(memberPanel);
 
@@ -120,7 +120,7 @@ public class MemberMainFrame extends JFrame {
 		textAreaLog = new JTextArea();
 		textAreaLog.setForeground(new Color(0, 0, 204));
 		textAreaLog.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		textAreaLog.setBackground(SystemColor.control);
+		textAreaLog.setBackground(new Color(245, 245, 245));
 		textAreaLog.setBounds(12, 10, 368, 24);
 		memberPanel.add(textAreaLog);
 		memberDao = MemberDAOImple.getInstance(textAreaLog);

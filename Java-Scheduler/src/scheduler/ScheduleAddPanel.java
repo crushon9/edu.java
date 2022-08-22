@@ -151,7 +151,7 @@ class ScheduleAddPanel extends JFrame {
 		tglbtnColor4 = new JToggleButton("");
 		tglbtnColor4.setBounds(210, 200, 20, 20);
 		tglbtnColor4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		tglbtnColor4.setBackground(new Color(220, 220, 220));
+		tglbtnColor4.setBackground(new Color(255, 204, 255));
 		tglbtnColor4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tglbtnColor4.setText("V");
@@ -184,10 +184,9 @@ class ScheduleAddPanel extends JFrame {
 				sVOa.setColorIdx(whatTglbtnColor);
 				int result = sDAO.insert(sVOa);
 				if (result == 1) {
-					DialogPanel dialogPanel = new DialogPanel("등록 성공!");
-					dialogPanel.setVisible(true);
-					dispose();
 					CalendarPanel.searchByDate(sVOa.getYear(), sVOa.getMonth(), sVOa.getDate());
+					CalendarPanel.setScheduleBtnColor();
+					dispose();
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("등록 실패");
 					dialogPanel.setVisible(true);
