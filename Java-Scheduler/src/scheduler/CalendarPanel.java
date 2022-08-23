@@ -64,13 +64,13 @@ public class CalendarPanel extends JPanel {
 
 	public CalendarPanel(JFrame frame, String curId) {
 		CalendarPanel.curId = curId;
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setBounds(100, 100, 860, 670);
 		CalendarMainPanel = new JPanel();
 		CalendarMainPanel.setBackground(new Color(230, 230, 230));
 		CalendarMainPanel.setLayout(null);
 		frame.getContentPane().add(CalendarMainPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setBounds(100, 100, 860, 670);
 		frame.revalidate();
 		frame.repaint();
 		// 날짜변수들을 오늘값으로 초기화
@@ -86,9 +86,10 @@ public class CalendarPanel extends JPanel {
 		logOutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.getContentPane().remove(CalendarMainPanel);
-				MemberPanel memberPanel = new MemberPanel(frame);
 				frame.revalidate();
 				frame.repaint();
+				MemberPanel memberPanel = new MemberPanel(frame);
+				frame.setLocationRelativeTo(null);
 			}
 		});
 		logOutBtn.setFont(new Font("맑은 고딕", Font.BOLD, 11));

@@ -23,15 +23,16 @@ public class MemberPanel extends JPanel {
 	MemberDAOImple memberDao;
 
 	public MemberPanel(JFrame frame) {
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setBounds(100, 100, 860, 670);
 		memberPanel = new JPanel();
 		memberPanel.setBackground(new Color(230, 230, 230));
 		memberPanel.setLayout(null);
 		frame.getContentPane().add(memberPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setBounds(100, 100, 860, 670);
 		frame.revalidate();
 		frame.repaint();
+		
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
@@ -58,9 +59,10 @@ public class MemberPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (login() == 1) {
 					frame.getContentPane().remove(memberPanel);
-					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
 					frame.revalidate();
 					frame.repaint();
+					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
+					frame.setLocationRelativeTo(null);
 				}
 			}
 		});
