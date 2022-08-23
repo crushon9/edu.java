@@ -171,8 +171,29 @@ class ScheduleDAOImple implements ScheduleDAO, ScheduleOracleQuery {
 		int result = 0;
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = conn.prepareStatement(SQL_DELETE);
+			pstmt = conn.prepareStatement(SQL_DELETE_BY_SEQ);
 			pstmt.setInt(1, seqNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result; // 1:성공, 0:실패
+	}
+
+	@Override
+	public int delete(String ID) {
+		int result = 0;
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = conn.prepareStatement(SQL_DELETE_BY_ID);
+			pstmt.setString(1, ID);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

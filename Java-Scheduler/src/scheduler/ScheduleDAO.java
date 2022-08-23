@@ -17,7 +17,10 @@ interface ScheduleDAO {
 	// 스케줄 수정
 	public abstract int update(ScheduleVO vo);
 
-	// 스케줄 삭제
+	// 스케줄 한개삭제
 	public abstract int delete(int seqNo);
+
+	// 스케줄 ID전체 삭제
+	public abstract int delete(String ID);
 
 }

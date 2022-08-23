@@ -134,7 +134,9 @@ public class MemberUpdatePanel extends JFrame {
 	private void memberDelete(String id, MemberDAOImple memberDao) {
 		int result = memberDao.delete(id);
 		if (result == 1) {
-			DialogPanel dialogPanel = new DialogPanel("삭제 성공!");
+			ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
+			sDAO.delete(id);
+			DialogPanel dialogPanel = new DialogPanel("관련 데이터 삭제 성공!");
 			dialogPanel.setVisible(true);
 			dispose();
 		} else {

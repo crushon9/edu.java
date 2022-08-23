@@ -25,7 +25,8 @@ interface ScheduleOracleQuery {
 			+ SCHEDULE_TEXT + " LIKE ?";
 	static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET " + SCHEDULE_TIME + " = ? , " + SCHEDULE_TEXT
 			+ " = ? , " + SCHEDULE_COLOR + " = ? WHERE SCHEDULE_SEQ = ?";
-	static final String SQL_DELETE = "DELETE " + TABLE_NAME + " WHERE SCHEDULE_SEQ = ?";
+	static final String SQL_DELETE_BY_SEQ = "DELETE " + TABLE_NAME + " WHERE " + SCHEDULE_SEQ + " = ?";
+	static final String SQL_DELETE_BY_ID = "DELETE " + TABLE_NAME + " WHERE " + SCHEDULE_ID + " = ?";
 	static final String SQL_SELECT_COLOR = "SELECT " + SCHEDULE_COLOR + " FROM " + TABLE_NAME + " WHERE " + SCHEDULE_ID
 			+ " = ?";
 }
