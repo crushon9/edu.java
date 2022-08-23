@@ -52,7 +52,7 @@ public class CalendarPanel extends JPanel {
 	static JLabel JtableRowCountLbl; // 출력된 스케줄 행 갯수
 	static JTable scheduleJTable; // 스케줄 J테이블
 	static DefaultTableModel JtableModel;
-	static String[] scheduleJTableCOL = { "Done", "Y", "M", "D", "Time", "Text", "No" };
+	static String[] scheduleJTableColumn = { "Done", "Y", "M", "D", "Time", "Text", "No" };
 	static ArrayList<ScheduleVO> monthList;
 
 	private JButton insertBtn, searchBtn, updateBtn; // 스케줄 입력 및 검색 버튼
@@ -65,7 +65,7 @@ public class CalendarPanel extends JPanel {
 	public CalendarPanel(JFrame frame, String curId) {
 		CalendarPanel.curId = curId;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
+		frame.setLocationRelativeTo(null);
 		frame.setBounds(100, 100, 860, 670);
 		CalendarMainPanel = new JPanel();
 		CalendarMainPanel.setBackground(new Color(230, 230, 230));
@@ -76,7 +76,7 @@ public class CalendarPanel extends JPanel {
 		// 날짜변수들을 오늘값으로 초기화
 		CalendarSet.setToday();
 		// 접속아이디 표기
-		CurIdLbl = new JLabel("> " + curId + " 님 환영합니다 <");
+		CurIdLbl = new JLabel(curId + " 님 환영합니다");
 		CurIdLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		CurIdLbl.setForeground(new Color(0, 0, 139));
 		CurIdLbl.setFont(new Font("맑은 고딕", Font.BOLD, 13));
@@ -218,7 +218,7 @@ public class CalendarPanel extends JPanel {
 		// 스케줄 출력 Jtable
 		JScrollPane scrollJTable = new JScrollPane();
 		scrollJTable.setBounds(514, 123, 318, 460);
-		JtableModel = new DefaultTableModel(scheduleJTableCOL, 0) {
+		JtableModel = new DefaultTableModel(scheduleJTableColumn, 0) {// field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
 			@Override
 			public Class<?> getColumnClass(int column) {
 				if (column == 0)
@@ -226,7 +226,7 @@ public class CalendarPanel extends JPanel {
 				else
 					return String.class;
 			}
-		}; // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
+		};
 		scheduleJTable = new JTable(JtableModel);
 		scheduleJTable.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scheduleJTable.getColumn("Done").setPreferredWidth(2);
@@ -283,7 +283,6 @@ public class CalendarPanel extends JPanel {
 		updateBtn.setBackground(new Color(204, 204, 255));
 		updateBtn.setBounds(750, 93, 80, 23);
 		CalendarMainPanel.add(updateBtn);
-
 	}
 
 	private void setCalendarDateValue() {
@@ -477,7 +476,7 @@ public class CalendarPanel extends JPanel {
 		JtableModel.setRowCount(0); // 행을 0줄로 초기화
 		JtableRowCountLbl.setText("Total : 0");
 		JtableHeadLbl.setText(list.get(0).getYear() + "-" + list.get(0).getMonth() + "-" + list.get(0).getDate());
-		Object record[] = new Object[scheduleJTableCOL.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
+		Object record[] = new Object[scheduleJTableColumn.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
 		for (int i = 0; i < list.size(); i++) {
 			record[0] = list.get(i).getIsDone();
 			record[1] = list.get(i).getYear();
@@ -490,13 +489,13 @@ public class CalendarPanel extends JPanel {
 			JtableRowCountLbl.setText("Total : " + (i + 1));
 		}
 		// J테이블 가운데 정렬
-		DefaultTableCellRenderer cellrd = new DefaultTableCellRenderer();
-		cellrd.setHorizontalAlignment(SwingConstants.CENTER);
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setHorizontalAlignment(SwingConstants.CENTER);
 		TableColumnModel tcm = scheduleJTable.getColumnModel();
 		for (int i = 0; i < tcm.getColumnCount(); i++) {
-			tcm.getColumn(i).setCellRenderer(cellrd);
+			tcm.getColumn(i).setCellRenderer(renderer);
 		}
-	}
+	}// end JTableRefresh
 
 	public static void update(int date) {
 		scheduleSearchByDate(date);
@@ -507,5 +506,5 @@ public class CalendarPanel extends JPanel {
 		} else {
 			JtableModel.setRowCount(0);
 		}
-	}
+	} // end update
 }

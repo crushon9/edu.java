@@ -30,6 +30,7 @@ public class MainFrame extends JFrame {
 				try {
 					MainFrame window = new MainFrame();
 					window.frame.setVisible(true);
+					window.frame.setLocationRelativeTo(null); // 프레임 화면 중앙에 위치
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,6 +50,7 @@ public class MainFrame extends JFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MemberPanel memberPanel = new MemberPanel(frame);
 	}
 }

@@ -24,7 +24,7 @@ public class MemberPanel extends JPanel {
 
 	public MemberPanel(JFrame frame) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
+		frame.setLocationRelativeTo(null);
 		frame.setBounds(100, 100, 860, 670);
 		memberPanel = new JPanel();
 		memberPanel.setBackground(new Color(230, 230, 230));
@@ -57,8 +57,8 @@ public class MemberPanel extends JPanel {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (login() == 1) {
-					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
 					frame.getContentPane().remove(memberPanel);
+					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
 					frame.revalidate();
 					frame.repaint();
 				}
