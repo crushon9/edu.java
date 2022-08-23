@@ -49,10 +49,6 @@ public class MainFrame extends JFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 860, 600);
-		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
-
 		MemberPanel memberPanel = new MemberPanel(frame);
 	}
 }

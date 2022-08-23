@@ -24,8 +24,8 @@ public class MemberPanel extends JPanel {
 
 	public MemberPanel(JFrame frame) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 860, 660);
 		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
+		frame.setBounds(100, 100, 860, 670);
 		memberPanel = new JPanel();
 		memberPanel.setBackground(new Color(230, 230, 230));
 		memberPanel.setLayout(null);

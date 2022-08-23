@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,8 +33,7 @@ public class CalendarPanel extends JPanel {
 	JLabel todayLbl; // 오늘날짜 표기 라벨
 	JButton prevYearBtn, prevMonBtn, nextMonBtn, nextYearBtn; // 달력 이동 버튼
 	ListenerMoveDate listenMoveBtn = new ListenerMoveDate(); // 달력 이동 버튼 이벤트 객체
-
-	static JLabel curMMYYYYLbl; // 현재 출력중인 달력의 월/년도 라벨
+	JLabel curMMYYYYLbl; // 현재 출력중인 달력의 월/년도 라벨
 
 	JPanel calendarGridPanel; // 달력전체판넬
 	JLabel weekHeadLbl[] = new JLabel[7]; // 요일제목라벨
@@ -55,21 +52,21 @@ public class CalendarPanel extends JPanel {
 	static JLabel JtableRowCountLbl; // 출력된 스케줄 행 갯수
 	static JTable scheduleJTable; // 스케줄 J테이블
 	static DefaultTableModel JtableModel;
-	static JCheckBox isdoneCK;
 	static String[] scheduleJTableCOL = { "Done", "Y", "M", "D", "Time", "Text", "No" };
 	static ArrayList<ScheduleVO> monthList;
 
 	private JButton insertBtn, searchBtn, updateBtn; // 스케줄 입력 및 검색 버튼
 	private JTextField searchText; // 스케줄 검색 문자열
-	static String curId;
+
+	static String curId; // 접속아이디
 
 	static ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
 	public CalendarPanel(JFrame frame, String curId) {
 		CalendarPanel.curId = curId;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 860, 660);
 		frame.setLocationRelativeTo(null); // 화면중앙에 창 띄우기
+		frame.setBounds(100, 100, 860, 670);
 		CalendarMainPanel = new JPanel();
 		CalendarMainPanel.setBackground(new Color(230, 230, 230));
 		CalendarMainPanel.setLayout(null);
@@ -210,7 +207,8 @@ public class CalendarPanel extends JPanel {
 		// Jtable 출력 행 갯수 표기 라벨
 		JtableRowCountLbl = new JLabel("");
 		JtableRowCountLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		JtableRowCountLbl.setBounds(782, 585, 50, 15);
+		JtableRowCountLbl.setBounds(775, 585, 50, 15);
+		JtableRowCountLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		CalendarMainPanel.add(JtableRowCountLbl);
 		// Jtable 출력된 스케줄의 날짜 표기 라벨
 		JtableHeadLbl = new JLabel();
@@ -220,7 +218,15 @@ public class CalendarPanel extends JPanel {
 		// 스케줄 출력 Jtable
 		JScrollPane scrollJTable = new JScrollPane();
 		scrollJTable.setBounds(514, 123, 318, 460);
-		JtableModel = new DefaultTableModel(scheduleJTableCOL, 0); // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
+		JtableModel = new DefaultTableModel(scheduleJTableCOL, 0) {
+			@Override
+			public Class<?> getColumnClass(int column) {
+				if (column == 0)
+					return Boolean.class;
+				else
+					return String.class;
+			}
+		}; // field를 제목으로 하고 줄을 0으로 초기화하며 tableModel 객체 생성
 		scheduleJTable = new JTable(JtableModel);
 		scheduleJTable.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scheduleJTable.getColumn("Done").setPreferredWidth(2);
@@ -229,22 +235,6 @@ public class CalendarPanel extends JPanel {
 		scheduleJTable.getColumn("D").setPreferredWidth(2);
 		scheduleJTable.getColumn("Time").setPreferredWidth(2);
 		scheduleJTable.getColumn("No").setPreferredWidth(2);
-		isdoneCK = new JCheckBox();
-		isdoneCK.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// 클릭시 값 변화
-				if ((boolean) scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 0) == true) {
-					scheduleJTable.setValueAt("V", scheduleJTable.getSelectedRow(), 0);
-				} else if ((boolean) scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 0) == false) {
-					scheduleJTable.setValueAt("", scheduleJTable.getSelectedRow(), 0);
-				}
-				// 중간 정렬
-				DefaultTableCellRenderer cellrd = new DefaultTableCellRenderer();
-				cellrd.setHorizontalAlignment(SwingConstants.CENTER);
-				TableColumnModel tcm = scheduleJTable.getColumnModel();
-				tcm.getColumn(0).setCellRenderer(cellrd);
-			}
-		});
 		scrollJTable.setViewportView(scheduleJTable);
 		CalendarMainPanel.add(scrollJTable);
 		// 오늘 날짜 일정이 비어있지 않으면 Jtable 세팅, 아니라면 0행으로 초기화
@@ -253,8 +243,6 @@ public class CalendarPanel extends JPanel {
 		} else {
 			JtableModel.setRowCount(0);
 		}
-		scheduleJTable.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer());
-		scheduleJTable.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(isdoneCK));
 
 		// 스케줄 등록 버튼
 		insertBtn = new JButton("Insert");
@@ -405,7 +393,22 @@ public class CalendarPanel extends JPanel {
 
 	private class ListenerDateBtns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int date = selectBtnToDate(e);
+			int row = 0, col = 0;
+			for (int i = 0; i < CalendarSet.CAL_MAX_ROW; i++) {
+				for (int j = 0; j < CalendarSet.CAL_COLUMN; j++) {
+					if (e.getSource() == cellDateBtns[i][j]) {
+						row = i;
+						col = j;
+					} else if (e.getSource() == cellS1Btns[i][j]) {
+						row = i;
+						col = j;
+					} else if (e.getSource() == cellS2Btns[i][j]) {
+						row = i;
+						col = j;
+					}
+				}
+			}
+			int date = CalendarSet.calDates[row][col];
 			if (scheduleSearchByDate(date).isEmpty() != true) {
 				JTableRefresh(JtableModel, scheduleSearchByDate(date));
 			} else {
@@ -447,26 +450,6 @@ public class CalendarPanel extends JPanel {
 		ScheduleUpdatePanel updatePanel = new ScheduleUpdatePanel(sDAO, sVOu);
 		updatePanel.setVisible(true);
 	} // end getAddPanel
-
-	public int selectBtnToDate(ActionEvent e) {
-		int row = 0, col = 0;
-		for (int i = 0; i < CalendarSet.CAL_MAX_ROW; i++) {
-			for (int j = 0; j < CalendarSet.CAL_COLUMN; j++) {
-				if (e.getSource() == cellDateBtns[i][j]) {
-					row = i;
-					col = j;
-				} else if (e.getSource() == cellS1Btns[i][j]) {
-					row = i;
-					col = j;
-				} else if (e.getSource() == cellS2Btns[i][j]) {
-					row = i;
-					col = j;
-				}
-			}
-		}
-		int date = CalendarSet.calDates[row][col];
-		return date;
-	} // end selectBtnToDate
 
 	public static ArrayList<ScheduleVO> scheduleSearchByDate(int date) {
 		ArrayList<ScheduleVO> listDate = new ArrayList<>();
@@ -513,7 +496,7 @@ public class CalendarPanel extends JPanel {
 		for (int i = 0; i < tcm.getColumnCount(); i++) {
 			tcm.getColumn(i).setCellRenderer(cellrd);
 		}
-	} // end JTableRefresh
+	}
 
 	public static void update(int date) {
 		scheduleSearchByDate(date);
