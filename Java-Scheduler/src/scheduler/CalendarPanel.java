@@ -210,7 +210,7 @@ public class CalendarPanel extends JPanel {
 		// Jtable 출력 행 갯수 표기 라벨
 		JtableRowCountLbl = new JLabel("");
 		JtableRowCountLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		JtableRowCountLbl.setBounds(784, 585, 50, 15);
+		JtableRowCountLbl.setBounds(782, 585, 50, 15);
 		CalendarMainPanel.add(JtableRowCountLbl);
 		// Jtable 출력된 스케줄의 날짜 표기 라벨
 		JtableHeadLbl = new JLabel();
@@ -248,8 +248,8 @@ public class CalendarPanel extends JPanel {
 		scrollJTable.setViewportView(scheduleJTable);
 		CalendarMainPanel.add(scrollJTable);
 		// 오늘 날짜 일정이 비어있지 않으면 Jtable 세팅, 아니라면 0행으로 초기화
-		if (scheduleSearchByDate(CalendarSet.instance.get(Calendar.DATE)).isEmpty() != true) {
-			JTableRefresh(JtableModel, scheduleSearchByDate(CalendarSet.instance.get(Calendar.DATE)));
+		if (scheduleSearchByDate(CalendarSet.calDate).isEmpty() != true) {
+			JTableRefresh(JtableModel, scheduleSearchByDate(CalendarSet.calDate));
 		} else {
 			JtableModel.setRowCount(0);
 		}
@@ -310,9 +310,9 @@ public class CalendarPanel extends JPanel {
 				} else {
 					cellDateBtns[i][j].setForeground(Color.black);
 				}
-				if (CalendarSet.calMonth == CalendarSet.instance.get(Calendar.MONTH)
-						&& CalendarSet.calYear == CalendarSet.instance.get(Calendar.YEAR)
-						&& CalendarSet.calDates[i][j] == CalendarSet.instance.get(Calendar.DATE)) { // 오늘날짜와같다면
+				if (CalendarSet.calMonth == CalendarSet.today.get(Calendar.MONTH)
+						&& CalendarSet.calYear == CalendarSet.today.get(Calendar.YEAR)
+						&& CalendarSet.calDates[i][j] == CalendarSet.today.get(Calendar.DATE)) { // 오늘날짜와같다면
 					cellPanel[i][j].setBorder(new LineBorder(Color.red, 1));
 				} else {
 					cellPanel[i][j].setBorder(new LineBorder(SystemColor.control));
@@ -337,8 +337,8 @@ public class CalendarPanel extends JPanel {
 	public static ArrayList<ScheduleVO> getMonthList() {
 		ScheduleVO sVO = new ScheduleVO();
 		sVO.setId(curId);
-		sVO.setYear(curLblToYear());
-		sVO.setMonth(curLblToMonth());
+		sVO.setYear(CalendarSet.calYear);
+		sVO.setMonth(CalendarSet.calMonth + 1);
 		monthList = sDAO.select(sVO);
 		return monthList;
 	} // getMonthList
@@ -375,7 +375,7 @@ public class CalendarPanel extends JPanel {
 				CalendarSet.setToday(); // 오늘로 날짜 멤버변수 세팅
 				todayFlag = 1;
 			} else if (e.getSource() == prevYearBtn)
-				CalendarSet.moveMonth(-12); // 달을 바꾸며 날짜세팅
+				CalendarSet.moveMonth(-12); // CalendarSet 멤버변수의 값을 변경함
 			else if (e.getSource() == prevMonBtn)
 				CalendarSet.moveMonth(-1);
 			else if (e.getSource() == nextMonBtn)
@@ -447,21 +447,6 @@ public class CalendarPanel extends JPanel {
 		ScheduleUpdatePanel updatePanel = new ScheduleUpdatePanel(sDAO, sVOu);
 		updatePanel.setVisible(true);
 	} // end getAddPanel
-
-	public static int curLblToYear() {
-		int year = Integer.parseInt(curMMYYYYLbl.getText().substring(5));
-		return year;
-	} // end curLblToYear
-
-	public static int curLblToMonth() {
-		int month = 0;
-		if (curMMYYYYLbl.getText().charAt(0) == ' ') {
-			month = Integer.parseInt(curMMYYYYLbl.getText().substring(1, 2));
-		} else {
-			month = Integer.parseInt(curMMYYYYLbl.getText().substring(0, 2));
-		}
-		return month;
-	} // end curLblToMonth
 
 	public int selectBtnToDate(ActionEvent e) {
 		int row = 0, col = 0;

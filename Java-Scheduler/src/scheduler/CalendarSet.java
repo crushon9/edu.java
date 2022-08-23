@@ -12,17 +12,17 @@ class CalendarSet {
 	static int calDate; // 현재월의날짜
 	static final int calEndDateArray[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; // 월별기본마지막날짜
 	static int calEndDate; // 윤달을 계산한 실제 마지막 날짜
-	static Calendar instance = Calendar.getInstance();
+	static Calendar today = Calendar.getInstance(); // 자동으로 생성한 현재의 날짜정보가 들어감
 
 	public CalendarSet() {
 	}
 
 	// 오늘의 년도, 월, 날짜를 추출하여 캘린더생성메소드로 넘겨주며 호출
 	public static void setToday() {
-		calYear = instance.get(Calendar.YEAR);
-		calMonth = instance.get(Calendar.MONTH);
-		calDate = instance.get(Calendar.DATE);
-		makeCalData(instance);
+		calYear = today.get(Calendar.YEAR);
+		calMonth = today.get(Calendar.MONTH);
+		calDate = today.get(Calendar.DATE);
+		makeCalData(today);
 	} // end setToday()
 
 	public static void moveMonth(int mon) {
