@@ -67,8 +67,6 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 				String id = rs.getString(1);
 				String pw = rs.getString(2);
 				MemberVO vo = new MemberVO(id, pw);
-				
-				
 				list.add(vo);
 			}
 		} catch (SQLException e) {
