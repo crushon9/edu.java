@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
-class ScheduleAddPanel extends JFrame {
+class ScheduleInsertPanel extends JFrame {
 
 	private JPanel scheduleAddPanel;
 	private JLabel lblDate, lblTime, lblText, lblColor, lblDatePrint;
@@ -33,7 +33,7 @@ class ScheduleAddPanel extends JFrame {
 	private ButtonGroup tglGroup = new ButtonGroup();
 	ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
-	public ScheduleAddPanel(ScheduleVO sVOa) {
+	public ScheduleInsertPanel(ScheduleVO sVOa) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 400);
 		setLocationRelativeTo(null);
@@ -183,6 +183,11 @@ class ScheduleAddPanel extends JFrame {
 				sVOa.setTime(comboTime.getSelectedIndex());
 				sVOa.setText(textTxt.getText());
 				sVOa.setColorIdx(whatTglbtnColor);
+				if (textTxt.getText().equals("")) {
+					DialogPanel dialogPanel = new DialogPanel("내용을 입력하세요!!");
+					dialogPanel.setVisible(true);
+					return;
+				}
 				int result = sDAO.insert(sVOa);
 				if (result == 1) {
 					CalendarPanel.update(sVOa.getDate());
@@ -194,6 +199,5 @@ class ScheduleAddPanel extends JFrame {
 			}
 		});
 		scheduleAddPanel.add(btnOKAdd);
-
 	}
 }

@@ -22,7 +22,7 @@ import java.awt.event.KeyEvent;
 public class MemberJoinPanel extends JFrame {
 
 	private JButton btnJoin, btnIdck, btnPwck;
-	private JTextField textId, textPw, textPw2;
+	private JTextField textId, textPw1, textPw2;
 	private JPanel memberJoinPanel;
 	private int resultId, resultPw;
 
@@ -58,10 +58,10 @@ public class MemberJoinPanel extends JFrame {
 		memberJoinPanel.add(textId);
 		textId.setColumns(10);
 
-		textPw = new JTextField();
-		textPw.setColumns(10);
-		textPw.setBounds(180, 130, 110, 20);
-		memberJoinPanel.add(textPw);
+		textPw1 = new JTextField();
+		textPw1.setColumns(10);
+		textPw1.setBounds(180, 130, 110, 20);
+		memberJoinPanel.add(textPw1);
 
 		textPw2 = new JTextField();
 		textPw2.setColumns(10);
@@ -144,7 +144,12 @@ public class MemberJoinPanel extends JFrame {
 
 	private int pwCheck() {
 		int resultPw = 0;
-		if (textPw.getText().equals(textPw2.getText()) && !textPw2.getText().equals("")) {
+		if (textPw1.getText().equals("") || textPw2.getText().equals("")) {
+			DialogPanel dialogPanel = new DialogPanel("비밀번호를 입력해주세요!");
+			dialogPanel.setVisible(true);
+			return resultPw;
+		}
+		if (textPw1.getText().equals(textPw2.getText())) {
 			DialogPanel dialogPanel = new DialogPanel("비밀번호 일치");
 			dialogPanel.setVisible(true);
 			resultPw = 1;

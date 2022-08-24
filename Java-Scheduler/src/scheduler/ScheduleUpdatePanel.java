@@ -183,6 +183,11 @@ class ScheduleUpdatePanel extends JFrame {
 				sVOu.setTime(comboTime.getSelectedIndex());
 				sVOu.setText(textTxt.getText());
 				sVOu.setColorIdx(whatTglbtnColor);
+				if (textTxt.getText().equals("")) {
+					DialogPanel dialogPanel = new DialogPanel("내용을 입력하세요!!");
+					dialogPanel.setVisible(true);
+					return;
+				}
 				int result = sDAO.update(sVOu);
 				if (result == 1) {
 					CalendarPanel.update(sVOu.getDate());
@@ -214,5 +219,4 @@ class ScheduleUpdatePanel extends JFrame {
 		ScheduleUpdatePanel.add(btnDelete);
 
 	}
-
 }

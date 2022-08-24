@@ -49,6 +49,7 @@ public class CalendarPanel extends JPanel {
 	final static int COLOR_B[] = { 153, 103, 170, 255, 255, 255 };
 
 	static JLabel JtableHeadLbl; // 출력된 스케줄의 날짜 표기 라벨
+	static int JtableHeadLblFlag = 0;
 	static JLabel JtableRowCountLbl; // 출력된 스케줄 행 갯수
 	static JTable scheduleJTable; // 스케줄 J테이블
 	static DefaultTableModel JtableModel;
@@ -249,7 +250,12 @@ public class CalendarPanel extends JPanel {
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getAddPanel(JtableHeadLbl.getText());
+				if (JtableHeadLblFlag == 0) {
+					getAddPanel(JtableHeadLbl.getText());
+				}else {
+					DialogPanel dialogPanel = new DialogPanel("날짜를 선택해주세요!");
+					dialogPanel.setVisible(true); 
+				}
 			}
 		});
 		insertBtn.setBackground(new Color(204, 204, 255));
@@ -277,7 +283,12 @@ public class CalendarPanel extends JPanel {
 		updateBtn = new JButton("Update");
 		updateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getUpdatePanel();
+				try {
+					getUpdatePanel();
+				} catch (Exception e2) {
+					DialogPanel dialogPanel = new DialogPanel("일정을 선택해주세요!");
+					dialogPanel.setVisible(true); 
+				}
 			}
 		});
 		updateBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
@@ -384,6 +395,7 @@ public class CalendarPanel extends JPanel {
 					JtableHeadLbl.setText(
 							CalendarSet.calYear + "-" + (CalendarSet.calMonth + 1) + "-" + CalendarSet.calDate);
 					JtableModel.setRowCount(0);
+					JtableHeadLblFlag = 0;
 				}
 			} catch (Exception e2) {
 				e2.getStackTrace();
@@ -414,6 +426,7 @@ public class CalendarPanel extends JPanel {
 			} else {
 				JtableHeadLbl.setText(CalendarSet.calYear + "-" + (CalendarSet.calMonth + 1) + "-" + date);
 				JtableModel.setRowCount(0);
+				JtableHeadLblFlag = 0;
 			}
 		}
 	} // end ListenerDateBtns
@@ -434,7 +447,7 @@ public class CalendarPanel extends JPanel {
 		sVOa.setYear(year);
 		sVOa.setMonth(month);
 		sVOa.setDate(date);
-		ScheduleAddPanel addPanel = new ScheduleAddPanel(sVOa);
+		ScheduleInsertPanel addPanel = new ScheduleInsertPanel(sVOa);
 		addPanel.setVisible(true);
 	} // end getAddPanel
 
@@ -467,6 +480,7 @@ public class CalendarPanel extends JPanel {
 			JTableRefresh(JtableModel, listText);
 			JtableHeadLbl.setText("검색결과 \"" + Text + "\"");
 			JtableHeadLbl.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			JtableHeadLblFlag = 1;
 		} else {
 			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 일정입니다");
 			dialogPanel.setVisible(true);
@@ -477,6 +491,7 @@ public class CalendarPanel extends JPanel {
 		JtableModel.setRowCount(0); // 행을 0줄로 초기화
 		JtableRowCountLbl.setText("Total : 0");
 		JtableHeadLbl.setText(list.get(0).getYear() + "-" + list.get(0).getMonth() + "-" + list.get(0).getDate());
+		JtableHeadLblFlag = 0;
 		Object record[] = new Object[scheduleJTableColumn.length]; // 다형성으로 Object그릇에는 모든 데이터가 담길수있음
 		for (int i = 0; i < list.size(); i++) {
 			record[0] = list.get(i).getIsDone();
