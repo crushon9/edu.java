@@ -208,7 +208,7 @@ public class CalendarPanel extends JPanel {
 		// Jtable 출력 행 갯수 표기 라벨
 		JtableRowCountLbl = new JLabel("");
 		JtableRowCountLbl.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		JtableRowCountLbl.setBounds(775, 585, 50, 15);
+		JtableRowCountLbl.setBounds(770, 585, 60, 15);
 		JtableRowCountLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		CalendarMainPanel.add(JtableRowCountLbl);
 		// Jtable 출력된 스케줄의 날짜 표기 라벨
