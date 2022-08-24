@@ -26,7 +26,7 @@ public class MemberJoinPanel extends JFrame {
 	private JPanel memberJoinPanel;
 	private int resultId, resultPw;
 
-	public MemberJoinPanel(MemberDAOImple memberDao) {
+	public MemberJoinPanel(MemberDAOImple mDao) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
@@ -72,7 +72,7 @@ public class MemberJoinPanel extends JFrame {
 		btnJoin.setEnabled(false);
 		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				memberJoin(memberDao);
+				memberJoin(mDao);
 			}
 		});
 		btnJoin.setBounds(190, 230, 80, 30);
@@ -83,7 +83,7 @@ public class MemberJoinPanel extends JFrame {
 		btnIdck = new JButton("Check");
 		btnIdck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				resultId = idCheck(memberDao);
+				resultId = idCheck(mDao);
 				if (resultId == 1 && resultPw == 1) {
 					btnJoin.setEnabled(true);
 				}

@@ -249,7 +249,7 @@ public class CalendarPanel extends JPanel {
 		insertBtn = new JButton("Insert");
 		insertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getAddPanel(JtableHeadLbl.getText(), sDAO);
+				getAddPanel(JtableHeadLbl.getText());
 			}
 		});
 		insertBtn.setBackground(new Color(204, 204, 255));
@@ -277,7 +277,7 @@ public class CalendarPanel extends JPanel {
 		updateBtn = new JButton("Update");
 		updateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getUpdatePanel(sDAO);
+				getUpdatePanel();
 			}
 		});
 		updateBtn.setFont(new Font("맑은 고딕", Font.BOLD, 13));
@@ -418,7 +418,7 @@ public class CalendarPanel extends JPanel {
 		}
 	} // end ListenerDateBtns
 
-	private void getAddPanel(String selectDate, ScheduleDAOImple sDAO) {
+	private void getAddPanel(String selectDate) {
 		int year = Integer.parseInt(selectDate.substring(0, 4));
 		int month = 0;
 		int date = 0;
@@ -434,11 +434,11 @@ public class CalendarPanel extends JPanel {
 		sVOa.setYear(year);
 		sVOa.setMonth(month);
 		sVOa.setDate(date);
-		ScheduleAddPanel addPanel = new ScheduleAddPanel(sDAO, sVOa);
+		ScheduleAddPanel addPanel = new ScheduleAddPanel(sVOa);
 		addPanel.setVisible(true);
 	} // end getAddPanel
 
-	private void getUpdatePanel(ScheduleDAOImple sDAO) {
+	private void getUpdatePanel() {
 		ScheduleVO sVOu = new ScheduleVO();
 		sVOu.setSeqNo((int) scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 6));
 		sVOu.setId(curId);
@@ -447,7 +447,7 @@ public class CalendarPanel extends JPanel {
 		sVOu.setDate((int) scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 3));
 		sVOu.setTime((int) scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 4));
 		sVOu.setText(String.valueOf(scheduleJTable.getValueAt(scheduleJTable.getSelectedRow(), 5)));
-		ScheduleUpdatePanel updatePanel = new ScheduleUpdatePanel(sDAO, sVOu);
+		ScheduleUpdatePanel updatePanel = new ScheduleUpdatePanel(sVOu);
 		updatePanel.setVisible(true);
 	} // end getAddPanel
 

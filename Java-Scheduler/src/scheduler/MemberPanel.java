@@ -20,7 +20,7 @@ public class MemberPanel extends JPanel {
 	private JTextField textId, textPw;
 	private JButton btnLogin, btnJoin, btnUpdate;
 	JTextArea textAreaLog;
-	MemberDAOImple memberDao;
+	MemberDAOImple mDao;
 
 	public MemberPanel(JFrame frame) {
 		memberPanel = new JPanel();
@@ -32,7 +32,6 @@ public class MemberPanel extends JPanel {
 		frame.setBounds(100, 100, 860, 670);
 		frame.revalidate();
 		frame.repaint();
-		
 
 		JLabel lblId = new JLabel("ID");
 		lblId.setFont(new Font("맑은 고딕", Font.BOLD, 14));
@@ -99,7 +98,7 @@ public class MemberPanel extends JPanel {
 		textAreaLog.setBackground(new Color(230, 230, 230));
 		textAreaLog.setBounds(12, 10, 368, 24);
 		memberPanel.add(textAreaLog);
-		memberDao = MemberDAOImple.getInstance(textAreaLog);
+		mDao = MemberDAOImple.getInstance(textAreaLog);
 
 	}
 
@@ -112,7 +111,7 @@ public class MemberPanel extends JPanel {
 		}
 		String inputId = textId.getText();
 		String inputPw = textPw.getText();
-		ArrayList<MemberVO> list = memberDao.select();
+		ArrayList<MemberVO> list = mDao.select();
 		int IdExistFlag = 0;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(inputId)) {
@@ -121,7 +120,7 @@ public class MemberPanel extends JPanel {
 			}
 		}
 		if (IdExistFlag == 1) {
-			String DBPw = memberDao.select(textId.getText()).getPw();
+			String DBPw = mDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
 				result = 1;
 			} else {
@@ -136,7 +135,7 @@ public class MemberPanel extends JPanel {
 	} // end login
 
 	private void getjoinPanel() {
-		MemberJoinPanel joinPanel = new MemberJoinPanel(memberDao);
+		MemberJoinPanel joinPanel = new MemberJoinPanel(mDao);
 		joinPanel.setVisible(true);
 	} // end getJoinFrame
 
@@ -148,7 +147,7 @@ public class MemberPanel extends JPanel {
 		}
 		String inputId = textId.getText();
 		String inputPw = textPw.getText();
-		ArrayList<MemberVO> list = memberDao.select();
+		ArrayList<MemberVO> list = mDao.select();
 		int IdExistFlag = 0;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(inputId)) {
@@ -157,9 +156,9 @@ public class MemberPanel extends JPanel {
 			}
 		}
 		if (IdExistFlag == 1) {
-			String DBPw = memberDao.select(textId.getText()).getPw();
+			String DBPw = mDao.select(textId.getText()).getPw();
 			if (DBPw.equals(inputPw)) {
-				MemberUpdatePanel updatePanel = new MemberUpdatePanel(inputId, memberDao);
+				MemberUpdatePanel updatePanel = new MemberUpdatePanel(inputId, mDao);
 				updatePanel.setVisible(true);
 			} else {
 				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요1");

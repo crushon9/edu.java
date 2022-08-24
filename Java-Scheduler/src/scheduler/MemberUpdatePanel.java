@@ -23,7 +23,7 @@ public class MemberUpdatePanel extends JFrame {
 	private JPanel memberUpdatePanel;
 	private int resultPw;
 
-	public MemberUpdatePanel(String id, MemberDAOImple memberDao) {
+	public MemberUpdatePanel(String id, MemberDAOImple mDao) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
 		setLocationRelativeTo(null); // 화면중앙에 창 띄우기
@@ -83,7 +83,7 @@ public class MemberUpdatePanel extends JFrame {
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				memberUpdate(id, memberDao);
+				memberUpdate(id, mDao);
 			}
 		});
 		btnUpdate.setBounds(140, 230, 80, 30);
@@ -95,7 +95,7 @@ public class MemberUpdatePanel extends JFrame {
 		btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				memberDelete(id, memberDao);
+				memberDelete(id, mDao);
 			}
 		});
 		btnDelete.setBounds(250, 230, 80, 30);

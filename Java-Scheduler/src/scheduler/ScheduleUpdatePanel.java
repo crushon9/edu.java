@@ -30,8 +30,9 @@ class ScheduleUpdatePanel extends JFrame {
 	private JToggleButton tglbtnColor0, tglbtnColor1, tglbtnColor2, tglbtnColor3, tglbtnColor4;
 	private int whatTglbtnColor;
 	private ButtonGroup tglGroup = new ButtonGroup();
+	ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
-	public ScheduleUpdatePanel(ScheduleDAOImple sDAO, ScheduleVO sVOu) {
+	public ScheduleUpdatePanel(ScheduleVO sVOu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 400);
 		setLocationRelativeTo(null);
