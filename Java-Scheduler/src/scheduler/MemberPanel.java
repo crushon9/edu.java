@@ -116,18 +116,16 @@ public class MemberPanel extends JPanel {
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(inputId)) {
 				IdExistFlag = 1;
+				if (list.get(i).getPw().equals(inputPw)) {
+					result = 1;
+				} else {
+					DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요!");
+					dialogPanel.setVisible(true);
+				}
 				break;
 			}
 		}
-		if (IdExistFlag == 1) {
-			String DBPw = mDao.select(textId.getText()).getPw();
-			if (DBPw.equals(inputPw)) {
-				result = 1;
-			} else {
-				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요!");
-				dialogPanel.setVisible(true);
-			}
-		} else {
+		if (IdExistFlag == 0) {
 			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
 			dialogPanel.setVisible(true);
 		}
@@ -140,33 +138,10 @@ public class MemberPanel extends JPanel {
 	} // end getJoinFrame
 
 	private void getUpdatePanel() {
-		if (textId.getText().equals("") || textPw.getText().equals("")) {
-			DialogPanel dialogPanel = new DialogPanel("로그인 정보를 입력하세요!");
-			dialogPanel.setVisible(true);
-			return;
-		}
-		String inputId = textId.getText();
-		String inputPw = textPw.getText();
-		ArrayList<MemberVO> list = mDao.select();
-		int IdExistFlag = 0;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId().equals(inputId)) {
-				IdExistFlag = 1;
-				break;
-			}
-		}
-		if (IdExistFlag == 1) {
-			String DBPw = mDao.select(textId.getText()).getPw();
-			if (DBPw.equals(inputPw)) {
-				MemberUpdatePanel updatePanel = new MemberUpdatePanel(inputId, mDao);
-				updatePanel.setVisible(true);
-			} else {
-				DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요1");
-				dialogPanel.setVisible(true);
-			}
-		} else {
-			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
-			dialogPanel.setVisible(true);
+		int result = login();
+		if (result == 1) {
+			MemberUpdatePanel updatePanel = new MemberUpdatePanel(textId.getText(), mDao);
+			updatePanel.setVisible(true);
 		}
 	} // end getUpdateFrame
 }

@@ -9,9 +9,6 @@ interface MemberDAO {
 	// 회원 전체검색
 	public abstract ArrayList<MemberVO> select();
 
-	// 회원 상세검색
-	public abstract MemberVO select(String id);
-
 	// 회원 수정
 	public abstract int update(MemberVO vo);
 

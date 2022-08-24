@@ -78,23 +78,6 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 	}
 
 	@Override
-	public MemberVO select(String id) {
-		MemberVO vo = new MemberVO();
-		try {
-			pstmt = conn.prepareStatement(SQL_SELECT_BY_ID);
-			pstmt.setString(1, id); // 쿼리문장의 첫번째 ?를 세팅
-			rs = pstmt.executeQuery(); // rs에 결과데이터를 저장
-			if (rs.next()) {
-				vo.setId(rs.getString(1));
-				vo.setPw(rs.getString(2));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return vo; // 매개변수로 받은 contactId의 ContactVO만 반환
-	}
-
-	@Override
 	public int update(MemberVO vo) {
 		int result = 0;
 		try {
