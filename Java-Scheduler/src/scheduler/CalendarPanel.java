@@ -252,9 +252,9 @@ public class CalendarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (JtableHeadLblFlag == 0) {
 					getAddPanel(JtableHeadLbl.getText());
-				}else {
+				} else {
 					DialogPanel dialogPanel = new DialogPanel("날짜를 선택해주세요!");
-					dialogPanel.setVisible(true); 
+					dialogPanel.setVisible(true);
 				}
 			}
 		});
@@ -287,7 +287,7 @@ public class CalendarPanel extends JPanel {
 					getUpdatePanel();
 				} catch (Exception e2) {
 					DialogPanel dialogPanel = new DialogPanel("일정을 선택해주세요!");
-					dialogPanel.setVisible(true); 
+					dialogPanel.setVisible(true);
 				}
 			}
 		});
@@ -514,7 +514,7 @@ public class CalendarPanel extends JPanel {
 	}// end JTableRefresh
 
 	public static void update(int date) {
-		
+
 		scheduleSearchByDate(date);
 		getMonthList();
 		setScheduleBtnColor();
