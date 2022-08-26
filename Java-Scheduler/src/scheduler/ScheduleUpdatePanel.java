@@ -171,7 +171,7 @@ class ScheduleUpdatePanel extends JFrame {
 		tglGroup.add(tglbtnColor2);
 		tglGroup.add(tglbtnColor3);
 		tglGroup.add(tglbtnColor4);
-		tglGroup.clearSelection();
+		tglGroup.clearSelection(); // 버튼을 그룹화하여 그룹중 한개를 클릭하면 나머지 버튼 초기화
 		// 수정버튼
 		btnUpdate = new JButton("Update");
 		btnUpdate.setBounds(105, 270, 80, 30);

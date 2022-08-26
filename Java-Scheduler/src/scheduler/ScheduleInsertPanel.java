@@ -171,7 +171,7 @@ class ScheduleInsertPanel extends JFrame {
 		tglGroup.add(tglbtnColor2);
 		tglGroup.add(tglbtnColor3);
 		tglGroup.add(tglbtnColor4);
-		tglGroup.clearSelection();
+		tglGroup.clearSelection(); // 버튼을 그룹화하여 그룹중 한개를 클릭하면 나머지 버튼 초기화
 		// 완료등록버튼
 		btnOKAdd = new JButton("OK");
 		btnOKAdd.setBounds(150, 270, 80, 30);
