@@ -2,7 +2,7 @@ package scheduler;
 
 public interface MemberOracleQuery {
 
-	static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	static final String URL = "jdbc:oracle:thin:@172.16.7.6:1521:xe";
 	static final String USER = "scott";
 	static final String PASSWORD = "tiger";
 

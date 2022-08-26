@@ -64,16 +64,16 @@ public class CalendarPanel extends JPanel {
 	static ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 
 	public CalendarPanel(JFrame frame, String curId) {
-		CalendarPanel.curId = curId;
+		CalendarPanel.curId = curId; // 접속 아이디 담음
 		CalendarMainPanel = new JPanel();
 		CalendarMainPanel.setBackground(new Color(230, 230, 230));
 		CalendarMainPanel.setLayout(null);
-		frame.getContentPane().add(CalendarMainPanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
+		frame.getContentPane().add(CalendarMainPanel); // 프레임에 판넬 추가
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 종료시 완전 종료
+		frame.setLocationRelativeTo(null); // 중앙위치
 		frame.setBounds(100, 100, 860, 670);
-		frame.revalidate();
-		frame.repaint();
+		frame.revalidate(); // 컴퍼넌트 새로고침
+		frame.repaint(); // 컴퍼넌트 다시 그림
 		// 날짜변수들을 오늘값으로 초기화
 		CalendarSet.setToday();
 		// 접속아이디 표기
