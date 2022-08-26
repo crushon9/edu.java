@@ -61,7 +61,7 @@ public class CalendarPanel extends JPanel {
 
 	static String curId; // 접속아이디
 
-	static ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
+	static ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance(); // 인스턴스는 여기 말고 생성하는시점에 만드는게 좋음
 
 	public CalendarPanel(JFrame frame, String curId) {
 		CalendarPanel.curId = curId; // 접속 아이디 담음
