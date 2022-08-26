@@ -514,6 +514,7 @@ public class CalendarPanel extends JPanel {
 	}// end JTableRefresh
 
 	public static void update(int date) {
+		
 		scheduleSearchByDate(date);
 		getMonthList();
 		setScheduleBtnColor();
