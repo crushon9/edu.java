@@ -116,9 +116,9 @@ public class MemberUpdatePanel extends JFrame {
 		return resultPw;
 	} // end pwCheck
 
-	private void memberUpdate(String id, MemberDAOImple memberDao) {
+	private void memberUpdate(String id, MemberDAOImple mDao) {
 		MemberVO vo = new MemberVO(id, textPw2.getText());
-		int result = memberDao.update(vo);
+		int result = mDao.update(vo);
 		if (result == 1) {
 			DialogPanel dialogPanel = new DialogPanel("비밀번호 수정 성공!");
 			dialogPanel.setVisible(true);
@@ -129,8 +129,8 @@ public class MemberUpdatePanel extends JFrame {
 		}
 	} // end memberUpdate
 
-	private void memberDelete(String id, MemberDAOImple memberDao) {
-		int result = memberDao.delete(id);
+	private void memberDelete(String id, MemberDAOImple mDao) {
+		int result = mDao.delete(id);
 		if (result == 1) {
 			ScheduleDAOImple sDAO = ScheduleDAOImple.getInstance();
 			sDAO.delete(id);

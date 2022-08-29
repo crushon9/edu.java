@@ -111,23 +111,21 @@ public class MemberPanel extends JPanel {
 		}
 		String inputId = textId.getText();
 		String inputPw = textPw.getText();
-		ArrayList<MemberVO> list = mDao.select();
-		int IdExistFlag = 0;
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId().equals(inputId)) {
-				IdExistFlag = 1;
-				if (list.get(i).getPw().equals(inputPw)) {
+		try {
+			MemberVO mVo = mDao.select(inputId);
+			if (mVo.getId().equals(inputId)) {
+				if (mVo.getPw().equals(inputPw)) {
 					result = 1;
 				} else {
 					DialogPanel dialogPanel = new DialogPanel("비밀번호를 확인하세요!");
 					dialogPanel.setVisible(true);
 				}
-				break;
+			} else {
+				DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
+				dialogPanel.setVisible(true);
 			}
-		}
-		if (IdExistFlag == 0) {
-			DialogPanel dialogPanel = new DialogPanel("존재하지 않는 아이디입니다!");
-			dialogPanel.setVisible(true);
+		} catch (Exception e) {
+			e.getStackTrace();
 		}
 		return result;
 	} // end login

@@ -56,23 +56,40 @@ class MemberDAOImple implements MemberDAO, MemberOracleQuery {
 		return result; // 1:성공, 0:실패
 	}
 
+//	@Override
+//	public ArrayList<MemberVO> select() {
+//		// list에 저장되어있던 이전 데이터를 초기화하기 위해 메소드 호출시마다 새로 생성
+//		ArrayList<MemberVO> list = new ArrayList<>();
+//		try {
+//			pstmt = conn.prepareStatement(SQL_SELECT); // 쿼리문장준비
+//			rs = pstmt.executeQuery(); // DB에 쿼리를 보내고 결과를 rs에 저장
+//			while (rs.next()) { // rs.next()가 false가 될때까지 반복
+//				String id = rs.getString(1);
+//				String pw = rs.getString(2);
+//				MemberVO mVo = new MemberVO(id, pw);
+//				list.add(mVo);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return list; // 전체 ArrayList 통째로 리턴
+//	}
+
 	@Override
-	public ArrayList<MemberVO> select() {
-		// list에 저장되어있던 이전 데이터를 초기화하기 위해 메소드 호출시마다 새로 생성
-		ArrayList<MemberVO> list = new ArrayList<>();
+	public MemberVO select(String ID) {
+		MemberVO mVo = new MemberVO();
 		try {
-			pstmt = conn.prepareStatement(SQL_SELECT); // 쿼리문장준비
+			pstmt = conn.prepareStatement(SQL_SELECT_BY_ID); // 쿼리문장준비
+			pstmt.setString(1, ID);
 			rs = pstmt.executeQuery(); // DB에 쿼리를 보내고 결과를 rs에 저장
-			while (rs.next()) { // rs.next()가 false가 될때까지 반복
-				String id = rs.getString(1);
-				String pw = rs.getString(2);
-				MemberVO vo = new MemberVO(id, pw);
-				list.add(vo);
+			if (rs.next()) {
+				mVo.setId(rs.getString(1));
+				mVo.setPw(rs.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list; // 전체 ArrayList 통째로 리턴
+		return mVo;
 	}
 
 	@Override

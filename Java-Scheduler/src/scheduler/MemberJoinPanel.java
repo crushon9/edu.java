@@ -105,7 +105,7 @@ public class MemberJoinPanel extends JFrame {
 		memberJoinPanel.add(btnPwck);
 	} // MemberJoinFrame 생성자
 
-	private int idCheck(MemberDAOImple memberDao) {
+	private int idCheck(MemberDAOImple mDao) {
 		int resultId = 0;
 		String inputId = textId.getText();
 		if (inputId.equals("")) {
@@ -113,17 +113,9 @@ public class MemberJoinPanel extends JFrame {
 			dialogPanel.setVisible(true);
 			return resultId;
 		}
-		ArrayList<MemberVO> list;
 		try {
-			list = memberDao.select();
-			int IdExistFlag = 0;
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getId().equals(inputId)) {
-					IdExistFlag = 1;
-					break;
-				}
-			}
-			if (IdExistFlag == 1) {
+			MemberVO mVo = mDao.select(inputId);
+			if (mVo.getId().equals(inputId)) {
 				DialogPanel dialogPanel = new DialogPanel("이미 가입된 아이디입니다!");
 				dialogPanel.setVisible(true);
 				textId.setText("");
@@ -156,11 +148,11 @@ public class MemberJoinPanel extends JFrame {
 		return resultPw;
 	} // end pwCheck
 
-	private void memberJoin(MemberDAOImple memberDao) {
+	private void memberJoin(MemberDAOImple mDao) {
 		String inputId = textId.getText();
 		String inputPw = textPw2.getText();
 		MemberVO vo = new MemberVO(inputId, inputPw);
-		int result = memberDao.insert(vo);
+		int result = mDao.insert(vo);
 		if (result == 1) {
 			DialogPanel dialogPanel = new DialogPanel("가입 성공!");
 			dialogPanel.setVisible(true);
