@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class MemberPanel extends JPanel {
 
 	JPanel memberPanel;
@@ -59,6 +60,7 @@ public class MemberPanel extends JPanel {
 					frame.getContentPane().remove(memberPanel);
 					frame.revalidate();
 					frame.repaint();
+					@SuppressWarnings("unused")
 					CalendarPanel calendarPanel = new CalendarPanel(frame, textId.getText());
 					frame.setLocationRelativeTo(null);
 				}

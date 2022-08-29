@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+@SuppressWarnings("serial")
 public class CalendarPanel extends JPanel {
 
 	JPanel CalendarMainPanel;// 메인판넬
@@ -89,6 +90,7 @@ public class CalendarPanel extends JPanel {
 				frame.getContentPane().remove(CalendarMainPanel);
 				frame.revalidate();
 				frame.repaint();
+				@SuppressWarnings("unused")
 				MemberPanel memberPanel = new MemberPanel(frame);
 				frame.setLocationRelativeTo(null);
 			}

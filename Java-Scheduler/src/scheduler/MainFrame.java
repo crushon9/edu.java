@@ -1,9 +1,9 @@
-
 package scheduler;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 
 	public JFrame frame;
@@ -38,6 +38,7 @@ public class MainFrame extends JFrame {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		@SuppressWarnings("unused")
 		MemberPanel memberPanel = new MemberPanel(frame);
 	}
 }

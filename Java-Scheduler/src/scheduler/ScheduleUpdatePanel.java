@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 class ScheduleUpdatePanel extends JFrame {
 	private JPanel ScheduleUpdatePanel;
 	private JLabel lblDate, lblTime, lblText, lblColor, lblDatePrint;
