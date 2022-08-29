@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class MemberPanel extends JPanel {
