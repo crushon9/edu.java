@@ -3,9 +3,6 @@ package scheduler;
 interface MemberDAO {
 	// 회원 등록
 	public abstract int insert(MemberVO vo);
-
-//	// 회원 전체검색
-//	public abstract ArrayList<MemberVO> select();
 	
 	// 회원 상세검색
 	public abstract MemberVO select(String ID);
