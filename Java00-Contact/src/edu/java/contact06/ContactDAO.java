@@ -2,6 +2,8 @@ package edu.java.contact06;
 
 import java.util.ArrayList;
 
+// DAO. Data Access Object
+// VO. Value Object
 // 연락처 등록, 전체검색, 상세검색, 수정, 삭제
 public interface ContactDAO {
 
