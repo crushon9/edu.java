@@ -4,7 +4,7 @@ interface ScheduleOracleQuery {
 	static final String URL = "jdbc:oracle:thin:@172.16.7.6:1521:xe"; // localhost -> 172.16.7.6
 	static final String USER = "scott";
 	static final String PASSWORD = "tiger";
-	static final String TABLE_NAME = "SCHEDULE";
+	static final String TABLE_NAME = "SIDE_SCHEDULE";
 
 	static final String SCHEDULE_SEQ = "SCHEDULE_SEQ";
 	static final String SCHEDULE_ID = "SCHEDULE_ID";

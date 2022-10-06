@@ -6,7 +6,7 @@ public interface MemberOracleQuery {
 	static final String USER = "scott";
 	static final String PASSWORD = "tiger";
 
-	static final String TABLE_NAME = "MEMBER";
+	static final String TABLE_NAME = "SIDE_MEMBER";
 	static final String MEMBER_ID = "MEMBER_ID";
 	static final String MEMBER_PW = "MEMBER_PW";
 
