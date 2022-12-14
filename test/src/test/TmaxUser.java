@@ -14,17 +14,17 @@ public class TmaxUser {
 		int[][] transaction = { { 1, 2, 10 }, { 2, 3, 20 }, { 3, 4, 5 }, { 3, 4, 30 } };
 		int[] abnomal = { 2, 3 };
 		int[] result = { -1, 20, 0, 0, 40 };
-//
-//		int[] balance = { -1,40, 30, 50 };
+
+//		int[] balance = { -1, 40, 30, 50 };
 //		int[][] transaction = { { 1, 3, 10 }, { 2, 1, 10 }, { 3, 1, 45 }, { 2, 3, 10 }, { 1, 3, 35 }, { 2, 1, 5 },
 //				{ 3, 1, 10 }, { 3, 2, 5 } };
 //		int[] abnomal = { 2 };
-//		int[] result = {-1, 40, 5, 45 };
-//
-//		int[] balance = { -1,100, 1, 1, 1, 1 };
+//		int[] result = { -1, 40, 5, 45 };
+
+//		int[] balance = { -1, 100, 1, 1, 1, 1 };
 //		int[][] transaction = { { 1, 2, 100 }, { 2, 3, 101 }, { 3, 4, 102 }, { 4, 5, 103 }, { 5, 1, 104 } };
 //		int[] abnomal = { 1 };
-//		int[] result = { -1,4, 0, 0, 0, 0 };
+//		int[] result = { -1, 4, 0, 0, 0, 0 };
 
 		// solution의 결과값 담기
 		int[] myResult = solution(balance, transaction, abnomal);
@@ -56,6 +56,10 @@ public class TmaxUser {
 			tranMatrix[user][0][0] = user;
 			tranMatrix[user][0][1] = balance[user];
 		}
+		System.out.println("tranMatrix : 초기");
+		for (int[][] user : tranMatrix) {
+			System.out.println(Arrays.deepToString(user));
+		}
 
 		// transaction 내용 반영
 		for (int tran = 0; tran < transaction.length; tran++) {
@@ -65,37 +69,48 @@ public class TmaxUser {
 			for (int userTran = transaction.length - 1; userTran >= 0; userTran--) {
 				int senderLastBal = tranMatrix[sender][userTran][1];
 				// 유저의 마지막 잔고와 거래 잔고를 비교
-				if (senderLastBal >= tranBal) {
-					senderLastBal -= tranBal;
-					tranMatrix[receiver][tran + 1][0] = sender;
-					tranMatrix[receiver][tran + 1][1] = tranBal;
+				if (tranMatrix[sender][userTran][1] >= tranBal && tranBal != 0) {
+					tranMatrix[receiver][userTran + 1][0] = tranMatrix[sender][userTran][0];
+					tranMatrix[receiver][userTran + 1][1] = tranBal;
+					tranMatrix[sender][userTran][1] -= tranBal;
+					tranBal = 0;
 				} else {
-					senderLastBal = 0;
-					tranMatrix[receiver][tran + 1][0] = sender;
-					tranMatrix[receiver][tran + 1][1] = tranBal;
+					// 문제는 여기서 덮어씌워지네,,, arrayList put에 키밸류로 써야할것같아..
+					tranMatrix[receiver][userTran + 1][0] = tranMatrix[sender][userTran][0];
+					tranMatrix[receiver][userTran + 1][1] = senderLastBal;
+					tranMatrix[sender][userTran][1] = 0;
 					tranBal -= senderLastBal;
 				}
 			}
+			System.out.println("transaction : " + tran);
+			for (int[][] user : tranMatrix) {
+				System.out.println(Arrays.deepToString(user));
+			}
 		}
-		System.out.println("tranMatrix : ");
+		System.out.println("tranMatrix : 최종");
 		for (int[][] user : tranMatrix) {
 			System.out.println(Arrays.deepToString(user));
 		}
 
-		/*
-		 * // 거래내역을 분리해서 result에 값넣기 for (int user = 1; user < tranMatrix.length;
-		 * user++) { String[] splitUser = tranMatrix[user].split("&");
-		 * System.out.println("splitUser : "); int balanceSum = 0; for (String userStr :
-		 * splitUser) { System.out.println(userStr); String[] splitTran =
-		 * userStr.split("[.]"); // 정규표현식 System.out.println("splitTran : "); for
-		 * (String x : splitTran) { System.out.println(x); } int tranUser =
-		 * Integer.parseInt(splitTran[1]); int tranBal = Integer.parseInt(splitTran[1]);
-		 * // 이상 유저인지 검사 int flag = 0; for (int abUser : abnomal) { if (tranUser ==
-		 * abUser) { flag = -1; break; } } // 이상 유저가 아니라면 거래내역 반영 if (flag != -1) {
-		 * balanceSum += tranBal; } System.out.println(flag);
-		 * System.out.println(balanceSum); } myResult[user] = balanceSum; }
-		 */
+		// 거래내역을 유저마다 sum 해서 result에 값넣기
+		for (int user = 1; user < balance.length; user++) {
+			int balanceSum = 0;
+			for (int tran = 0; tran < transaction.length + 1; tran++) {
+				// 이상 유저인지 검사
+				int flag = 0;
+				for (int abUser : abnomal) {
+					if (tranMatrix[user][tran][0] == abUser) {
+						flag = -1;
+						break;
+					}
+				}
+				// 이상 유저가 아니라면 거래내역 반영
+				if (flag != -1) {
+					balanceSum += tranMatrix[user][tran][1];
+				}
+			}
+			myResult[user] = balanceSum;
+		}
 		return myResult;
 	}
-
 }
